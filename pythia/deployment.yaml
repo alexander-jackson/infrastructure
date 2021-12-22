@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: default
+  name: pythia-deployment
+  labels:
+    app: pythia
+spec:
+  selector:
+    matchLabels:
+      app: pythia
+  template:
+    metadata:
+      labels:
+        app: pythia
+    spec:
+      containers:
+      - name: pythia
+        image: alexanderjackson/pythia:20211128-1723
+        env:
+          - name: token
+            valueFrom:
+              secretKeyRef:
+                name: token
+                key: token
