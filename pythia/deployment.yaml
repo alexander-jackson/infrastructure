@@ -15,11 +15,11 @@ spec:
         app: pythia
     spec:
       containers:
-      - name: pythia
-        image: alexanderjackson/pythia:20211128-1723 # {"$imagepolicy": "flux-system:pythia"}
-        env:
-          - name: token
-            valueFrom:
-              secretKeyRef:
-                name: token
-                key: token
+        - name: pythia
+          image: alexanderjackson/pythia:20211222-1909 # {"$imagepolicy": "flux-system:pythia"}
+          env:
+            - name: token
+              valueFrom:
+                secretKeyRef:
+                  name: token
+                  key: token
