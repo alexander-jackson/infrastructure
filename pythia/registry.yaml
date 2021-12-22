@@ -4,5 +4,5 @@ metadata:
   name: pythia
   namespace: flux-system
 spec:
-  image: alexanderjackson/pythia:20211222-1909 # {"$imagepolicy": "flux-system:pythia"}
+  image: alexanderjackson/pythia
   interval: 1m0s

@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: pythia
-        image: alexanderjackson/pythia:20211128-1723
+        image: alexanderjackson/pythia:20211128-1723 # {"$imagepolicy": "flux-system:pythia"}
         env:
           - name: token
             valueFrom:
