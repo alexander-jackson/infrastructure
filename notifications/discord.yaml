@@ -2,7 +2,7 @@ apiVersion: notification.toolkit.fluxcd.io/v1beta1
 kind: Provider
 metadata:
   name: discord
-  namespace: default
+  namespace: flux-system
 spec:
   type: discord
   secretRef:
