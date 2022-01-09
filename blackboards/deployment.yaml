@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: blackboards
-          image: alexanderjackson/blackboards:20220107-1445
+          image: alexanderjackson/blackboards:20220109-0950
           env:
             - name: ROCKET_SECRET_KEY
               valueFrom:
