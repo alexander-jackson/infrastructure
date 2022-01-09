@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: default
+  name: pl-tracker-frontend-deployment
+  labels:
+    app: pl-tracker-frontend
+spec:
+  selector:
+    matchLabels:
+      app: pl-tracker-frontend
+  template:
+    metadata:
+      labels:
+        app: pl-tracker-frontend
+    spec:
+      containers:
+        - name: pl-tracker-frontend
+          image: alexanderjackson/pl-tracker-frontend:20220108-1925
