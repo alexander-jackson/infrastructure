@@ -16,4 +16,4 @@ spec:
     spec:
       containers:
         - name: pl-tracker-frontend
-          image: alexanderjackson/pl-tracker-frontend:20220115-1443 # {"$imagepolicy": "flux-system:pl-tracker-frontend"}
+          image: alexanderjackson/pl-tracker-frontend:20220115-1713 # {"$imagepolicy": "flux-system:pl-tracker-frontend"}
