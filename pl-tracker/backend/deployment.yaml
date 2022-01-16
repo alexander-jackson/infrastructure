@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: pl-tracker-backend
-          image: alexanderjackson/pl-tracker-backend:20220116-0744 # {"$imagepolicy": "flux-system:pl-tracker-backend"}
+          image: alexanderjackson/pl-tracker-backend:20220116-1158 # {"$imagepolicy": "flux-system:pl-tracker-backend"}
           env:
             - name: DATABASE_URL
               valueFrom:
