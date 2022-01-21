@@ -1,11 +1,11 @@
 apiVersion: image.toolkit.fluxcd.io/v1beta1
 kind: ImagePolicy
 metadata:
-  name: pl-tracker-backend
+  name: opentracker-frontend
   namespace: flux-system
 spec:
   imageRepositoryRef:
-    name: pl-tracker-backend
+    name: opentracker-frontend
   filterTags:
     pattern: "^(?P<date>[0-9]+)-(?P<time>[0-9]+)"
     extract: "$date$time"
