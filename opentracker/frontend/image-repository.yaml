@@ -1,8 +1,8 @@
 apiVersion: image.toolkit.fluxcd.io/v1beta1
 kind: ImageRepository
 metadata:
-  name: pl-tracker-frontend
+  name: opentracker-frontend
   namespace: flux-system
 spec:
-  image: alexanderjackson/pl-tracker-frontend
+  image: alexanderjackson/opentracker-frontend
   interval: 1m0s

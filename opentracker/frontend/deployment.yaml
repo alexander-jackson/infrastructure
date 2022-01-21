@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: default
+  name: opentracker-frontend-deployment
+  labels:
+    app: opentracker-frontend
+spec:
+  selector:
+    matchLabels:
+      app: opentracker-frontend
+  template:
+    metadata:
+      labels:
+        app: opentracker-frontend
+    spec:
+      containers:
+        - name: opentracker-frontend
+          image: alexanderjackson/opentracker-frontend:20220121-1844 # {"$imagepolicy": "flux-system:opentracker-frontend"}
