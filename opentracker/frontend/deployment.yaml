@@ -17,4 +17,4 @@ spec:
     spec:
       containers:
         - name: opentracker-frontend
-          image: alexanderjackson/opentracker-frontend:20220227-1033 # {"$imagepolicy": "flux-system:opentracker-frontend"}
+          image: alexanderjackson/opentracker-frontend:20220227-1042 # {"$imagepolicy": "flux-system:opentracker-frontend"}
