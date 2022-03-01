@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: blackboards
-          image: alexanderjackson/blackboards:20220301-0654 # {"$imagepolicy": "flux-system:blackboards"}
+          image: alexanderjackson/blackboards:20220301-0747 # {"$imagepolicy": "flux-system:blackboards"}
           env:
             - name: ROCKET_SECRET_KEY
               valueFrom:
