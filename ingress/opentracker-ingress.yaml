@@ -9,7 +9,7 @@ metadata:
 spec:
   tls:
   - hosts:
-    - opentracker.example.com
+    - tracker.blackboards.pl
     secretName: opentracker-tls
   rules:
   - host: tracker.blackboards.pl
