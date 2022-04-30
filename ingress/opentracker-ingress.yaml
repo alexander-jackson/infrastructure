@@ -19,13 +19,13 @@ spec:
         path: "/"
         backend:
           service:
-            name: opentracker-frontend
+            name: opentracker-frontend-service
             port:
               number: 80
       - pathType: Prefix
         path: "/api"
         backend:
           service:
-            name: opentracker-backend
+            name: opentracker-backend-service
             port:
               number: 80
