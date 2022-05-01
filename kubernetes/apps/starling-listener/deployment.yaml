@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: default
+  name: starling-listener-deployment
+  labels:
+    app: starling-listener
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: starling-listener
+  template:
+    metadata:
+      labels:
+        app: starling-listener
+    spec:
+      containers:
+        - name: starling-listener
+          image: alexanderjackson/starling-listener:20220501-2057 # {"$imagepolicy": "flux-system:starling-listener"}
+          env:
+            - name: DISCORD_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: discord-token
+                  key: DISCORD_TOKEN
+            - name: DISCORD_CHANNEL_ID
+              valueFrom:
+                secretKeyRef:
+                  name: discord-channel-id
+                  key: DISCORD_CHANNEL_ID
