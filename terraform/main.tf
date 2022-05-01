@@ -58,31 +58,3 @@ resource "digitalocean_record" "opentracker" {
   name   = "tracker"
   value  = digitalocean_droplet.main.ipv4_address
 }
-
-resource "digitalocean_record" "webhooks" {
-  domain = digitalocean_domain.blackboards.id
-  type   = "A"
-  name   = "webhooks"
-  value  = digitalocean_droplet.main.ipv4_address
-}
-
-resource "digitalocean_record" "abs" {
-  domain = digitalocean_domain.blackboards.id
-  type   = "A"
-  name   = "abs"
-  value  = digitalocean_droplet.main.ipv4_address
-}
-
-resource "digitalocean_record" "sepl" {
-  domain = digitalocean_domain.blackboards.id
-  type   = "A"
-  name   = "sepl"
-  value  = digitalocean_droplet.main.ipv4_address
-}
-
-resource "digitalocean_record" "starling-webhooks" {
-  domain = digitalocean_domain.blackboards.id
-  type   = "A"
-  name   = "starling-webhooks"
-  value  = digitalocean_droplet.main.ipv4_address
-}
