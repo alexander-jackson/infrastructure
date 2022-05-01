@@ -58,3 +58,10 @@ resource "digitalocean_record" "opentracker" {
   name   = "tracker"
   value  = digitalocean_droplet.main.ipv4_address
 }
+
+resource "digitalocean_record" "starling-listener" {
+  domain = digitalocean_domain.blackboards.id
+  type   = "A"
+  name   = "sb-webhooks"
+  value  = digitalocean_droplet.main.ipv4_address
+}
