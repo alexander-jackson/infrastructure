@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: starling-listener
-          image: alexanderjackson/starling-listener:20220501-2111 # {"$imagepolicy": "flux-system:starling-listener"}
+          image: alexanderjackson/starling-listener:20220502-0822 # {"$imagepolicy": "flux-system:starling-listener"}
           env:
             - name: DISCORD_TOKEN
               valueFrom:
