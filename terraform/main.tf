@@ -65,3 +65,10 @@ resource "digitalocean_record" "starling-listener" {
   name   = "sb-webhooks"
   value  = digitalocean_droplet.main.ipv4_address
 }
+
+resource "digitalocean_record" "starling-webhooks" {
+  domain = digitalocean_domain.blackboards.id
+  type   = "A"
+  name   = "starling-webhooks"
+  value  = digitalocean_droplet.main.ipv4_address
+}
