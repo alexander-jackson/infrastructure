@@ -10,9 +10,21 @@ spec:
   tls:
   - hosts:
     - sb-webhooks.blackboards.pl
+    - starling-webhooks.blackboards.pl
     secretName: starling-listener-tls
   rules:
   - host: sb-webhooks.blackboards.pl
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: starling-listener-service
+            port:
+              number: 80
+
+  - host: starling-webhooks.blackboards.pl
     http:
       paths:
       - pathType: Prefix
