@@ -29,3 +29,46 @@ spec:
                 secretKeyRef:
                   name: discord-channel-id
                   key: DISCORD_CHANNEL_ID
+
+            - name: PGROOTUSER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-root-user
+                  key: PGROOTUSER
+            - name: PGROOTPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-root-password
+                  key: PGROOTPASSWORD
+            - name: PGROOTDATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-root-database
+                  key: PGROOTDATABASE
+
+            - name: PGUSER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-user
+                  key: PGUSER
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-password
+                  key: PGPASSWORD
+            - name: PGDATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-database
+                  key: PGDATABASE
+
+            - name: PGHOST
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-host
+                  key: PGHOST
+            - name: PGPORT
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-port
+                  key: PGPORT
