@@ -49,17 +49,17 @@ spec:
             - name: PGUSER
               valueFrom:
                 secretKeyRef:
-                  name: postgres-user
+                  name: postgres-service-user
                   key: PGUSER
             - name: PGPASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: postgres-password
+                  name: postgres-service-password
                   key: PGPASSWORD
             - name: PGDATABASE
               valueFrom:
                 secretKeyRef:
-                  name: postgres-database
+                  name: postgres-service-database
                   key: PGDATABASE
 
             - name: PGHOST
