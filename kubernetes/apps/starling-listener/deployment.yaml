@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: starling-listener
-          image: alexanderjackson/starling-listener:20220502-0926 # {"$imagepolicy": "flux-system:starling-listener"}
+          image: alexanderjackson/starling-listener:20220508-0716 # {"$imagepolicy": "flux-system:starling-listener"}
           env:
             - name: DISCORD_TOKEN
               valueFrom:
@@ -29,7 +29,6 @@ spec:
                 secretKeyRef:
                   name: discord-channel-id
                   key: DISCORD_CHANNEL_ID
-
             - name: PGROOTUSER
               valueFrom:
                 secretKeyRef:
@@ -45,7 +44,6 @@ spec:
                 secretKeyRef:
                   name: postgres-root-database
                   key: PGROOTDATABASE
-
             - name: PGUSER
               valueFrom:
                 secretKeyRef:
@@ -61,7 +59,6 @@ spec:
                 secretKeyRef:
                   name: postgres-service-database
                   key: PGDATABASE
-
             - name: PGHOST
               valueFrom:
                 secretKeyRef:
