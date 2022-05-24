@@ -6,6 +6,6 @@ metadata:
 spec:
   ports:
   - port: 80
-    targetPort: 8000
+    targetPort: 3025
   selector:
     app: opentracker-backend
