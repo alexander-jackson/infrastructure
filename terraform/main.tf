@@ -35,7 +35,7 @@ resource "digitalocean_record" "ns1" {
   value  = "ns1.digitalocean.com."
 }
 
-resource "digitalocean_record" "ns1" {
+resource "digitalocean_record" "opentracker-ns1" {
   domain = digitalocean_domain.opentracker.id
   type   = "NS"
   name   = "@"
@@ -49,7 +49,7 @@ resource "digitalocean_record" "ns2" {
   value  = "ns2.digitalocean.com."
 }
 
-resource "digitalocean_record" "ns2" {
+resource "digitalocean_record" "opentracker-ns2" {
   domain = digitalocean_domain.opentracker.id
   type   = "NS"
   name   = "@"
@@ -63,7 +63,7 @@ resource "digitalocean_record" "ns3" {
   value  = "ns3.digitalocean.com."
 }
 
-resource "digitalocean_record" "ns3" {
+resource "digitalocean_record" "opentracker-ns3" {
   domain = digitalocean_domain.opentracker.id
   type   = "NS"
   name   = "@"
