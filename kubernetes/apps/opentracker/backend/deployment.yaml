@@ -31,3 +31,9 @@ spec:
                   key: JWT_KEY
             - name: ROCKET_ADDRESS
               value: "0.0.0.0"
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3025
+            initialDelaySeconds: 10
+            periodSeconds: 30
