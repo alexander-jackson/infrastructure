@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: opentracker-backend
-          image: alexanderjackson/opentracker-backend:20220524-0624 # {"$imagepolicy": "flux-system:opentracker-backend"}
+          image: alexanderjackson/opentracker-backend:20220522-0747
           env:
             - name: DATABASE_URL
               valueFrom:
