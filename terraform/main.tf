@@ -24,8 +24,19 @@ resource "digitalocean_domain" "blackboards" {
   name = "blackboards.pl"
 }
 
+resource "digitalocean_domain" "opentracker" {
+  name = "opentracker.app"
+}
+
 resource "digitalocean_record" "ns1" {
   domain = digitalocean_domain.blackboards.id
+  type   = "NS"
+  name   = "@"
+  value  = "ns1.digitalocean.com."
+}
+
+resource "digitalocean_record" "ns1" {
+  domain = digitalocean_domain.opentracker.id
   type   = "NS"
   name   = "@"
   value  = "ns1.digitalocean.com."
@@ -38,6 +49,13 @@ resource "digitalocean_record" "ns2" {
   value  = "ns2.digitalocean.com."
 }
 
+resource "digitalocean_record" "ns2" {
+  domain = digitalocean_domain.opentracker.id
+  type   = "NS"
+  name   = "@"
+  value  = "ns2.digitalocean.com."
+}
+
 resource "digitalocean_record" "ns3" {
   domain = digitalocean_domain.blackboards.id
   type   = "NS"
@@ -45,8 +63,22 @@ resource "digitalocean_record" "ns3" {
   value  = "ns3.digitalocean.com."
 }
 
+resource "digitalocean_record" "ns3" {
+  domain = digitalocean_domain.opentracker.id
+  type   = "NS"
+  name   = "@"
+  value  = "ns3.digitalocean.com."
+}
+
 resource "digitalocean_record" "root" {
   domain = digitalocean_domain.blackboards.id
+  type   = "A"
+  name   = "@"
+  value  = digitalocean_droplet.main.ipv4_address
+}
+
+resource "digitalocean_record" "opentracker-root" {
+  domain = digitalocean_domain.opentracker.id
   type   = "A"
   name   = "@"
   value  = digitalocean_droplet.main.ipv4_address
