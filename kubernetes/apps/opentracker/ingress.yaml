@@ -10,9 +10,27 @@ spec:
   tls:
   - hosts:
     - tracker.blackboards.pl
+    - opentracker.app
     secretName: opentracker-tls
   rules:
   - host: tracker.blackboards.pl
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: opentracker-frontend-service
+            port:
+              number: 80
+      - pathType: Prefix
+        path: "/api"
+        backend:
+          service:
+            name: opentracker-backend-service
+            port:
+              number: 80
+  - host: opentracker.app
     http:
       paths:
       - pathType: Prefix
