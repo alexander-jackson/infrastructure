@@ -10,6 +10,11 @@ resource "digitalocean_project" "blackboards" {
   name        = "blackboards"
   purpose     = "Service or API"
   environment = "Production"
+  resources = [
+    digitalocean_domain.blackboards.urn,
+    digitalocean_domain.opentracker.urn,
+    digitalocean_droplet.main.urn,
+  ]
 }
 
 resource "digitalocean_droplet" "main" {
