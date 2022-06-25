@@ -2,6 +2,10 @@ provider "digitalocean" {
   token = var.do_token
 }
 
+provider "aws" {
+  region = "eu-west-1"
+}
+
 variable "do_token" {
   type = string
 }
@@ -15,6 +19,17 @@ resource "digitalocean_project" "blackboards" {
     digitalocean_domain.opentracker.urn,
     digitalocean_droplet.main.urn,
   ]
+}
+
+resource "aws_instance" "main" {
+  ami           = "ami-0b5cc435ab27e968b"
+  instance_type = "t4g.medium"
+
+  ebs_block_device {
+    device_name = "main"
+    volume_size = 10
+    volume_type = "gp2"
+  }
 }
 
 resource "digitalocean_droplet" "main" {
