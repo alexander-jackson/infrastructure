@@ -26,7 +26,7 @@ resource "aws_instance" "main" {
   instance_type = "t4g.medium"
 
   ebs_block_device {
-    device_name = "main"
+    device_name = "/dev/sdf"
     volume_size = 10
     volume_type = "gp2"
   }
