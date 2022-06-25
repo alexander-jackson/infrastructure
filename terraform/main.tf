@@ -22,7 +22,7 @@ resource "digitalocean_project" "blackboards" {
 }
 
 resource "aws_instance" "main" {
-  ami           = "ami-0b5cc435ab27e968b"
+  ami           = "ami-09219966d6788d68e"
   instance_type = "t4g.medium"
 
   ebs_block_device {
