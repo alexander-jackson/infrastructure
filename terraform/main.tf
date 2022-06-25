@@ -27,7 +27,7 @@ resource "aws_key_pair" "personal" {
 }
 
 resource "aws_instance" "main" {
-  ami           = "ami-09219966d6788d68e"
+  ami           = "ami-0a6b5206d1730bdce"
   instance_type = "t4g.medium"
 
   ebs_block_device {
