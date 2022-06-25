@@ -21,6 +21,11 @@ resource "digitalocean_project" "blackboards" {
   ]
 }
 
+resource "aws_key_pair" "personal" {
+  key_name   = "personal_key"
+  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCnjs+8WBDH0q3XAllLFVOySC1u6ezgdg0pi3E7kTh3VrXPsdh3MtyL5qDRRYSOsfyUcwlF9wlELDsGN81N3zjIjAff31pt2UlxK3DM/aKNKxCg1OTrrA5QIuobEI8I/gUHRAd+e7dXM3JQTXn+E6l14rsmjG0xwgHhdEL/FqA9qAVbW1FVbS8ULddtP8Wep2kZknqzhKoM+Bdu+lG/yxk5MPutPmCQve1g7uWubJ3aRUdNj4Xp0S8iEWBqGEdfte2PSCxON516jp6bm0lcUtYjk4r+c3QDv7/shJr8gL/dqKnmDzj7QBj/FBC10+74HAtrC0L61fl9TFCBpYVOyWAQUxSsH3K1RlTr2XEZ9tg95Wrzy6CMGpmyIMfBJwmLmFiMF7g1F0z7iSF6Ktx6um4AGeDHsfw6sNJemVr3EYh2RnGcBSAOK6uhZGO/ybxeS8YG1+VWnZXSlILZ4lPoCVatCvK43CNMYtMkLhcQc2see6lRxklCdaLLD4WllCuWOLbRg1ETedbkGVI6Ei7hFuIhyoDUKcb/8ldjtuwtrMueCaxVJAHAmOYdn03XXmeCQcI5C6hYkDQyRzrjDN9eA1eewx//mGyyDPjQGYQnCRM3S++Tpwws6J3mjd3kQznMSl2yeV9T2x0WdrzBfGAWExbrTF2FAEQhvEMmrlHhRh3Cvw== alexander@MacbookPro.local"
+}
+
 resource "aws_instance" "main" {
   ami           = "ami-09219966d6788d68e"
   instance_type = "t4g.medium"
@@ -30,6 +35,8 @@ resource "aws_instance" "main" {
     volume_size = 10
     volume_type = "gp2"
   }
+
+  key_name = aws_key_pair.personal.key_name
 }
 
 resource "digitalocean_droplet" "main" {
