@@ -52,7 +52,7 @@ resource "aws_internet_gateway" "main" {
   }
 }
 
-resource "aws_security_group" "allow_inbound_ssh" {
+resource "aws_security_group" "allow_ssh" {
   name        = "inbound-ssh"
   description = "Allow inbound SSH to an instance"
   vpc_id      = aws_vpc.main.id
@@ -64,7 +64,16 @@ resource "aws_security_group_rule" "allow_inbound_ssh" {
   to_port           = 22
   protocol          = "tcp"
   cidr_blocks       = ["0.0.0.0/0"]
-  security_group_id = aws_security_group.allow_inbound_ssh.id
+  security_group_id = aws_security_group.allow_ssh.id
+}
+
+resource "aws_security_group_rule" "allow_all_outbound" {
+  type              = "egress"
+  from_port         = 0
+  to_port           = 65535
+  protocol          = "all"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.allow_ssh.id
 }
 
 resource "aws_instance" "main" {
@@ -79,7 +88,7 @@ resource "aws_instance" "main" {
 
   key_name                    = aws_key_pair.personal.key_name
   subnet_id                   = aws_subnet.main.id
-  vpc_security_group_ids      = [aws_security_group.allow_inbound_ssh.id]
+  vpc_security_group_ids      = [aws_security_group.allow_ssh.id]
   associate_public_ip_address = true
 }
 
