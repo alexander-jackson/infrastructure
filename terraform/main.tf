@@ -22,8 +22,39 @@ resource "digitalocean_project" "blackboards" {
 }
 
 resource "aws_key_pair" "personal" {
-  key_name   = "personal_key"
+  key_name   = "personal"
   public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCnjs+8WBDH0q3XAllLFVOySC1u6ezgdg0pi3E7kTh3VrXPsdh3MtyL5qDRRYSOsfyUcwlF9wlELDsGN81N3zjIjAff31pt2UlxK3DM/aKNKxCg1OTrrA5QIuobEI8I/gUHRAd+e7dXM3JQTXn+E6l14rsmjG0xwgHhdEL/FqA9qAVbW1FVbS8ULddtP8Wep2kZknqzhKoM+Bdu+lG/yxk5MPutPmCQve1g7uWubJ3aRUdNj4Xp0S8iEWBqGEdfte2PSCxON516jp6bm0lcUtYjk4r+c3QDv7/shJr8gL/dqKnmDzj7QBj/FBC10+74HAtrC0L61fl9TFCBpYVOyWAQUxSsH3K1RlTr2XEZ9tg95Wrzy6CMGpmyIMfBJwmLmFiMF7g1F0z7iSF6Ktx6um4AGeDHsfw6sNJemVr3EYh2RnGcBSAOK6uhZGO/ybxeS8YG1+VWnZXSlILZ4lPoCVatCvK43CNMYtMkLhcQc2see6lRxklCdaLLD4WllCuWOLbRg1ETedbkGVI6Ei7hFuIhyoDUKcb/8ldjtuwtrMueCaxVJAHAmOYdn03XXmeCQcI5C6hYkDQyRzrjDN9eA1eewx//mGyyDPjQGYQnCRM3S++Tpwws6J3mjd3kQznMSl2yeV9T2x0WdrzBfGAWExbrTF2FAEQhvEMmrlHhRh3Cvw== alexander@MacbookPro.local"
+}
+
+resource "aws_vpc" "main" {
+  cidr_block       = "10.0.0.0/16"
+  instance_tenancy = "default"
+
+  tags = {
+    Name = "main"
+  }
+}
+
+resource "aws_subnet" "main" {
+  vpc_id     = aws_vpc.main.id
+  cidr_block = "10.0.0.0/24"
+
+  tags = {
+    Name = "main"
+  }
+}
+
+resource "aws_security_group" "allow_inbound_ssh" {
+  name        = "inbound-ssh"
+  description = "Allow inbound SSH to an instance"
+  vpc_id      = aws_vpc.main.id
+
+  ingress {
+    description = "Inbound SSH"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+  }
 }
 
 resource "aws_instance" "main" {
@@ -36,7 +67,9 @@ resource "aws_instance" "main" {
     volume_type = "gp2"
   }
 
-  key_name = aws_key_pair.personal.key_name
+  key_name               = aws_key_pair.personal.key_name
+  subnet_id              = aws_subnet.main.id
+  vpc_security_group_ids = [aws_security_group.allow_inbound_ssh.id]
 }
 
 resource "digitalocean_droplet" "main" {
