@@ -48,13 +48,14 @@ resource "aws_security_group" "allow_inbound_ssh" {
   name        = "inbound-ssh"
   description = "Allow inbound SSH to an instance"
   vpc_id      = aws_vpc.main.id
+}
 
-  ingress {
-    description = "Inbound SSH"
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-  }
+resource "aws_security_group_rule" "allow_inbound_ssh" {
+  type              = "ingress"
+  from_port         = 22
+  to_port           = 22
+  protocol          = "tcp"
+  security_group_id = aws_security_group.allow_inbound_ssh.id
 }
 
 resource "aws_instance" "main" {
