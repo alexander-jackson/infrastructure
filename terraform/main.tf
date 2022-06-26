@@ -69,9 +69,10 @@ resource "aws_instance" "main" {
     volume_type = "gp2"
   }
 
-  key_name               = aws_key_pair.personal.key_name
-  subnet_id              = aws_subnet.main.id
-  vpc_security_group_ids = [aws_security_group.allow_inbound_ssh.id]
+  key_name                    = aws_key_pair.personal.key_name
+  subnet_id                   = aws_subnet.main.id
+  vpc_security_group_ids      = [aws_security_group.allow_inbound_ssh.id]
+  associate_public_ip_address = true
 }
 
 resource "digitalocean_droplet" "main" {
