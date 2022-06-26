@@ -44,6 +44,14 @@ resource "aws_subnet" "main" {
   }
 }
 
+resource "aws_internet_gateway" "main" {
+  vpc_id = aws_vpc.main.id
+
+  tags = {
+    Name = "main"
+  }
+}
+
 resource "aws_security_group" "allow_inbound_ssh" {
   name        = "inbound-ssh"
   description = "Allow inbound SSH to an instance"
