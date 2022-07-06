@@ -76,21 +76,21 @@ resource "aws_security_group_rule" "allow_all_outbound" {
   security_group_id = aws_security_group.allow_ssh.id
 }
 
-resource "aws_instance" "main" {
-  ami           = "ami-0a6b5206d1730bdce"
-  instance_type = "t4g.medium"
-
-  ebs_block_device {
-    device_name = "/dev/sdf"
-    volume_size = 10
-    volume_type = "gp2"
-  }
-
-  key_name                    = aws_key_pair.personal.key_name
-  subnet_id                   = aws_subnet.main.id
-  vpc_security_group_ids      = [aws_security_group.allow_ssh.id]
-  associate_public_ip_address = true
-}
+# resource "aws_instance" "main" {
+#   ami           = "ami-0a6b5206d1730bdce"
+#   instance_type = "t4g.medium"
+# 
+#   ebs_block_device {
+#     device_name = "/dev/sdf"
+#     volume_size = 10
+#     volume_type = "gp2"
+#   }
+# 
+#   key_name                    = aws_key_pair.personal.key_name
+#   subnet_id                   = aws_subnet.main.id
+#   vpc_security_group_ids      = [aws_security_group.allow_ssh.id]
+#   associate_public_ip_address = true
+# }
 
 resource "digitalocean_droplet" "main" {
   name       = "main"
