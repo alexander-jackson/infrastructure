@@ -2,10 +2,6 @@ provider "digitalocean" {
   token = var.do_token
 }
 
-provider "aws" {
-  region = "eu-west-1"
-}
-
 variable "do_token" {
   type = string
 }
@@ -20,77 +16,6 @@ resource "digitalocean_project" "blackboards" {
     digitalocean_droplet.main.urn,
   ]
 }
-
-resource "aws_key_pair" "personal" {
-  key_name   = "personal"
-  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCnjs+8WBDH0q3XAllLFVOySC1u6ezgdg0pi3E7kTh3VrXPsdh3MtyL5qDRRYSOsfyUcwlF9wlELDsGN81N3zjIjAff31pt2UlxK3DM/aKNKxCg1OTrrA5QIuobEI8I/gUHRAd+e7dXM3JQTXn+E6l14rsmjG0xwgHhdEL/FqA9qAVbW1FVbS8ULddtP8Wep2kZknqzhKoM+Bdu+lG/yxk5MPutPmCQve1g7uWubJ3aRUdNj4Xp0S8iEWBqGEdfte2PSCxON516jp6bm0lcUtYjk4r+c3QDv7/shJr8gL/dqKnmDzj7QBj/FBC10+74HAtrC0L61fl9TFCBpYVOyWAQUxSsH3K1RlTr2XEZ9tg95Wrzy6CMGpmyIMfBJwmLmFiMF7g1F0z7iSF6Ktx6um4AGeDHsfw6sNJemVr3EYh2RnGcBSAOK6uhZGO/ybxeS8YG1+VWnZXSlILZ4lPoCVatCvK43CNMYtMkLhcQc2see6lRxklCdaLLD4WllCuWOLbRg1ETedbkGVI6Ei7hFuIhyoDUKcb/8ldjtuwtrMueCaxVJAHAmOYdn03XXmeCQcI5C6hYkDQyRzrjDN9eA1eewx//mGyyDPjQGYQnCRM3S++Tpwws6J3mjd3kQznMSl2yeV9T2x0WdrzBfGAWExbrTF2FAEQhvEMmrlHhRh3Cvw== alexander@MacbookPro.local"
-}
-
-resource "aws_vpc" "main" {
-  cidr_block       = "10.0.0.0/16"
-  instance_tenancy = "default"
-
-  tags = {
-    Name = "main"
-  }
-}
-
-resource "aws_subnet" "main" {
-  vpc_id     = aws_vpc.main.id
-  cidr_block = "10.0.0.0/24"
-
-  tags = {
-    Name = "main"
-  }
-}
-
-resource "aws_internet_gateway" "main" {
-  vpc_id = aws_vpc.main.id
-
-  tags = {
-    Name = "main"
-  }
-}
-
-resource "aws_security_group" "allow_ssh" {
-  name        = "inbound-ssh"
-  description = "Allow inbound SSH to an instance"
-  vpc_id      = aws_vpc.main.id
-}
-
-resource "aws_security_group_rule" "allow_inbound_ssh" {
-  type              = "ingress"
-  from_port         = 22
-  to_port           = 22
-  protocol          = "tcp"
-  cidr_blocks       = ["0.0.0.0/0"]
-  security_group_id = aws_security_group.allow_ssh.id
-}
-
-resource "aws_security_group_rule" "allow_all_outbound" {
-  type              = "egress"
-  from_port         = 0
-  to_port           = 65535
-  protocol          = "all"
-  cidr_blocks       = ["0.0.0.0/0"]
-  security_group_id = aws_security_group.allow_ssh.id
-}
-
-# resource "aws_instance" "main" {
-#   ami           = "ami-0a6b5206d1730bdce"
-#   instance_type = "t4g.medium"
-# 
-#   ebs_block_device {
-#     device_name = "/dev/sdf"
-#     volume_size = 10
-#     volume_type = "gp2"
-#   }
-# 
-#   key_name                    = aws_key_pair.personal.key_name
-#   subnet_id                   = aws_subnet.main.id
-#   vpc_security_group_ids      = [aws_security_group.allow_ssh.id]
-#   associate_public_ip_address = true
-# }
 
 resource "digitalocean_droplet" "main" {
   name       = "main"
