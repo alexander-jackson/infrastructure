@@ -35,6 +35,7 @@ resource "digitalocean_droplet" "secondary" {
   region     = "lon1"
   size       = "s-1vcpu-1gb"
   monitoring = true
+  ssh_keys   = [23928565]
 }
 
 resource "digitalocean_domain" "blackboards" {
