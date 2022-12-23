@@ -18,6 +18,7 @@ resource "digitalocean_project" "blackboards" {
     digitalocean_domain.blackboards.urn,
     digitalocean_domain.opentracker.urn,
     digitalocean_droplet.main.urn,
+    digitalocean_droplet.secondary.urn,
   ]
 }
 
