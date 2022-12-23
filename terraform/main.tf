@@ -100,7 +100,7 @@ resource "digitalocean_record" "opentracker-root" {
   domain = digitalocean_domain.opentracker.id
   type   = "A"
   name   = "@"
-  value  = digitalocean_droplet.main.ipv4_address
+  value  = digitalocean_droplet.secondary.ipv4_address
 }
 
 resource "digitalocean_record" "opentracker" {
