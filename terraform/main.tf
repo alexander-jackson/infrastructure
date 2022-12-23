@@ -18,6 +18,7 @@ resource "digitalocean_project" "blackboards" {
     digitalocean_domain.blackboards.urn,
     digitalocean_domain.opentracker.urn,
     digitalocean_droplet.main.urn,
+    digitalocean_droplet.secondary.urn,
   ]
 }
 
@@ -35,6 +36,7 @@ resource "digitalocean_droplet" "secondary" {
   region     = "lon1"
   size       = "s-1vcpu-1gb"
   monitoring = true
+  ssh_keys   = [23928565]
 }
 
 resource "digitalocean_domain" "blackboards" {
