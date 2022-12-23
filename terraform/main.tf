@@ -31,9 +31,9 @@ resource "digitalocean_droplet" "main" {
 
 resource "digitalocean_droplet" "secondary" {
   name       = "secondary"
-  image      = "63663980"
+  image      = "ubuntu-22-10-x64"
   region     = "lon1"
-  size       = "s-1vcpu-512mb"
+  size       = "s-1vcpu-1gb"
   monitoring = true
 }
 
