@@ -29,6 +29,14 @@ resource "digitalocean_droplet" "main" {
   monitoring = true
 }
 
+resource "digitalocean_droplet" "secondary" {
+  name       = "secondary"
+  image      = "63663980"
+  region     = "lon1"
+  size       = "s-1vcpu-512mb"
+  monitoring = true
+}
+
 resource "digitalocean_domain" "blackboards" {
   name = "blackboards.pl"
 }
