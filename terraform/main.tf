@@ -30,6 +30,11 @@ resource "digitalocean_droplet" "main" {
   monitoring = true
 }
 
+resource "digitalocean_droplet_snapshot" "original-main-snapshot" {
+  droplet_id = digitalocean_droplet.main.id
+  name       = "original-main-snapshot"
+}
+
 resource "digitalocean_droplet" "secondary" {
   name       = "secondary"
   image      = "ubuntu-22-10-x64"
