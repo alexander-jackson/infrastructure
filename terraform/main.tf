@@ -17,21 +17,12 @@ resource "digitalocean_project" "blackboards" {
   resources = [
     digitalocean_domain.blackboards.urn,
     digitalocean_domain.opentracker.urn,
-    digitalocean_droplet.main.urn,
     digitalocean_droplet.secondary.urn,
   ]
 }
 
-resource "digitalocean_droplet" "main" {
-  name       = "main"
-  image      = "63663980"
-  region     = "lon1"
-  size       = "s-2vcpu-4gb"
-  monitoring = true
-}
-
 resource "digitalocean_droplet_snapshot" "original-main-snapshot" {
-  droplet_id = digitalocean_droplet.main.id
+  droplet_id = 196151282
   name       = "original-main-snapshot"
 }
 
@@ -94,37 +85,9 @@ resource "digitalocean_record" "opentracker-ns3" {
   value  = "ns3.digitalocean.com."
 }
 
-resource "digitalocean_record" "root" {
-  domain = digitalocean_domain.blackboards.id
-  type   = "A"
-  name   = "@"
-  value  = digitalocean_droplet.main.ipv4_address
-}
-
 resource "digitalocean_record" "opentracker-root" {
   domain = digitalocean_domain.opentracker.id
   type   = "A"
   name   = "@"
   value  = digitalocean_droplet.secondary.ipv4_address
-}
-
-resource "digitalocean_record" "opentracker" {
-  domain = digitalocean_domain.blackboards.id
-  type   = "A"
-  name   = "tracker"
-  value  = digitalocean_droplet.main.ipv4_address
-}
-
-resource "digitalocean_record" "starling-listener" {
-  domain = digitalocean_domain.blackboards.id
-  type   = "A"
-  name   = "sb-webhooks"
-  value  = digitalocean_droplet.main.ipv4_address
-}
-
-resource "digitalocean_record" "starling-webhooks" {
-  domain = digitalocean_domain.blackboards.id
-  type   = "A"
-  name   = "starling-webhooks"
-  value  = digitalocean_droplet.main.ipv4_address
 }
