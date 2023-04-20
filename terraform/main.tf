@@ -10,6 +10,10 @@ variable "do_token" {
   type = string
 }
 
+resource "aws_s3_bucket" "remote_state" {
+  bucket = "terraform-remote-state-m3rc9k"
+}
+
 resource "digitalocean_project" "blackboards" {
   name        = "blackboards"
   purpose     = "Service or API"
