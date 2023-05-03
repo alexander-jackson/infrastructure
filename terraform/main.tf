@@ -64,6 +64,11 @@ resource "digitalocean_project" "blackboards" {
   ]
 }
 
+resource "digitalocean_ssh_key" "m2" {
+  name       = "m2"
+  public_key = file("keys/id_rsa.pub")
+}
+
 resource "digitalocean_droplet_snapshot" "original-main-snapshot" {
   droplet_id = 196151282
   name       = "original-main-snapshot"
@@ -76,6 +81,15 @@ resource "digitalocean_droplet" "secondary" {
   size       = "s-1vcpu-1gb"
   monitoring = true
   ssh_keys   = [23928565]
+}
+
+resource "digitalocean_droplet" "opl-docs" {
+  name       = "opl-docs"
+  image      = "ubuntu-22-10-x64"
+  region     = "lon1"
+  size       = "s-1vcpu-1gb"
+  monitoring = true
+  ssh_keys   = [digitalocean_ssh_key.m2.id]
 }
 
 resource "digitalocean_domain" "blackboards" {
@@ -133,4 +147,11 @@ resource "digitalocean_record" "opentracker-root" {
   type   = "A"
   name   = "@"
   value  = digitalocean_droplet.secondary.ipv4_address
+}
+
+resource "digitalocean_record" "opl-docs" {
+  domain = digitalocean_domain.blackboards.id
+  type   = "A"
+  name   = "opl-docs"
+  value  = digitalocean_droplet.opl-docs.ipv4_address
 }
