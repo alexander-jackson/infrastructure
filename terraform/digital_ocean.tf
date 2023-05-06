@@ -15,6 +15,11 @@ resource "digitalocean_ssh_key" "m2" {
   public_key = file("keys/id_rsa.pub")
 }
 
+resource "digitalocean_ssh_key" "tara" {
+  name       = "m2"
+  public_key = file("keys/tara.pub")
+}
+
 resource "digitalocean_droplet_snapshot" "original-main-snapshot" {
   droplet_id = 196151282
   name       = "original-main-snapshot"
@@ -35,7 +40,7 @@ resource "digitalocean_droplet" "opl-docs" {
   region     = "lon1"
   size       = "s-1vcpu-1gb"
   monitoring = true
-  ssh_keys   = [digitalocean_ssh_key.m2.id]
+  ssh_keys   = [digitalocean_ssh_key.m2.id, digitalocean_ssh_key.tara.id]
 }
 
 resource "digitalocean_domain" "blackboards" {
