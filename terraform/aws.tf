@@ -2,6 +2,14 @@ resource "aws_s3_bucket" "remote_state" {
   bucket = "terraform-remote-state-m3rc9k"
 }
 
+resource "aws_s3_bucket_versioning" "remote_state" {
+  bucket = aws_s3_bucket.remote_state.id
+
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
 resource "aws_iam_role" "iac_deployer" {
   name = "iac-deployer"
 
