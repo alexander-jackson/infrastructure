@@ -45,15 +45,6 @@ resource "digitalocean_droplet" "opl-docs" {
   ssh_keys   = [digitalocean_ssh_key.m2.id, digitalocean_ssh_key.tara.id]
 }
 
-resource "digitalocean_droplet" "benchmarking" {
-  name       = "benchmarking"
-  image      = "ubuntu-22-10-x64"
-  region     = "lon1"
-  size       = "s-4vcpu-8gb"
-  monitoring = true
-  ssh_keys   = [digitalocean_ssh_key.m2.id]
-}
-
 resource "digitalocean_domain" "blackboards" {
   name = "blackboards.pl"
 }
@@ -116,11 +107,4 @@ resource "digitalocean_record" "opl-docs" {
   type   = "A"
   name   = "opl-docs"
   value  = digitalocean_droplet.opl-docs.ipv4_address
-}
-
-resource "digitalocean_record" "benchmarking" {
-  domain = digitalocean_domain.blackboards.id
-  type   = "A"
-  name   = "benchmarking"
-  value  = digitalocean_droplet.benchmarking.ipv4_address
 }
