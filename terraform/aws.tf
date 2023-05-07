@@ -70,8 +70,8 @@ resource "aws_iam_user_policy" "personal" {
         Resource = "*"
       },
       {
-        Action = "sts:AssumeRole",
-        Effect = "Allow",
+        Action   = "sts:AssumeRole",
+        Effect   = "Allow",
         Resource = aws_iam_role.iac_deployer.arn
       }
     ]
@@ -79,6 +79,6 @@ resource "aws_iam_user_policy" "personal" {
 }
 
 resource "aws_iam_user_login_profile" "personal" {
-  user = aws_iam_user.personal.name
+  user    = aws_iam_user.personal.name
   pgp_key = file("keys/pgp-b64.key")
 }
