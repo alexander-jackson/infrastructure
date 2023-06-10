@@ -17,8 +17,13 @@ resource "digitalocean_ssh_key" "m2" {
 }
 
 resource "digitalocean_ssh_key" "tara" {
-  name       = "m2"
+  name       = "tara"
   public_key = file("keys/tara.pub")
+}
+
+resource "digitalocean_ssh_key" "secondary" {
+  name       = "secondary"
+  public_key = file("keys/secondary_id_rsa.pub")
 }
 
 resource "digitalocean_droplet_snapshot" "original-main-snapshot" {
@@ -41,7 +46,7 @@ resource "digitalocean_droplet" "postgres" {
   region     = "lon1"
   size       = "s-1vcpu-1gb"
   monitoring = true
-  ssh_keys   = [digitalocean_ssh_key.m2.id]
+  ssh_keys   = [digitalocean_ssh_key.m2.id, digitalocean_ssh_key.secondary.id]
 }
 
 resource "digitalocean_domain" "blackboards" {
