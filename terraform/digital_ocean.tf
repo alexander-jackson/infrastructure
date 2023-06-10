@@ -35,6 +35,15 @@ resource "digitalocean_droplet" "secondary" {
   ssh_keys   = [23928565]
 }
 
+resource "digitalocean_droplet" "postgres" {
+  name       = "postgres"
+  image      = "ubuntu-22-10-x64"
+  region     = "lon1"
+  size       = "s-1vcpu-512mb-10gb"
+  monitoring = true
+  ssh_keys   = [digitalocean_ssh_key.m2.id]
+}
+
 resource "digitalocean_domain" "blackboards" {
   name = "blackboards.pl"
 }
