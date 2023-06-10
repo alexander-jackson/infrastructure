@@ -8,7 +8,6 @@ resource "digitalocean_project" "blackboards" {
     digitalocean_domain.blackboards.urn,
     digitalocean_domain.opentracker.urn,
     digitalocean_droplet.secondary.urn,
-    digitalocean_droplet.opl-docs.urn,
   ]
 }
 
@@ -34,15 +33,6 @@ resource "digitalocean_droplet" "secondary" {
   size       = "s-1vcpu-1gb"
   monitoring = true
   ssh_keys   = [23928565]
-}
-
-resource "digitalocean_droplet" "opl-docs" {
-  name       = "opl-docs"
-  image      = "ubuntu-22-10-x64"
-  region     = "lon1"
-  size       = "s-1vcpu-1gb"
-  monitoring = true
-  ssh_keys   = [digitalocean_ssh_key.m2.id, digitalocean_ssh_key.tara.id]
 }
 
 resource "digitalocean_domain" "blackboards" {
@@ -100,11 +90,4 @@ resource "digitalocean_record" "opentracker-root" {
   type   = "A"
   name   = "@"
   value  = digitalocean_droplet.secondary.ipv4_address
-}
-
-resource "digitalocean_record" "opl-docs" {
-  domain = digitalocean_domain.blackboards.id
-  type   = "A"
-  name   = "opl-docs"
-  value  = digitalocean_droplet.opl-docs.ipv4_address
 }
