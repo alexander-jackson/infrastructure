@@ -10,6 +10,18 @@ resource "aws_s3_bucket_versioning" "remote_state" {
   }
 }
 
+resource "aws_s3_bucket" "postgres_backups" {
+  bucket = "postgres-backups-tr1pjq"
+}
+
+resource "aws_s3_bucket_versioning" "postgres_backups" {
+  bucket = aws_s3_bucket.postgres_backups.id
+
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
 resource "aws_iam_role" "iac_deployer" {
   name = "iac-deployer"
 
