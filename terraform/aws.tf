@@ -1,25 +1,11 @@
-resource "aws_s3_bucket" "remote_state" {
-  bucket = "terraform-remote-state-m3rc9k"
+module "remote_state" {
+  source      = "./modules/s3-bucket"
+  bucket_name = "terraform-remote-state-m3rc9k"
 }
 
-resource "aws_s3_bucket_versioning" "remote_state" {
-  bucket = aws_s3_bucket.remote_state.id
-
-  versioning_configuration {
-    status = "Enabled"
-  }
-}
-
-resource "aws_s3_bucket" "postgres_backups" {
-  bucket = "postgres-backups-tr1pjq"
-}
-
-resource "aws_s3_bucket_versioning" "postgres_backups" {
-  bucket = aws_s3_bucket.postgres_backups.id
-
-  versioning_configuration {
-    status = "Enabled"
-  }
+module "postgres_backups" {
+  source      = "./modules/s3-bucket"
+  bucket_name = "postgres-backups-tr1pjq"
 }
 
 resource "aws_iam_role" "iac_deployer" {
@@ -122,12 +108,12 @@ resource "aws_iam_user_policy" "postgres_backups" {
       {
         Action   = ["s3:ListBucket"]
         Effect   = "Allow"
-        Resource = aws_s3_bucket.postgres_backups.arn
+        Resource = module.postgres_backups.arn
       },
       {
         Action   = ["s3:PutObject"]
         Effect   = "Allow"
-        Resource = format("%s/*", aws_s3_bucket.postgres_backups.arn)
+        Resource = format("%s/*", module.postgres_backups.arn)
       },
     ]
   })
