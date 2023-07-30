@@ -50,7 +50,9 @@ resource "aws_iam_policy" "iac_deployer" {
           "iam:GetRole",
           "iam:GetPolicyVersion",
           "iam:ListAccessKeys",
-          "iam:GetLoginProfile"
+          "iam:GetLoginProfile",
+          "iam:ListRolePolicies",
+          "iam:ListAttachedRolePolicies"
         ]
         Effect   = "Allow"
         Resource = "*"
@@ -85,6 +87,31 @@ resource "aws_iam_user_policy" "personal" {
         Effect   = "Allow"
         Resource = "*"
       },
+      {
+        Action   = "sts:AssumeRole",
+        Effect   = "Allow",
+        Resource = aws_iam_role.iac_deployer.arn
+      }
+    ]
+  })
+}
+
+resource "aws_iam_user" "github_actions" {
+  name = "github.actions"
+}
+
+resource "aws_iam_access_key" "github_actions" {
+  user    = aws_iam_user.github_actions.name
+  pgp_key = file("keys/pgp-b64.key")
+}
+
+resource "aws_iam_user_policy" "github_actions" {
+  name = format("%s.policy", aws_iam_user.github_actions.name)
+  user = aws_iam_user.github_actions.name
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
       {
         Action   = "sts:AssumeRole",
         Effect   = "Allow",
