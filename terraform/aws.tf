@@ -333,9 +333,7 @@ resource "aws_instance" "primary" {
 # Elastic IP definition
 resource "aws_eip" "primary" {
   instance = aws_instance.primary.id
-
-  # TODO: this is due to an older provider version
-  vpc = true
+  domain   = "vpc"
 
   depends_on = [aws_internet_gateway.main]
 }
