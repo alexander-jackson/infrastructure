@@ -315,7 +315,7 @@ resource "aws_instance" "primary" {
   key_name      = aws_key_pair.main.key_name
   subnet_id     = aws_subnet.main.id
 
-  security_groups = [
+  vpc_security_group_ids = [
     aws_security_group.ssh.id,
     aws_security_group.http.id,
     aws_security_group.https.id
