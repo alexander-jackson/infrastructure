@@ -182,6 +182,12 @@ resource "aws_security_group" "ssh" {
   vpc_id      = aws_vpc.main.id
 }
 
+resource "aws_security_group" "inbound_http" {
+  name        = "allow-inbound-http"
+  description = "Allow inbound HTTP traffic"
+  vpc_id      = aws_vpc.main.id
+}
+
 resource "aws_security_group" "http" {
   name        = "allow-outbound-http"
   description = "Allow outbound HTTP traffic"
@@ -206,6 +212,26 @@ resource "aws_security_group_rule" "allow_inbound_ssh" {
 
 resource "aws_security_group_rule" "allow_ephemeral_ssh_return" {
   description       = "Allow ephemeral SSH traffic return"
+  type              = "egress"
+  from_port         = 1024
+  to_port           = 65535
+  protocol          = "tcp"
+  security_group_id = aws_security_group.ssh.id
+  cidr_blocks       = ["0.0.0.0/0"]
+}
+
+resource "aws_security_group_rule" "allow_inbound_http" {
+  description       = "Allow inbound HTTP from anywhere"
+  type              = "ingress"
+  from_port         = 80
+  to_port           = 80
+  protocol          = "tcp"
+  security_group_id = aws_security_group.ssh.id
+  cidr_blocks       = ["0.0.0.0/0"]
+}
+
+resource "aws_security_group_rule" "allow_ephemeral_http_return" {
+  description       = "Allow ephemeral HTTP traffic return"
   type              = "egress"
   from_port         = 1024
   to_port           = 65535
@@ -317,6 +343,7 @@ resource "aws_instance" "primary" {
 
   vpc_security_group_ids = [
     aws_security_group.ssh.id,
+    aws_security_group.inbound_http.id,
     aws_security_group.http.id,
     aws_security_group.https.id
   ]
