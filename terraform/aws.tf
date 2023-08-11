@@ -226,7 +226,7 @@ resource "aws_security_group_rule" "allow_inbound_http" {
   from_port         = 80
   to_port           = 80
   protocol          = "tcp"
-  security_group_id = aws_security_group.ssh.id
+  security_group_id = aws_security_group.inbound_http.id
   cidr_blocks       = ["0.0.0.0/0"]
 }
 
@@ -236,7 +236,7 @@ resource "aws_security_group_rule" "allow_ephemeral_http_return" {
   from_port         = 1024
   to_port           = 65535
   protocol          = "tcp"
-  security_group_id = aws_security_group.ssh.id
+  security_group_id = aws_security_group.inbound_http.id
   cidr_blocks       = ["0.0.0.0/0"]
 }
 
