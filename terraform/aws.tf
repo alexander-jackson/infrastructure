@@ -200,6 +200,12 @@ resource "aws_security_group" "https" {
   vpc_id      = aws_vpc.main.id
 }
 
+resource "aws_security_group" "postgres" {
+  name        = "allow-postgres-access"
+  description = "Allow access to the Postgres instance in Digital Ocean"
+  vpc_id      = aws_vpc.main.id
+}
+
 resource "aws_security_group_rule" "allow_inbound_ssh" {
   description       = "Allow inbound SSH from anywhere"
   type              = "ingress"
@@ -278,6 +284,26 @@ resource "aws_security_group_rule" "allow_outbound_https_return" {
   protocol          = "tcp"
   security_group_id = aws_security_group.https.id
   cidr_blocks       = ["0.0.0.0/0"]
+}
+
+resource "aws_security_group_rule" "allow_outbound_postgres" {
+  description       = "Allow outbound Postgres traffic"
+  type              = "egress"
+  from_port         = 5432
+  to_port           = 5432
+  protocol          = "tcp"
+  security_group_id = aws_security_group.postgres.id
+  cidr_blocks       = ["64.227.33.121/32"]
+}
+
+resource "aws_security_group_rule" "allow_postgres_return" {
+  description       = "Allow return Postgres traffic"
+  type              = "ingress"
+  from_port         = 1024
+  to_port           = 65535
+  protocol          = "tcp"
+  security_group_id = aws_security_group.postgres.id
+  cidr_blocks       = ["64.227.33.121/32"]
 }
 
 # SSH key definition
