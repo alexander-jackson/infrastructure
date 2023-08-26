@@ -106,3 +106,10 @@ resource "digitalocean_record" "opentracker-root" {
   name   = "@"
   value  = digitalocean_droplet.secondary.ipv4_address
 }
+
+resource "digitalocean_record" "opentracker-testing" {
+  domain = digitalocean_domain.opentracker.id
+  type   = "A"
+  name   = "testing"
+  value  = "52.48.168.54"
+}
