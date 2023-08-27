@@ -432,3 +432,24 @@ resource "aws_route_table_association" "gateway" {
   subnet_id      = aws_subnet.main.id
   route_table_id = aws_route_table.gateway.id
 }
+
+# Route 53 definitions
+resource "aws_route53_zone" "opentracker" {
+  name = "opentracker.app"
+}
+
+resource "aws_route53_record" "opentracker" {
+  zone_id = aws_route53_zone.opentracker.id
+  name    = "@"
+  type    = "A"
+  ttl     = 300
+  records = ["157.245.46.69"]
+}
+
+resource "aws_route53_record" "opentracker-testing" {
+  zone_id = aws_route53_zone.opentracker.id
+  name    = "testing"
+  type    = "A"
+  ttl     = 300
+  records = [aws_eip.primary.public_ip]
+}
