@@ -111,5 +111,5 @@ resource "digitalocean_record" "opentracker-testing" {
   domain = digitalocean_domain.opentracker.id
   type   = "A"
   name   = "testing"
-  value  = "52.48.168.54"
+  value  = "63.32.120.39"
 }
