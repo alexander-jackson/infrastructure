@@ -443,13 +443,5 @@ resource "aws_route53_record" "opentracker" {
   name    = ""
   type    = "A"
   ttl     = 300
-  records = ["157.245.46.69"]
-}
-
-resource "aws_route53_record" "opentracker-testing" {
-  zone_id = aws_route53_zone.opentracker.id
-  name    = "testing"
-  type    = "A"
-  ttl     = 300
   records = [aws_eip.primary.public_ip]
 }
