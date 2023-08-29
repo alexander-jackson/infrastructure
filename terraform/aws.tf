@@ -418,6 +418,19 @@ resource "aws_eip" "primary" {
   depends_on = [aws_internet_gateway.main]
 }
 
+module "f2_instance" {
+  source = "./modules/f2-instance"
+
+  name          = "main"
+  tag           = "20230826-1932"
+  config_arn    = module.configuration_bucket.arn
+  vpc_id        = aws_vpc.main.id
+  subnet_id     = aws_subnet.main.id
+  ami           = "ami-0ab14756db2442499"
+  instance_type = "t2.nano"
+  key_name      = aws_key_pair.main.key_name
+}
+
 # Route table definitions
 resource "aws_route_table" "gateway" {
   vpc_id = aws_vpc.main.id
@@ -444,4 +457,12 @@ resource "aws_route53_record" "opentracker" {
   type    = "A"
   ttl     = 300
   records = [aws_eip.primary.public_ip]
+}
+
+resource "aws_route53_record" "opentracker-testing" {
+  zone_id = aws_route53_zone.opentracker.id
+  name    = "testing"
+  type    = "A"
+  ttl     = 300
+  records = [module.f2_instance.public_ip]
 }
