@@ -64,16 +64,6 @@ resource "aws_security_group_rule" "allow_inbound_ssh" {
   cidr_blocks       = ["0.0.0.0/0"]
 }
 
-resource "aws_security_group_rule" "allow_ephemeral_ssh_return" {
-  description       = "Allow ephemeral SSH traffic return"
-  type              = "egress"
-  from_port         = 1024
-  to_port           = 65535
-  protocol          = "tcp"
-  security_group_id = aws_security_group.inbound_ssh.id
-  cidr_blocks       = ["0.0.0.0/0"]
-}
-
 resource "aws_security_group" "inbound_https" {
   name        = format("%s-inbound-https", var.name)
   description = "Allow inbound HTTPS traffic"
@@ -85,16 +75,6 @@ resource "aws_security_group_rule" "allow_inbound_https" {
   type              = "ingress"
   from_port         = 443
   to_port           = 443
-  protocol          = "tcp"
-  security_group_id = aws_security_group.inbound_https.id
-  cidr_blocks       = ["0.0.0.0/0"]
-}
-
-resource "aws_security_group_rule" "allow_ephemeral_https_return" {
-  description       = "Allow ephemeral HTTPS traffic return"
-  type              = "egress"
-  from_port         = 1024
-  to_port           = 65535
   protocol          = "tcp"
   security_group_id = aws_security_group.inbound_https.id
   cidr_blocks       = ["0.0.0.0/0"]
@@ -116,16 +96,6 @@ resource "aws_security_group_rule" "allow_outbound_http" {
   cidr_blocks       = ["0.0.0.0/0"]
 }
 
-resource "aws_security_group_rule" "allow_ephemeral_outbound_http_return" {
-  description       = "Allow ephemeral outbound HTTP traffic return"
-  type              = "ingress"
-  from_port         = 1024
-  to_port           = 65535
-  protocol          = "tcp"
-  security_group_id = aws_security_group.outbound_http.id
-  cidr_blocks       = ["0.0.0.0/0"]
-}
-
 resource "aws_security_group" "outbound_https" {
   name        = format("%s-outbound-https", var.name)
   description = "Allow outbound HTTPS traffic"
@@ -142,14 +112,20 @@ resource "aws_security_group_rule" "allow_outbound_https" {
   cidr_blocks       = ["0.0.0.0/0"]
 }
 
-resource "aws_security_group_rule" "allow_ephemeral_outbound_https_return" {
-  description       = "Allow ephemeral outbound HTTPS traffic return"
-  type              = "ingress"
-  from_port         = 1024
-  to_port           = 65535
+resource "aws_security_group" "outbound_postgres" {
+  name        = format("%s-outbound-postgres", var.name)
+  description = "Allow outbound Postgres traffic"
+  vpc_id      = var.vpc_id
+}
+
+resource "aws_security_group_rule" "allow_outbound_postgres" {
+  description       = "Allow outbound Postgres to the Digital Ocean instance"
+  type              = "egress"
+  from_port         = 5432
+  to_port           = 5432
   protocol          = "tcp"
-  security_group_id = aws_security_group.outbound_https.id
-  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.outbound_postgres.id
+  cidr_blocks       = ["64.227.33.121/32"]
 }
 
 resource "aws_instance" "this" {
@@ -166,7 +142,8 @@ resource "aws_instance" "this" {
     aws_security_group.inbound_ssh.id,
     aws_security_group.inbound_https.id,
     aws_security_group.outbound_http.id,
-    aws_security_group.outbound_https.id
+    aws_security_group.outbound_https.id,
+    aws_security_group.outbound_postgres.id
   ]
 
   iam_instance_profile = aws_iam_instance_profile.this.name
