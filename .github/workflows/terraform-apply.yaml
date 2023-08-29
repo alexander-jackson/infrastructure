@@ -4,7 +4,7 @@ on:
   push:
     branches: ["master"]
     paths:
-    - "terraform/*"
+    - "terraform/**"
 
 jobs:
   terraform:
