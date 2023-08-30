@@ -245,3 +245,23 @@ resource "aws_route53_record" "postgres" {
   ttl     = 300
   records = [module.postgres.public_ip]
 }
+
+resource "aws_route53_zone" "internal" {
+  name = "opentracker.internal"
+
+  vpc {
+    vpc_id = aws_vpc.main.id
+  }
+
+  lifecycle {
+    ignore_changes = [vpc]
+  }
+}
+
+resource "aws_route53_record" "internal_postgres" {
+  zone_id = aws_route53_zone.internal.zone_id
+  name    = "postgres"
+  type    = "CNAME"
+  ttl     = 300
+  records = [module.postgres.private_dns]
+}
