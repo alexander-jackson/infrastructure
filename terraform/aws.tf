@@ -195,6 +195,21 @@ module "f2_instance" {
   key_name      = aws_key_pair.main.key_name
 }
 
+module "postgres" {
+  source = "./modules/postgres"
+
+  name                 = "postgres"
+  major_version        = "15"
+  backups_arn          = module.postgres_backups.arn
+  configuration_bucket = module.configuration_bucket.name
+  vpc_id               = aws_vpc.main.id
+  subnet_id            = aws_subnet.main.id
+  ami                  = "ami-0abdeb283774a31d1"
+  instance_type        = "t4g.nano"
+  key_name             = aws_key_pair.main.key_name
+  permitted_access     = [module.f2_instance.security_group_id]
+}
+
 # Route table definitions
 resource "aws_route_table" "gateway" {
   vpc_id = aws_vpc.main.id
@@ -221,4 +236,12 @@ resource "aws_route53_record" "opentracker" {
   type    = "A"
   ttl     = 300
   records = [module.f2_instance.public_ip]
+}
+
+resource "aws_route53_record" "postgres" {
+  zone_id = aws_route53_zone.opentracker.id
+  name    = "postgres"
+  type    = "A"
+  ttl     = 300
+  records = [module.postgres.public_ip]
 }
