@@ -1,0 +1,41 @@
+alb:
+  addr: 0.0.0.0
+  port: 443
+  reconciliation: /reconcile
+  tls:
+    cert_file:
+      location: s3
+      bucket: configuration-sfvz2s
+      key: f2/fullchain.pem
+    key_file:
+      location: s3
+      bucket: configuration-sfvz2s
+      key: f2/privkey.pem
+
+secrets:
+  private_key:
+    location: s3
+    bucket: configuration-sfvz2s
+    key: f2/private.key
+
+services:
+  frontend:
+    image: alexanderjackson/opentracker-frontend
+    tag: 20230614-1829
+    port: 80
+    replicas: 1
+    host: opentracker.app
+
+  backend:
+    image: alexanderjackson/opentracker-backend
+    tag: 20230830-1730
+    port: 3025
+    replicas: 1
+    host: opentracker.app
+    path_prefix: /api
+    environment:
+      DATABASE_HOST: "64.227.33.121"
+      DATABASE_NAME: opentracker
+      DATABASE_USER: postgres
+      DATABASE_PASSWORD: secret:j9VBUWVGrsNDDGBUAwdSIdnxviUrHjBowc3ze+whOrg9nLY6a/GjVYTnWW8QYeIdGsP9X2o4Ns12+THcpZserHqvLkaBEZUFy83x238WfV7NKhMAMQonD9N/VIZX9r5ukBFK6g37dnu1UJK9ttf3MGHkZ7s36sogR9Q50J9OX5NjVKIlV4EZh5/KSTHxJLFWCk7Fuu0Bxqer7PL4s8ZGKjTFVYNMZDxhc4D7qNf3JnQHejyHc8RjJ2A/ggsMknbVUHruGejsF45aLmvhjJvpVs2XlFmeQ92e9cjY/11ORGN+L7IMoM8RH5txuJF1gp49ExPVAhidt0dX6BGnndt3Uw==
+      JWT_KEY: secret:aj2H/HfbWsg9/8LZcmFIkMZEmDJqsBzS5Rz+t22dY4AnEKwm3hhBRwGrFtX6VBVmVHiuRKJgTrctEsF90eXc7keJ/ozfHqe5WReLmM/lRyr/YGnPZ4uy6g34o0EufP+w9hJSivtxNto/n14NkmLVj1GOkt9CdhxaJAXiHtzXnaDq0VUVP/Iv1c2R8i93vjHx3prYdoPRUuyIg5CvQJe715OqVvqFDzdFZXGkx+wV2pE4/voiDTcCRnzORWzQIe1zy3vntp+0ZKwbinDUCISaOqgxZo3KairWz/a9A5WZMYCnh5ltR0cj75FouvETEKpwt72KreJnuOdjBV/s9ZtFjw==
