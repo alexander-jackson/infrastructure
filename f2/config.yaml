@@ -26,6 +26,13 @@ services:
     replicas: 1
     host: opentracker.app
 
+  frontend2:
+    image: alexanderjackson/opentracker-frontend
+    tag: 20230614-1829
+    port: 80
+    replicas: 1
+    host: opentracker.app
+
   backend:
     image: alexanderjackson/opentracker-backend
     tag: 20230830-1730

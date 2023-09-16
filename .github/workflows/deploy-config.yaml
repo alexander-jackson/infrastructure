@@ -4,15 +4,12 @@ on:
   push:
     branches: ["master"]
     paths:
-    - "configuration/**"
+    - "f2/**"
 
 jobs:
   deploy-config:
     name: Deploy configuration to S3
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./configuration
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -22,7 +19,7 @@ jobs:
         with:
           aws_access_key_id: ${{ secrets.CONFIG_DEPLOYER_AWS_ACCESS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.CONFIG_DEPLOYER_AWS_SECRET_ACCESS_KEY }}
-          source: ./config.yaml
+          source: ./f2/config.yaml
           dest: s3://configuration-sfvz2s/f2/config.yaml
           aws_region: eu-west-1
 
