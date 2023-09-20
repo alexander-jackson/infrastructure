@@ -42,7 +42,7 @@ services:
 
   tag-updater:
     image: alexanderjackson/tag-updater
-    tag: 20230920-0525
+    tag: 20230920-0608
     port: 4025
     replicas: 1
     host: opentracker.app
