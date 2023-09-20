@@ -161,6 +161,36 @@ resource "aws_iam_user_policy" "postgres_backups" {
   })
 }
 
+resource "aws_iam_user" "configuration_deployer" {
+  name = "configuration.deployer"
+}
+
+resource "aws_iam_access_key" "configuration_deployer" {
+  user    = aws_iam_user.configuration_deployer.name
+  pgp_key = file("keys/pgp-b64.key")
+}
+
+resource "aws_iam_user_policy" "configuration_deployer" {
+  name = format("%s.policy", aws_iam_user.configuration_deployer.name)
+  user = aws_iam_user.configuration_deployer.name
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action   = ["s3:ListBucket"]
+        Effect   = "Allow"
+        Resource = module.configuration_bucket.arn
+      },
+      {
+        Action   = ["s3:PutObject"]
+        Effect   = "Allow"
+        Resource = format("%s/f2/config.yaml", module.configuration_bucket.arn)
+      },
+    ]
+  })
+}
+
 # Virtual Private Cloud definition
 resource "aws_vpc" "main" {
   cidr_block = "10.0.0.0/16"
