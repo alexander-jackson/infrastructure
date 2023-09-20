@@ -74,6 +74,16 @@ resource "aws_security_group_rule" "allow_inbound_https" {
   cidr_blocks       = ["0.0.0.0/0"]
 }
 
+resource "aws_security_group_rule" "allow_outbound_ssh" {
+  description       = "Allow outbound SSH to anywhere"
+  type              = "egress"
+  from_port         = 22
+  to_port           = 22
+  protocol          = "tcp"
+  security_group_id = aws_security_group.this.id
+  cidr_blocks       = ["0.0.0.0/0"]
+}
+
 resource "aws_security_group_rule" "allow_outbound_http" {
   description       = "Allow outbound HTTP to anywhere"
   type              = "egress"
