@@ -21,7 +21,7 @@ secrets:
 services:
   frontend:
     image: alexanderjackson/opentracker-frontend
-    tag: 20230930-0948
+    tag: 20230930-1103
     port: 80
     replicas: 1
     host: opentracker.app
