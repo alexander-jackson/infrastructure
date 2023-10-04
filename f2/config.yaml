@@ -28,7 +28,7 @@ services:
 
   backend:
     image: alexanderjackson/opentracker-backend
-    tag: 20231004-0626
+    tag: 20231004-0700
     port: 3025
     replicas: 1
     host: opentracker.app
