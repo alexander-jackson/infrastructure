@@ -15,4 +15,4 @@ sudo apt install -y docker-ce
 # Allow the `ubuntu` user to run `docker` commands (for SSH access)
 sudo usermod -aG docker ubuntu
 
-sudo docker run -d -v /var/run/docker.sock:/var/run/docker.sock -p 443:443 alexanderjackson/f2:${tag} -- --config s3://configuration-sfvz2s/f2/config.yaml
+sudo docker run -d -v /var/run/docker.sock:/var/run/docker.sock -p 443:443 alexanderjackson/f2:${tag} -- --config s3://${config_bucket}/${config_key}
