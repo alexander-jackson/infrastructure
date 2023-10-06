@@ -1,5 +1,11 @@
+resource "random_id" "this" {
+  count = var.with_random_id ? 1 : 0
+
+  byte_length = 3
+}
+
 resource "aws_s3_bucket" "this" {
-  bucket = var.bucket_name
+  bucket = var.with_random_id ? format("%s-%s", var.bucket_name, random_id.this[0].hex) : var.bucket_name
 }
 
 resource "aws_s3_bucket_versioning" "this" {
