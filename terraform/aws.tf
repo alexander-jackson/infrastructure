@@ -223,6 +223,8 @@ module "f2_instance" {
   ami           = "ami-0ab14756db2442499"
   instance_type = "t2.nano"
   key_name      = aws_key_pair.main.key_name
+  config_bucket = module.configuration_bucket.name
+  config_key    = "f2/config.yaml"
 }
 
 # Route table definitions

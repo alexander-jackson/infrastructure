@@ -37,3 +37,13 @@ variable "key_name" {
   type        = string
   description = "The name of the `aws_key_pair` to use for the instance access"
 }
+
+variable "config_bucket" {
+  type        = string
+  description = "The name of the bucket to use for configuration"
+}
+
+variable "config_key" {
+  type        = string
+  description = "The key in the bucket to use for configuration"
+}

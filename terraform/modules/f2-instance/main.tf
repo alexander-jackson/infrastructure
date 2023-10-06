@@ -135,7 +135,9 @@ resource "aws_instance" "this" {
   subnet_id     = var.subnet_id
 
   user_data = templatefile("${path.module}/scripts/setup.sh", {
-    tag = var.tag
+    tag           = var.tag
+    config_bucket = var.config_bucket
+    config_key    = var.config_key
   })
 
   vpc_security_group_ids = [aws_security_group.this.id]
