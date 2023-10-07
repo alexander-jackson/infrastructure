@@ -186,12 +186,15 @@ resource "aws_iam_user_policy" "configuration_deployer" {
       {
         Action   = ["s3:ListBucket"]
         Effect   = "Allow"
-        Resource = module.configuration_bucket.arn
+        Resource = [module.configuration_bucket.arn, module.config_bucket.arn]
       },
       {
-        Action   = ["s3:PutObject"]
-        Effect   = "Allow"
-        Resource = format("%s/f2/config.yaml", module.configuration_bucket.arn)
+        Action = ["s3:PutObject"]
+        Effect = "Allow"
+        Resource = [
+          format("%s/f2/config.yaml", module.configuration_bucket.arn),
+          format("%s/f2/config.yaml", module.config_bucket.arn)
+        ]
       },
     ]
   })
