@@ -8,6 +8,12 @@ module "postgres_backups" {
   bucket_name = "postgres-backups-tr1pjq"
 }
 
+module "configuration_bucket" {
+  source           = "./modules/s3-bucket"
+  bucket_name      = "configuration-sfvz2s"
+  pending_deletion = true
+}
+
 module "config_bucket" {
   source         = "./modules/s3-bucket"
   bucket_name    = "configuration"
