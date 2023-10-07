@@ -261,15 +261,3 @@ resource "aws_route53_record" "opentracker" {
   ttl     = 300
   records = [module.f2_instance.public_ip]
 }
-
-resource "aws_route53_zone" "internal" {
-  name = "opentracker.internal"
-
-  vpc {
-    vpc_id = aws_vpc.main.id
-  }
-
-  lifecycle {
-    ignore_changes = [vpc]
-  }
-}
