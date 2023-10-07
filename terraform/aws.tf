@@ -236,7 +236,7 @@ module "f2_instance" {
 module "f2_instance_new" {
   source = "./modules/f2-instance"
 
-  name          = "main"
+  name          = "f2"
   tag           = "20230826-1932"
   config_arn    = module.config_bucket.arn
   vpc_id        = aws_vpc.main.id
