@@ -312,9 +312,17 @@ resource "aws_route53_record" "opentracker" {
   records = [module.f2_instance.public_ip]
 }
 
-resource "aws_route53_record" "demo_opentracker" {
+resource "aws_route53_record" "opentracker_testing" {
   zone_id = aws_route53_zone.opentracker.id
   name    = "testing"
+  type    = "A"
+  ttl     = 300
+  records = [module.demo_f2_instance.public_ip]
+}
+
+resource "aws_route53_record" "opentracker_demo" {
+  zone_id = aws_route53_zone.opentracker.id
+  name    = "demo"
   type    = "A"
   ttl     = 300
   records = [module.demo_f2_instance.public_ip]
