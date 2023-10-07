@@ -11,8 +11,15 @@ module "remote_state_bucket" {
 }
 
 module "postgres_backups" {
-  source      = "./modules/s3-bucket"
-  bucket_name = "postgres-backups-tr1pjq"
+  source           = "./modules/s3-bucket"
+  bucket_name      = "postgres-backups-tr1pjq"
+  pending_deletion = true
+}
+
+module "postgres_backups_bucket" {
+  source         = "./modules/s3-bucket"
+  bucket_name    = "postgres-backups"
+  with_random_id = true
 }
 
 module "configuration_bucket" {
@@ -107,6 +114,21 @@ resource "aws_iam_user_policy" "personal" {
         Resource = "*"
       },
       {
+        Action   = ["s3:ListBucket"]
+        Effect   = "Allow"
+        Resource = [module.postgres_backups.arn, module.postgres_backups_bucket.arn]
+      },
+      {
+        Action   = ["s3:GetObject"]
+        Effect   = "Allow"
+        Resource = format("%s/*", module.postgres_backups.arn)
+      },
+      {
+        Action   = ["s3:PutObject"]
+        Effect   = "Allow"
+        Resource = format("%s/*", module.postgres_backups_bucket.arn)
+      },
+      {
         Action   = "sts:AssumeRole",
         Effect   = "Allow",
         Resource = aws_iam_role.iac_deployer.arn
@@ -162,14 +184,20 @@ resource "aws_iam_user_policy" "postgres_backups" {
     Version = "2012-10-17"
     Statement = [
       {
-        Action   = ["s3:ListBucket"]
-        Effect   = "Allow"
-        Resource = module.postgres_backups.arn
+        Action = ["s3:ListBucket"]
+        Effect = "Allow"
+        Resource = [
+          module.postgres_backups.arn,
+          module.postgres_backups_bucket.arn
+        ]
       },
       {
-        Action   = ["s3:PutObject"]
-        Effect   = "Allow"
-        Resource = format("%s/*", module.postgres_backups.arn)
+        Action = ["s3:PutObject"]
+        Effect = "Allow"
+        Resource = [
+          format("%s/*", module.postgres_backups.arn),
+          format("%s/*", module.postgres_backups_bucket.arn)
+        ]
       },
     ]
   })
