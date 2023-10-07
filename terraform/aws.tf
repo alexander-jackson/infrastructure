@@ -1,6 +1,13 @@
 module "remote_state" {
-  source      = "./modules/s3-bucket"
-  bucket_name = "terraform-remote-state-m3rc9k"
+  source           = "./modules/s3-bucket"
+  bucket_name      = "terraform-remote-state-m3rc9k"
+  pending_deletion = true
+}
+
+module "remote_state_bucket" {
+  source         = "./modules/s3-bucket"
+  bucket_name    = "terraform-remote-state"
+  with_random_id = true
 }
 
 module "postgres_backups" {
@@ -98,6 +105,21 @@ resource "aws_iam_user_policy" "personal" {
         Action   = ["s3:ListAllMyBuckets", "s3:ListBucket", "s3:Get*", "iam:ChangePassword"]
         Effect   = "Allow"
         Resource = "*"
+      },
+      {
+        Action   = ["s3:ListBucket"]
+        Effect   = "Allow"
+        Resource = [module.remote_state.arn, module.remote_state_bucket.arn]
+      },
+      {
+        Action   = ["s3:GetObject"]
+        Effect   = "Allow"
+        Resource = format("%s/*", module.remote_state.arn)
+      },
+      {
+        Action   = ["s3:PutObject"]
+        Effect   = "Allow"
+        Resource = format("%s/*", module.remote_state_bucket.arn)
       },
       {
         Action   = "sts:AssumeRole",
