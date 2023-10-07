@@ -20,7 +20,7 @@ jobs:
           aws_access_key_id: ${{ secrets.CONFIG_DEPLOYER_AWS_ACCESS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.CONFIG_DEPLOYER_AWS_SECRET_ACCESS_KEY }}
           source: ./f2/config.yaml
-          dest: s3://configuration-sfvz2s/f2/config.yaml
+          dest: s3://configuration-68f6c7/f2/config.yaml
           aws_region: eu-west-1
 
       - name: Force Reconciliation
