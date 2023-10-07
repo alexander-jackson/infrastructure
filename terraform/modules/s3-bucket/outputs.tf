@@ -3,5 +3,5 @@ output "arn" {
 }
 
 output "name" {
-  value = var.bucket_name
+  value = local.bucket_name
 }
