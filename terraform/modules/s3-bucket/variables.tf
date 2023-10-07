@@ -8,3 +8,9 @@ variable "with_random_id" {
   description = "Whether to use a `random_id` resource"
   default     = false
 }
+
+variable "pending_deletion" {
+  type        = bool
+  description = "Whether the bucket is pending deletion and objects should be cleared out"
+  default     = false
+}

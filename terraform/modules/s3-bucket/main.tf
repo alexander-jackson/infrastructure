@@ -19,3 +19,27 @@ resource "aws_s3_bucket_versioning" "this" {
     status = "Enabled"
   }
 }
+
+resource "aws_s3_bucket_lifecycle_configuration" "this" {
+  count = var.pending_deletion ? 1 : 0
+
+  bucket = aws_s3_bucket.this.id
+
+  rule {
+    id     = "delete-files"
+    status = "Enabled"
+
+    expiration {
+      days = 1
+    }
+  }
+
+  rule {
+    id     = "delete-versioned-files"
+    status = "Enabled"
+
+    noncurrent_version_expiration {
+      noncurrent_days = 1
+    }
+  }
+}
