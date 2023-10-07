@@ -269,6 +269,21 @@ module "f2_instance" {
   config_key    = "f2/config.yaml"
 }
 
+module "demo_f2_instance" {
+  source = "./modules/f2-instance"
+
+  name          = "demo"
+  tag           = "20231007-1914"
+  config_arn    = module.config_bucket.arn
+  vpc_id        = aws_vpc.main.id
+  subnet_id     = aws_subnet.main.id
+  ami           = "ami-0ab14756db2442499"
+  instance_type = "t2.nano"
+  key_name      = aws_key_pair.main.key_name
+  config_bucket = module.config_bucket.name
+  config_key    = "f2/demo/config.yaml"
+}
+
 # Route table definitions
 resource "aws_route_table" "gateway" {
   vpc_id = aws_vpc.main.id
@@ -295,4 +310,12 @@ resource "aws_route53_record" "opentracker" {
   type    = "A"
   ttl     = 300
   records = [module.f2_instance.public_ip]
+}
+
+resource "aws_route53_record" "demo_opentracker" {
+  zone_id = aws_route53_zone.opentracker.id
+  name    = "testing"
+  type    = "A"
+  ttl     = 300
+  records = [module.demo_f2_instance.public_ip]
 }
