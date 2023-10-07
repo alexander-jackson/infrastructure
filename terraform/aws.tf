@@ -219,7 +219,7 @@ resource "aws_key_pair" "main" {
   public_key = file("./keys/id_rsa.pub")
 }
 
-module "f2_instance_new" {
+module "f2_instance" {
   source = "./modules/f2-instance"
 
   name          = "f2"
@@ -259,7 +259,7 @@ resource "aws_route53_record" "opentracker" {
   name    = ""
   type    = "A"
   ttl     = 300
-  records = [module.f2_instance_new.public_ip]
+  records = [module.f2_instance.public_ip]
 }
 
 resource "aws_route53_zone" "internal" {
