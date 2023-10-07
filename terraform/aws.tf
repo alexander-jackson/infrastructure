@@ -13,6 +13,12 @@ module "configuration_bucket" {
   bucket_name = "configuration-sfvz2s"
 }
 
+module "config_bucket" {
+  source         = "./modules/s3-bucket"
+  bucket_name    = "configuration"
+  with_random_id = true
+}
+
 resource "aws_iam_role" "iac_deployer" {
   name = "iac-deployer"
 
