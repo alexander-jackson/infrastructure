@@ -107,21 +107,6 @@ resource "aws_iam_user_policy" "personal" {
         Resource = "*"
       },
       {
-        Action   = ["s3:ListBucket"]
-        Effect   = "Allow"
-        Resource = [module.remote_state.arn, module.remote_state_bucket.arn]
-      },
-      {
-        Action   = ["s3:GetObject"]
-        Effect   = "Allow"
-        Resource = format("%s/*", module.remote_state.arn)
-      },
-      {
-        Action   = ["s3:PutObject"]
-        Effect   = "Allow"
-        Resource = format("%s/*", module.remote_state_bucket.arn)
-      },
-      {
         Action   = "sts:AssumeRole",
         Effect   = "Allow",
         Resource = aws_iam_role.iac_deployer.arn
