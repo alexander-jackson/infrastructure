@@ -8,11 +8,6 @@ module "postgres_backups" {
   bucket_name = "postgres-backups-tr1pjq"
 }
 
-module "configuration_bucket" {
-  source      = "./modules/s3-bucket"
-  bucket_name = "configuration-sfvz2s"
-}
-
 module "config_bucket" {
   source         = "./modules/s3-bucket"
   bucket_name    = "configuration"
@@ -94,7 +89,7 @@ resource "aws_iam_user_policy" "personal" {
     Version = "2012-10-17"
     Statement = [
       {
-        Action   = ["s3:ListAllMyBuckets", "s3:ListBucket", "s3:Get*", "iam:ChangePassword", "s3:DeleteObject"]
+        Action   = ["s3:ListAllMyBuckets", "s3:ListBucket", "s3:Get*", "iam:ChangePassword"]
         Effect   = "Allow"
         Resource = "*"
       },
@@ -186,15 +181,12 @@ resource "aws_iam_user_policy" "configuration_deployer" {
       {
         Action   = ["s3:ListBucket"]
         Effect   = "Allow"
-        Resource = [module.configuration_bucket.arn, module.config_bucket.arn]
+        Resource = module.config_bucket.arn
       },
       {
-        Action = ["s3:PutObject"]
-        Effect = "Allow"
-        Resource = [
-          format("%s/f2/config.yaml", module.configuration_bucket.arn),
-          format("%s/f2/config.yaml", module.config_bucket.arn)
-        ]
+        Action   = ["s3:PutObject"]
+        Effect   = "Allow"
+        Resource = format("%s/f2/config.yaml", module.config_bucket.arn)
       },
     ]
   })
