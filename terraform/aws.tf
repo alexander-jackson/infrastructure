@@ -8,11 +8,6 @@ module "postgres_backups" {
   bucket_name = "postgres-backups-tr1pjq"
 }
 
-module "configuration_bucket" {
-  source      = "./modules/s3-bucket"
-  bucket_name = "configuration-sfvz2s"
-}
-
 module "config_bucket" {
   source         = "./modules/s3-bucket"
   bucket_name    = "configuration"
@@ -186,15 +181,12 @@ resource "aws_iam_user_policy" "configuration_deployer" {
       {
         Action   = ["s3:ListBucket"]
         Effect   = "Allow"
-        Resource = [module.configuration_bucket.arn, module.config_bucket.arn]
+        Resource = module.config_bucket.arn
       },
       {
-        Action = ["s3:PutObject"]
-        Effect = "Allow"
-        Resource = [
-          format("%s/f2/config.yaml", module.configuration_bucket.arn),
-          format("%s/f2/config.yaml", module.config_bucket.arn)
-        ]
+        Action   = ["s3:PutObject"]
+        Effect   = "Allow"
+        Resource = format("%s/f2/config.yaml", module.config_bucket.arn)
       },
     ]
   })
@@ -219,21 +211,6 @@ resource "aws_internet_gateway" "main" {
 resource "aws_key_pair" "main" {
   key_name   = "macbook-m2-pro"
   public_key = file("./keys/id_rsa.pub")
-}
-
-module "f2_instance" {
-  source = "./modules/f2-instance"
-
-  name          = "main"
-  tag           = "20230826-1932"
-  config_arn    = module.configuration_bucket.arn
-  vpc_id        = aws_vpc.main.id
-  subnet_id     = aws_subnet.main.id
-  ami           = "ami-0ab14756db2442499"
-  instance_type = "t2.nano"
-  key_name      = aws_key_pair.main.key_name
-  config_bucket = module.configuration_bucket.name
-  config_key    = "f2/config.yaml"
 }
 
 module "f2_instance_new" {
