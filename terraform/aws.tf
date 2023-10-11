@@ -272,7 +272,7 @@ module "f2_instance" {
 module "primary" {
   source = "./modules/f2-instance"
 
-  name          = "f2"
+  name          = "primary"
   tag           = "20231007-1914"
   config_arn    = module.config_bucket.arn
   vpc_id        = aws_vpc.main.id
