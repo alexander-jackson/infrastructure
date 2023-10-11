@@ -3,14 +3,16 @@ alb:
   port: 443
   reconciliation: /reconcile
   tls:
-    cert_file:
-      location: s3
-      bucket: configuration-68f6c7
-      key: f2/fullchain.pem
-    key_file:
-      location: s3
-      bucket: configuration-68f6c7
-      key: f2/privkey.pem
+    domains:
+      opentracker.app:
+        cert_file:
+          location: s3
+          bucket: configuration-68f6c7
+          key: f2/fullchain.pem
+        key_file:
+          location: s3
+          bucket: configuration-68f6c7
+          key: f2/privkey.pem
 
 secrets:
   private_key:
