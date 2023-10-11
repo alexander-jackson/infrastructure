@@ -309,5 +309,5 @@ resource "aws_route53_record" "opentracker" {
   name    = ""
   type    = "A"
   ttl     = 300
-  records = [module.f2_instance.public_ip]
+  records = [module.primary.public_ip]
 }
