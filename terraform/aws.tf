@@ -281,7 +281,7 @@ module "primary" {
   instance_type = "t2.nano"
   key_name      = aws_key_pair.main.key_name
   config_bucket = module.config_bucket.name
-  config_key    = "f2/configuration.yaml"
+  config_key    = "f2/config.yaml"
 }
 
 # Route table definitions
