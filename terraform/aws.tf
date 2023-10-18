@@ -4,12 +4,6 @@ module "remote_state_bucket" {
   with_random_id = true
 }
 
-module "postgres_backups" {
-  source           = "./modules/s3-bucket"
-  bucket_name      = "postgres-backups-tr1pjq"
-  pending_deletion = true
-}
-
 module "postgres_backups_bucket" {
   source         = "./modules/s3-bucket"
   bucket_name    = "postgres-backups"
