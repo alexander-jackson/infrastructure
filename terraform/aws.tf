@@ -212,21 +212,6 @@ resource "aws_key_pair" "main" {
   public_key = file("./keys/id_rsa.pub")
 }
 
-module "primary" {
-  source = "./modules/f2-instance"
-
-  name          = "primary"
-  tag           = "20231007-1914"
-  config_arn    = module.config_bucket.arn
-  vpc_id        = aws_vpc.main.id
-  subnet_id     = aws_subnet.main.id
-  ami           = "ami-0ab14756db2442499"
-  instance_type = "t2.nano"
-  key_name      = aws_key_pair.main.key_name
-  config_bucket = module.config_bucket.name
-  config_key    = "f2/config.yaml"
-}
-
 module "secondary" {
   source = "./modules/f2-instance"
 
