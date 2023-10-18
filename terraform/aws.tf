@@ -262,7 +262,7 @@ resource "aws_ses_email_identity" "noreply" {
 
 resource "aws_ses_domain_mail_from" "noreply" {
   domain           = aws_ses_email_identity.noreply.email
-  mail_from_domain = "opentracker.app"
+  mail_from_domain = "mail.opentracker.app"
 }
 
 resource "aws_ses_domain_identity" "opentracker" {
