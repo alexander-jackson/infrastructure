@@ -1,19 +1,16 @@
 module "remote_state_bucket" {
-  source         = "./modules/s3-bucket"
-  bucket_name    = "terraform-remote-state"
-  with_random_id = true
+  source      = "./modules/s3-bucket"
+  bucket_name = "terraform-remote-state"
 }
 
 module "postgres_backups_bucket" {
-  source         = "./modules/s3-bucket"
-  bucket_name    = "postgres-backups"
-  with_random_id = true
+  source      = "./modules/s3-bucket"
+  bucket_name = "postgres-backups"
 }
 
 module "config_bucket" {
-  source         = "./modules/s3-bucket"
-  bucket_name    = "configuration"
-  with_random_id = true
+  source      = "./modules/s3-bucket"
+  bucket_name = "configuration"
 }
 
 resource "aws_iam_role" "iac_deployer" {
