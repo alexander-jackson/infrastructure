@@ -282,3 +282,19 @@ resource "aws_ses_domain_identity_verification" "opentracker" {
 
   depends_on = [aws_route53_record.opentracker_ses_verification]
 }
+
+resource "aws_route53_record" "opentracker_mail_mx" {
+  zone_id = aws_route53_zone.opentracker.id
+  name    = "mail"
+  type    = "MX"
+  ttl     = 300
+  records = ["10 feedback-smtp.eu-west-1.amazonses.com"]
+}
+
+resource "aws_route53_record" "opentracker_mail_txt" {
+  zone_id = aws_route53_zone.opentracker.id
+  name    = "mail"
+  type    = "TXT"
+  ttl     = 300
+  records = ["v=spf1 include:amazonses.com ~all"]
+}
