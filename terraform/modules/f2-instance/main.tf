@@ -26,12 +26,12 @@ resource "aws_iam_policy" "this" {
       {
         Action   = ["s3:ListBucket"]
         Effect   = "Allow"
-        Resource = var.config_arn
+        Resource = format("arn:aws:s3:::%s", var.config_bucket)
       },
       {
         Action   = ["s3:GetObject"]
         Effect   = "Allow"
-        Resource = format("%s/*", var.config_arn)
+        Resource = format("arn:aws:s3:::%s/*", var.config_bucket)
       },
     ]
   })

@@ -217,7 +217,6 @@ module "secondary" {
 
   name          = "secondary"
   tag           = "20231018-1716"
-  config_arn    = module.config_bucket.arn
   vpc_id        = aws_vpc.main.id
   subnet_id     = aws_subnet.main.id
   ami           = "ami-0ab14756db2442499"
