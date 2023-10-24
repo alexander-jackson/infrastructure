@@ -8,11 +8,6 @@ variable "tag" {
   description = "The tag of the Docker image to run for `f2`"
 }
 
-variable "config_arn" {
-  type        = string
-  description = "The ARN of the configuration bucket"
-}
-
 variable "vpc_id" {
   type        = string
   description = "The identifier of the VPC for the security groups"
