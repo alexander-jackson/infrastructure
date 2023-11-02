@@ -226,20 +226,6 @@ module "primary" {
   config_key    = "f2/config.yaml"
 }
 
-module "secondary" {
-  source = "./modules/f2-instance"
-
-  name          = "secondary"
-  tag           = "20231018-1716"
-  vpc_id        = aws_vpc.main.id
-  subnet_id     = aws_subnet.main.id
-  ami           = "ami-0ab14756db2442499"
-  instance_type = "t2.nano"
-  key_name      = aws_key_pair.main.key_name
-  config_bucket = module.config_bucket.name
-  config_key    = "f2/config.yaml"
-}
-
 # Route table definitions
 resource "aws_route_table" "gateway" {
   vpc_id = aws_vpc.main.id
@@ -258,14 +244,6 @@ resource "aws_route_table_association" "gateway" {
 # Route 53 definitions
 resource "aws_route53_zone" "opentracker" {
   name = "opentracker.app"
-}
-
-resource "aws_route53_record" "opentracker_testing" {
-  zone_id = aws_route53_zone.opentracker.id
-  name    = "testing"
-  type    = "A"
-  ttl     = 300
-  records = [module.secondary.public_ip]
 }
 
 resource "aws_route53_record" "opentracker" {
