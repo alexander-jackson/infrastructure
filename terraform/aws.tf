@@ -265,7 +265,7 @@ resource "aws_route53_record" "opentracker_testing" {
   name    = "testing"
   type    = "A"
   ttl     = 300
-  records = [module.primary.public_ip]
+  records = [module.secondary.public_ip]
 }
 
 resource "aws_route53_record" "opentracker" {
@@ -273,5 +273,5 @@ resource "aws_route53_record" "opentracker" {
   name    = ""
   type    = "A"
   ttl     = 300
-  records = [module.secondary.public_ip]
+  records = [module.primary.public_ip]
 }
