@@ -33,6 +33,16 @@ resource "aws_iam_policy" "this" {
         Effect   = "Allow"
         Resource = format("arn:aws:s3:::%s/*", var.config_bucket)
       },
+      {
+        Action   = ["route53:ListHostedZones", "route53:GetChange"]
+        Effect   = "Allow"
+        Resource = "*"
+      },
+      {
+        Action   = ["route53:ChangeResourceRecordSets"]
+        Effect   = "Allow"
+        Resource = format("arn:aws:route53:::hostedzone/%s", var.hosted_zone_id)
+      },
     ]
   })
 }
