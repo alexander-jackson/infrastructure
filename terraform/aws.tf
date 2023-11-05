@@ -88,7 +88,12 @@ resource "aws_iam_user_policy" "personal" {
     Version = "2012-10-17"
     Statement = [
       {
-        Action   = ["s3:ListAllMyBuckets", "s3:ListBucket", "s3:Get*", "iam:ChangePassword"]
+        Action = [
+          "ec2:DescribeInstances",
+          "s3:ListAllMyBuckets",
+          "s3:ListBucket",
+          "iam:ChangePassword",
+        ]
         Effect   = "Allow"
         Resource = "*"
       },
