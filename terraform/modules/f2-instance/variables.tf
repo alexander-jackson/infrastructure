@@ -42,3 +42,8 @@ variable "config_key" {
   type        = string
   description = "The key in the bucket to use for configuration"
 }
+
+variable "hosted_zone_id" {
+  type        = string
+  description = "The hosted zone identifier for Let's Encrypt renewals"
+}
