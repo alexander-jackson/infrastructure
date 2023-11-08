@@ -259,3 +259,11 @@ resource "aws_route53_record" "opentracker" {
   ttl     = 300
   records = [module.secondary.public_ip]
 }
+
+resource "aws_route53_record" "opentracker_tags" {
+  zone_id = aws_route53_zone.opentracker.id
+  name    = "tags"
+  type    = "A"
+  ttl     = 300
+  records = [module.secondary.public_ip]
+}
