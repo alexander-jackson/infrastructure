@@ -8,11 +8,20 @@ alb:
         cert_file:
           location: s3
           bucket: configuration-68f6c7
-          key: f2/fullchain.pem
+          key: f2/certificates/opentracker.app/fullchain.pem
         key_file:
           location: s3
           bucket: configuration-68f6c7
-          key: f2/privkey.pem
+          key: f2/certificates/opentracker.app/privkey.pem
+      tags.opentracker.app:
+        cert_file:
+          location: s3
+          bucket: configuration-68f6c7
+          key: f2/certificates/tags.opentracker.app/fullchain.pem
+        key_file:
+          location: s3
+          bucket: configuration-68f6c7
+          key: f2/certificates/tags.opentracker.app/privkey.pem
 
 secrets:
   private_key:
@@ -47,8 +56,7 @@ services:
     tag: 20231108-0708
     port: 4025
     replicas: 1
-    host: opentracker.app
-    path_prefix: /update-tag
+    host: tags.opentracker.app
     environment:
       PASSPHRASE: secret:mgVl9nw3UsAI7Kw5U7g0iAmba9YeW3Ly9i+FvJpR9EFbnfzo1EOXGBqPBVo8qhPtHjb6iW1zOqOba4y+cFj7luoRy7JQZHAu8OeJEJyRadJJQgZH3TKJtLWjM5YOtwTOmPhv9NF3FAnAqaSAelsBAu4HLVg7iR9CavLfcGUcu4t9eQtmVcaQC1jgJpJP6luy3z0NOkkoG+SCzGBIwYQGqAsGvhYqi9A49GgErUdzZjaAIb8VK8hQMOPXxQ2k7pPfe/VipkTmd2vGkdVhrU6PGBkYIwxBh6IbxajRgyau7hi7vekau/xE30VoklP/t9GpmMBJSOA6mKgFly/G8vxw7g==
       GIT_CLONE_PRIVATE_KEY: s3://configuration-68f6c7/tag-updater/id_rsa
