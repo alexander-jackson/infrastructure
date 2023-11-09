@@ -60,3 +60,12 @@ services:
     environment:
       PASSPHRASE: secret:mgVl9nw3UsAI7Kw5U7g0iAmba9YeW3Ly9i+FvJpR9EFbnfzo1EOXGBqPBVo8qhPtHjb6iW1zOqOba4y+cFj7luoRy7JQZHAu8OeJEJyRadJJQgZH3TKJtLWjM5YOtwTOmPhv9NF3FAnAqaSAelsBAu4HLVg7iR9CavLfcGUcu4t9eQtmVcaQC1jgJpJP6luy3z0NOkkoG+SCzGBIwYQGqAsGvhYqi9A49GgErUdzZjaAIb8VK8hQMOPXxQ2k7pPfe/VipkTmd2vGkdVhrU6PGBkYIwxBh6IbxajRgyau7hi7vekau/xE30VoklP/t9GpmMBJSOA6mKgFly/G8vxw7g==
       GIT_CLONE_PRIVATE_KEY: s3://configuration-68f6c7/tag-updater/id_rsa
+
+  stock-notifier:
+    image: alexanderjackson/stock-notifier
+    tag: 20231109-1612
+    port: 4025
+    replicas: 1
+    host: stocks.opentracker.app
+    environment:
+      PRODUCTS: secret:PnbCf9QczRmbqAnzIUizfP2Sf7nFIouHiOwHEnmLcIEabjdhaN7l2YS5+u3DyDqX56W8i0x2oXK6RnYRLIhCpLDiYfpm09EzBI4TwM6z0Q3eMYDH/1yVhfNt1QYBsfe/ECrkIm3N2ivq6fuvTM0bVtryA/olgndYblmxZRoDhsnilC5QGKtYUQwPrvrz8DhZr4jwBs2FvS+K9U1fqcxYGP69an7d8ijL1LtU4RXQ4ZOnFo/NuvtTJx7kUNPDlsT5QcZhDNt4GTX6Mxt5Ak85A0QuYsAbGkLnFy4hnks6go+l9bXuprBN4BaAPvM+2JZNItchyiEipsgLhewv6Achyw==
