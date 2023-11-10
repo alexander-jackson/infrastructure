@@ -63,7 +63,7 @@ services:
 
   stock-notifier:
     image: alexanderjackson/stock-notifier
-    tag: 20231109-1612
+    tag: 20231110-0935
     port: 4025
     replicas: 1
     host: stocks.opentracker.app
