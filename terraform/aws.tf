@@ -202,8 +202,9 @@ resource "aws_vpc" "main" {
 }
 
 resource "aws_subnet" "main" {
-  vpc_id     = aws_vpc.main.id
-  cidr_block = "10.0.0.0/24"
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = "10.0.0.0/24"
+  availability_zone = "eu-west-1a"
 }
 
 # Internet Gateway definition
@@ -230,6 +231,24 @@ module "secondary" {
   config_bucket  = module.config_bucket.name
   config_key     = "f2/config.yaml"
   hosted_zone_id = aws_route53_zone.opentracker.id
+}
+
+module "database" {
+  source = "./modules/postgres"
+  count  = 0
+
+  name                 = "database"
+  major_version        = "15"
+  backup_bucket        = module.postgres_backups_bucket.name
+  configuration_bucket = module.config_bucket.name
+  vpc_id               = aws_vpc.main.id
+  subnet_id            = aws_subnet.main.id
+  availability_zone    = "eu-west-1a"
+  storage_size         = 1
+  ami                  = "ami-0a1b36900d715a3ad"
+  instance_type        = "t4g.nano"
+  key_name             = aws_key_pair.main.key_name
+  permitted_access     = [module.secondary.security_group_id]
 }
 
 # Route table definitions

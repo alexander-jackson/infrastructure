@@ -26,12 +26,12 @@ resource "aws_iam_policy" "this" {
       {
         Action   = ["s3:ListBucket"]
         Effect   = "Allow"
-        Resource = var.backups_arn
+        Resource = format("arn:aws:s3:::%s", var.backup_bucket)
       },
       {
         Action   = ["s3:PutObject"]
         Effect   = "Allow"
-        Resource = format("%s/*", var.backups_arn)
+        Resource = format("arn:aws:s3:::%s/*", var.backup_bucket)
       },
       {
         Action   = ["s3:GetObject"]
@@ -117,10 +117,11 @@ data "aws_subnet" "self" {
 
 # Instance definition
 resource "aws_instance" "this" {
-  ami           = var.ami
-  instance_type = var.instance_type
-  key_name      = var.key_name
-  subnet_id     = var.subnet_id
+  ami               = var.ami
+  instance_type     = var.instance_type
+  key_name          = var.key_name
+  subnet_id         = var.subnet_id
+  availability_zone = var.availability_zone
 
   user_data = templatefile("${path.module}/templates/setup.sh", {
     major_version        = var.major_version
@@ -141,4 +142,16 @@ resource "aws_instance" "this" {
 resource "aws_eip" "this" {
   instance = aws_instance.this.id
   domain   = "vpc"
+}
+
+# Storage definition
+resource "aws_ebs_volume" "this" {
+  availability_zone = var.availability_zone
+  size              = var.storage_size
+}
+
+resource "aws_volume_attachment" "this" {
+  device_name = "/dev/sdf"
+  volume_id   = aws_ebs_volume.this.id
+  instance_id = aws_instance.this.id
 }
