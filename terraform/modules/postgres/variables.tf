@@ -8,9 +8,9 @@ variable "major_version" {
   description = "The major version of Postgres to run on the instance"
 }
 
-variable "backups_arn" {
+variable "backup_bucket" {
   type        = string
-  description = "The ARN of the backups bucket"
+  description = "The name of the backup bucket"
 }
 
 variable "configuration_bucket" {
@@ -26,6 +26,16 @@ variable "vpc_id" {
 variable "subnet_id" {
   type        = string
   description = "The identifier of the subnet to place the instance in"
+}
+
+variable "availability_zone" {
+  type        = string
+  description = "The availability zone for the instance and storage volume"
+}
+
+variable "storage_size" {
+  type        = number
+  description = "The amount of storage to allocate for the instance in GB"
 }
 
 variable "ami" {
