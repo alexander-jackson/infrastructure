@@ -220,16 +220,22 @@ resource "aws_key_pair" "main" {
 
 module "secondary" {
   source = "./modules/f2-instance"
+  name   = "secondary"
 
-  name           = "secondary"
-  tag            = "20231102-2034"
-  vpc_id         = aws_vpc.main.id
-  subnet_id      = aws_subnet.main.id
-  ami            = "ami-0ab14756db2442499"
-  instance_type  = "t2.nano"
+  instance = {
+    ami       = "ami-0ab14756db2442499"
+    vpc_id    = aws_vpc.main.id
+    subnet_id = aws_subnet.main.id
+    type      = "t2.nano"
+  }
+
+  configuration = {
+    bucket    = module.config_bucket.name
+    key       = "f2/config.yaml"
+    image_tag = "20231102-2034"
+  }
+
   key_name       = aws_key_pair.main.key_name
-  config_bucket  = module.config_bucket.name
-  config_key     = "f2/config.yaml"
   hosted_zone_id = aws_route53_zone.opentracker.id
 }
 

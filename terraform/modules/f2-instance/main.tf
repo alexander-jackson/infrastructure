@@ -26,12 +26,12 @@ resource "aws_iam_policy" "this" {
       {
         Action   = ["s3:ListBucket"]
         Effect   = "Allow"
-        Resource = format("arn:aws:s3:::%s", var.config_bucket)
+        Resource = format("arn:aws:s3:::%s", var.configuration.bucket)
       },
       {
         Action   = ["s3:GetObject"]
         Effect   = "Allow"
-        Resource = format("arn:aws:s3:::%s/*", var.config_bucket)
+        Resource = format("arn:aws:s3:::%s/*", var.configuration.bucket)
       },
       {
         Action   = ["route53:ListHostedZones", "route53:GetChange"]
@@ -61,7 +61,7 @@ resource "aws_iam_instance_profile" "this" {
 resource "aws_security_group" "this" {
   name        = format("%s-f2-instance", var.name)
   description = format("Security group for the %s f2-instance", var.name)
-  vpc_id      = var.vpc_id
+  vpc_id      = var.instance.vpc_id
 }
 
 resource "aws_security_group_rule" "allow_inbound_ssh" {
@@ -125,7 +125,7 @@ resource "aws_security_group_rule" "allow_outbound_postgres" {
 }
 
 data "aws_subnet" "self" {
-  id = var.subnet_id
+  id = var.instance.subnet_id
 }
 
 resource "aws_security_group_rule" "allow_outbound_subnet_postgres" {
@@ -139,15 +139,15 @@ resource "aws_security_group_rule" "allow_outbound_subnet_postgres" {
 }
 
 resource "aws_instance" "this" {
-  ami           = var.ami
-  instance_type = var.instance_type
+  ami           = var.instance.ami
+  instance_type = var.instance.type
   key_name      = var.key_name
-  subnet_id     = var.subnet_id
+  subnet_id     = var.instance.subnet_id
 
   user_data = templatefile("${path.module}/scripts/setup.sh", {
-    tag           = var.tag
-    config_bucket = var.config_bucket
-    config_key    = var.config_key
+    tag           = var.configuration.image_tag
+    config_bucket = var.configuration.bucket
+    config_key    = var.configuration.key
   })
 
   vpc_security_group_ids = [aws_security_group.this.id]
