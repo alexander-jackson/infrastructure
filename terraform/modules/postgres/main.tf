@@ -26,17 +26,17 @@ resource "aws_iam_policy" "this" {
       {
         Action   = ["s3:ListBucket"]
         Effect   = "Allow"
-        Resource = format("arn:aws:s3:::%s", var.backup_bucket)
+        Resource = format("arn:aws:s3:::%s", var.configuration.backup_bucket)
       },
       {
         Action   = ["s3:PutObject"]
         Effect   = "Allow"
-        Resource = format("arn:aws:s3:::%s/*", var.backup_bucket)
+        Resource = format("arn:aws:s3:::%s/*", var.configuration.backup_bucket)
       },
       {
         Action   = ["s3:GetObject"]
         Effect   = "Allow"
-        Resource = format("arn:aws:s3:::%s/postgres/*", var.configuration_bucket)
+        Resource = format("arn:aws:s3:::%s/postgres/*", var.configuration.configuration_bucket)
       },
     ]
   })
@@ -56,7 +56,7 @@ resource "aws_iam_instance_profile" "this" {
 resource "aws_security_group" "this" {
   name        = format("%s-postgres", var.name)
   description = format("Security group for the %s Postgres instance", var.name)
-  vpc_id      = var.vpc_id
+  vpc_id      = var.instance.vpc_id
 }
 
 resource "aws_security_group_rule" "allow_inbound_ssh" {
@@ -112,20 +112,20 @@ resource "aws_security_group_rule" "allow_inbound_connections_from_instances" {
 }
 
 data "aws_subnet" "self" {
-  id = var.subnet_id
+  id = var.instance.subnet_id
 }
 
 # Instance definition
 resource "aws_instance" "this" {
-  ami               = var.ami
-  instance_type     = var.instance_type
+  ami               = var.instance.ami
+  instance_type     = var.instance.type
   key_name          = var.key_name
-  subnet_id         = var.subnet_id
-  availability_zone = var.availability_zone
+  subnet_id         = var.instance.subnet_id
+  availability_zone = var.instance.availability_zone
 
   user_data = templatefile("${path.module}/templates/setup.sh", {
-    major_version        = var.major_version
-    configuration_bucket = var.configuration_bucket
+    major_version        = var.configuration.major_version
+    configuration_bucket = var.configuration.configuration_bucket
 
     hba_file = templatefile("${path.module}/templates/pg_hba.conf", {
       subnet_cidr_block = data.aws_subnet.self.cidr_block
@@ -146,8 +146,8 @@ resource "aws_eip" "this" {
 
 # Storage definition
 resource "aws_ebs_volume" "this" {
-  availability_zone = var.availability_zone
-  size              = var.storage_size
+  availability_zone = var.instance.availability_zone
+  size              = var.configuration.storage_size
 }
 
 resource "aws_volume_attachment" "this" {

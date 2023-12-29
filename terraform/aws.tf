@@ -223,10 +223,10 @@ module "secondary" {
   name   = "secondary"
 
   instance = {
+    type      = "t2.nano"
     ami       = "ami-0ab14756db2442499"
     vpc_id    = aws_vpc.main.id
     subnet_id = aws_subnet.main.id
-    type      = "t2.nano"
   }
 
   configuration = {
@@ -241,20 +241,26 @@ module "secondary" {
 
 module "database" {
   source = "./modules/postgres"
+  name   = "database"
   count  = 0
 
-  name                 = "database"
-  major_version        = "15"
-  backup_bucket        = module.postgres_backups_bucket.name
-  configuration_bucket = module.config_bucket.name
-  vpc_id               = aws_vpc.main.id
-  subnet_id            = aws_subnet.main.id
-  availability_zone    = "eu-west-1a"
-  storage_size         = 1
-  ami                  = "ami-0a1b36900d715a3ad"
-  instance_type        = "t4g.nano"
-  key_name             = aws_key_pair.main.key_name
-  permitted_access     = [module.secondary.security_group_id]
+  instance = {
+    type              = "t4g.nano"
+    ami               = "ami-0a1b36900d715a3ad"
+    vpc_id            = aws_vpc.main.id
+    subnet_id         = aws_subnet.main.id
+    availability_zone = "eu-west-1a"
+  }
+
+  configuration = {
+    major_version        = "15"
+    storage_size         = 1
+    backup_bucket        = module.postgres_backups_bucket.name
+    configuration_bucket = module.config_bucket.name
+  }
+
+  key_name         = aws_key_pair.main.key_name
+  permitted_access = [module.secondary.security_group_id]
 }
 
 # Route table definitions
