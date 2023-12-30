@@ -242,7 +242,6 @@ module "secondary" {
 module "database" {
   source = "./modules/postgres"
   name   = "database"
-  count  = 0
 
   instance = {
     type              = "t4g.nano"
