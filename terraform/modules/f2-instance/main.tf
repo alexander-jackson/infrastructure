@@ -74,6 +74,16 @@ resource "aws_security_group_rule" "allow_inbound_ssh" {
   cidr_blocks       = ["0.0.0.0/0"]
 }
 
+resource "aws_security_group_rule" "allow_inbound_ipv6_ssh" {
+  description       = "Allow inbound SSH from anywhere on IPv6"
+  type              = "ingress"
+  from_port         = 22
+  to_port           = 22
+  protocol          = "tcp"
+  security_group_id = aws_security_group.this.id
+  cidr_blocks       = ["::/0"]
+}
+
 resource "aws_security_group_rule" "allow_inbound_https" {
   description       = "Allow inbound HTTPS from anywhere"
   type              = "ingress"
@@ -85,7 +95,7 @@ resource "aws_security_group_rule" "allow_inbound_https" {
 }
 
 resource "aws_security_group_rule" "allow_inbound_ipv6_https" {
-  description       = "Allow inbound HTTPS from anywhere on IPV6"
+  description       = "Allow inbound HTTPS from anywhere on IPv6"
   type              = "ingress"
   from_port         = 443
   to_port           = 443
