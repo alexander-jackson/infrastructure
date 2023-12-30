@@ -144,11 +144,6 @@ resource "aws_instance" "this" {
   user_data_replace_on_change = true
 }
 
-resource "aws_eip" "this" {
-  instance = aws_instance.this.id
-  domain   = "vpc"
-}
-
 # Storage definition
 resource "aws_ebs_volume" "this" {
   availability_zone = var.instance.availability_zone
