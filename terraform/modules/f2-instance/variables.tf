@@ -5,10 +5,11 @@ variable "name" {
 
 variable "instance" {
   type = object({
-    ami       = string
-    vpc_id    = string
-    subnet_id = string
-    type      = string
+    ami                = string
+    vpc_id             = string
+    subnet_id          = string
+    type               = string
+    ipv6_address_count = number
   })
   description = "Parameters for the underlying EC2 instance"
 }
