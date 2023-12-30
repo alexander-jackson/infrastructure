@@ -84,6 +84,16 @@ resource "aws_security_group_rule" "allow_inbound_https" {
   cidr_blocks       = ["0.0.0.0/0"]
 }
 
+resource "aws_security_group_rule" "allow_inbound_ipv6_https" {
+  description       = "Allow inbound HTTPS from anywhere on IPV6"
+  type              = "ingress"
+  from_port         = 443
+  to_port           = 443
+  protocol          = "tcp"
+  security_group_id = aws_security_group.this.id
+  ipv6_cidr_blocks  = ["::/0"]
+}
+
 resource "aws_security_group_rule" "allow_outbound_ssh" {
   description       = "Allow outbound SSH to anywhere"
   type              = "egress"
@@ -151,8 +161,8 @@ resource "aws_instance" "this" {
   })
 
   vpc_security_group_ids = [aws_security_group.this.id]
-
-  iam_instance_profile = aws_iam_instance_profile.this.name
+  iam_instance_profile   = aws_iam_instance_profile.this.name
+  ipv6_address_count     = var.instance.ipv6_address_count
 
   metadata_options {
     # Since we'll be running containers, we need an extra hop
