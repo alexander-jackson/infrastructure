@@ -55,11 +55,29 @@ function update_postgres_configuration() {
   # Update the HBA configuration
   mv /etc/postgresql/${major_version}/main/pg_hba.conf /etc/postgresql/${major_version}/main/pg_hba.conf.bak
   cat <<'EOF' > /etc/postgresql/${major_version}/main/pg_hba.conf
-  ${hba_file}
+${hba_file}
 EOF
 
   # Restart Postgres to apply the new settings
   systemctl restart postgresql
+}
+
+function setup_automated_backups() {
+  # Write the backup script out
+  script_dir="/root/postgres"
+  script_path="$script_dir/backup.sh"
+
+  mkdir -p $script_dir
+
+  cat <<'EOF' > $script_path
+${backup_script}
+EOF
+
+  # Make it executable
+  chmod +x $script_path
+
+  # Get `cron` to run it overnight
+  (crontab -l ; echo "0 1 * * * $script_path") | crontab -
 }
 
 function main() {
@@ -68,6 +86,7 @@ function main() {
   repoint_postgres_data_directory
   set_postgres_password
   update_postgres_configuration
+  setup_automated_backups
 }
 
 main

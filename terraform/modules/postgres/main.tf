@@ -130,6 +130,11 @@ resource "aws_instance" "this" {
     hba_file = templatefile("${path.module}/templates/pg_hba.conf", {
       subnet_cidr_block = data.aws_subnet.self.cidr_block
     })
+
+    backup_script = templatefile("${path.module}/templates/backup.sh", {
+      backup_bucket        = var.configuration.backup_bucket
+      configuration_bucket = var.configuration.configuration_bucket
+    })
   })
 
   vpc_security_group_ids = [aws_security_group.this.id]
