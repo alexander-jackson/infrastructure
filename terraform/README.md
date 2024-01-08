@@ -1,13 +1,18 @@
 # Terraform
 
-Everything about the server is managed by Terraform, including the project,
-droplet that things are running on and the DNS records that point to it.
+Definitions for any infrastructure required to run applications. Everything is
+now managed by Terraform.
 
 ## Contents
 
-`main.tf` currently stores definitions for:
+`aws.tf` contains the definitions for everything in AWS and `digital_ocean.tf`
+contains the remaining Digital Ocean infrastructure. The `modules` directory
+contains some custom components for definitions such as S3 buckets, `f2`
+instances and PostgreSQL databases.
 
-* The Digital Ocean project everything is managed under
-* The server instance itself
-* The top level DNS entry `blackboards.pl`
-* The DNS records for individual services, such as `blackboards` at the root
+The project defines:
+
+* The `f2` and PostgreSQL instances that operate projects
+* VPC and subnet stacks for networking
+* DNS records for various services
+* User accounts for managing or viewing the applications
