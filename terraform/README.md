@@ -5,10 +5,9 @@ now managed by Terraform.
 
 ## Contents
 
-`aws.tf` contains the definitions for everything in AWS and `digital_ocean.tf`
-contains the remaining Digital Ocean infrastructure. The `modules` directory
-contains some custom components for definitions such as S3 buckets, `f2`
-instances and PostgreSQL databases.
+`aws.tf` contains the definitions for everything in AWS. The `modules`
+directory contains some custom components for definitions such as S3 buckets,
+`f2` instances and PostgreSQL databases.
 
 The project defines:
 
