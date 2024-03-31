@@ -319,3 +319,44 @@ resource "aws_sns_topic_subscription" "outages" {
   protocol  = "email"
   endpoint  = "alexanderjackson@protonmail.com"
 }
+
+resource "aws_ecr_repository" "uptime" {
+  name                 = "uptime"
+  image_tag_mutability = "IMMUTABLE"
+}
+
+resource "aws_iam_user" "image_builder" {
+  name = "image.builder"
+}
+
+resource "aws_iam_access_key" "image_builder" {
+  user    = aws_iam_user.image_builder.name
+  pgp_key = file("keys/pgp-b64.key")
+}
+
+resource "aws_iam_user_policy" "image_builder" {
+  name = format("%s.policy", aws_iam_user.image_builder.name)
+  user = aws_iam_user.image_builder.name
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = [
+          "ecr:CompleteLayerUpload",
+          "ecr:UploadLayerPart",
+          "ecr:InitiateLayerUpload",
+          "ecr:BatchCheckLayerAvailability",
+          "ecr:PutImage"
+        ]
+        Effect   = "Allow"
+        Resource = aws_ecr_repository.uptime.arn
+      },
+      {
+        Action   = ["ecr:GetAuthorizationToken"]
+        Effect   = "Allow"
+        Resource = "*"
+      },
+    ]
+  })
+}
