@@ -360,3 +360,35 @@ resource "aws_iam_user_policy" "image_builder" {
     ]
   })
 }
+
+data "aws_iam_policy_document" "assume_role" {
+  statement {
+    effect = "Allow"
+
+    principals {
+      type        = "Service"
+      identifiers = ["lambda.amazonaws.com"]
+    }
+
+    actions = ["sts:AssumeRole"]
+  }
+}
+
+resource "aws_iam_role" "uptime" {
+  name               = "uptime"
+  assume_role_policy = data.aws_iam_policy_document.assume_role.json
+}
+
+locals {
+  uptime_tag = "20240331-1550"
+}
+
+resource "aws_lambda_function" "uptime" {
+  function_name = "uptime"
+  image_uri     = format("%s/%s", aws_ecr_repository.uptime.repository_url, local.uptime_tag)
+  package_type  = "Image"
+
+  role          = aws_iam_role.uptime.arn
+  architectures = ["x86_64"]
+  description   = "Monitors uptime for a given URI"
+}
