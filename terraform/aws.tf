@@ -392,3 +392,56 @@ resource "aws_lambda_function" "uptime" {
   architectures = ["x86_64"]
   description   = "Monitors uptime for a given URI"
 }
+
+data "aws_iam_policy_document" "uptime_trigger_assume_role" {
+  statement {
+    effect = "Allow"
+
+    principals {
+      type        = "Service"
+      identifiers = ["scheduler.amazonaws.com"]
+    }
+
+    actions = ["sts:AssumeRole"]
+  }
+}
+
+resource "aws_iam_role" "uptime_trigger" {
+  name               = "uptime-trigger"
+  assume_role_policy = data.aws_iam_policy_document.uptime_trigger_assume_role.json
+}
+
+resource "aws_iam_policy" "uptime_trigger" {
+  name        = "uptime-trigger"
+  description = "Policy for uptime-trigger-role"
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action   = ["lambda:InvokeFunction"]
+        Effect   = "Allow"
+        Resource = aws_lambda_function.uptime.arn
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "uptime_trigger" {
+  role       = aws_iam_role.uptime_trigger.name
+  policy_arn = aws_iam_policy.uptime_trigger.arn
+}
+
+resource "aws_scheduler_schedule" "uptime" {
+  name                = "uptime-trigger"
+  schedule_expression = "rate(1 minutes)"
+
+  flexible_time_window {
+    mode = "OFF"
+  }
+
+  target {
+    arn      = aws_lambda_function.uptime.arn
+    role_arn = aws_iam_role.uptime_trigger.arn
+  }
+}
