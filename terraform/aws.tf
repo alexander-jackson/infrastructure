@@ -385,7 +385,7 @@ locals {
 
 resource "aws_lambda_function" "uptime" {
   function_name = "uptime"
-  image_uri     = format("%s/%s", aws_ecr_repository.uptime.repository_url, local.uptime_tag)
+  image_uri     = format("%s:%s", aws_ecr_repository.uptime.repository_url, local.uptime_tag)
   package_type  = "Image"
 
   role          = aws_iam_role.uptime.arn
