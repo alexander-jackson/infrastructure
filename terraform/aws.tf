@@ -380,7 +380,7 @@ resource "aws_iam_role" "uptime" {
 }
 
 locals {
-  uptime_tag = "20240331-1712"
+  uptime_tag = "20240331-1855"
 }
 
 resource "aws_lambda_function" "uptime" {
@@ -391,6 +391,12 @@ resource "aws_lambda_function" "uptime" {
   role          = aws_iam_role.uptime.arn
   architectures = ["x86_64"]
   description   = "Monitors uptime for a given URI"
+
+  environment {
+    variables = {
+      TARGET_URI = "https://opentracker.app"
+    }
+  }
 }
 
 data "aws_iam_policy_document" "uptime_trigger_assume_role" {
