@@ -68,7 +68,7 @@ resource "aws_iam_role" "uptime" {
 }
 
 locals {
-  uptime_tag = "20240331-1916"
+  uptime_tag = "20240401-1455"
 }
 
 resource "aws_lambda_function" "uptime" {
