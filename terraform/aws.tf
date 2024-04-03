@@ -90,6 +90,8 @@ resource "aws_iam_user_policy" "personal" {
       {
         Action = [
           "autoscaling:DescribeAutoScalingGroups",
+          "ce:GetCostAndUsage",
+          "ce:GetCostForecast",
           "cloudwatch:DescribeAlarms",
           "cloudwatch:GetMetricData",
           "cloudwatch:GetMetricStatistics",
