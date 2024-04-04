@@ -26,14 +26,7 @@ resource "aws_iam_role" "iac_deployer" {
         Principal = {
           Service = "s3.amazonaws.com"
         }
-      },
-      {
-        Action = "sts:AssumeRole"
-        Effect = "Allow"
-        Principal = {
-          AWS = aws_iam_user.personal.arn
-        }
-      },
+      }
     ]
   })
 }
@@ -71,81 +64,11 @@ resource "aws_iam_role_policy_attachment" "iac_deployer" {
   policy_arn = aws_iam_policy.iac_deployer.arn
 }
 
-resource "aws_iam_user" "personal" {
+module "personal" {
+  source = "./modules/user"
+
   name = "alex.jackson"
-}
-
-resource "aws_iam_access_key" "personal" {
-  user    = aws_iam_user.personal.name
-  pgp_key = file("keys/pgp-b64.key")
-}
-
-resource "aws_iam_user_policy" "personal" {
-  name = format("%s.policy", aws_iam_user.personal.name)
-  user = aws_iam_user.personal.name
-
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Action = [
-          "autoscaling:DescribeAutoScalingGroups",
-          "ce:GetCostAndUsage",
-          "ce:GetCostForecast",
-          "cloudwatch:DescribeAlarms",
-          "cloudwatch:GetMetricData",
-          "cloudwatch:GetMetricStatistics",
-          "cloudwatch:GetMetricStream",
-          "cloudwatch:ListDashboards",
-          "cloudwatch:ListMetrics",
-          "ec2:DescribeAddresses",
-          "ec2:DescribeImages",
-          "ec2:DescribeInstances",
-          "ec2:DescribeInstanceStatus",
-          "ec2:DescribeInstanceTypes",
-          "ec2:DescribeKeyPairs",
-          "ec2:DescribeSecurityGroups",
-          "ec2:DescribeSecurityGroupRules",
-          "ec2:DescribeRegions",
-          "ecr:DescribeImages",
-          "ecr:DescribeRepositories",
-          "ecr:GetRegistryScanningConfiguration",
-          "ecr:ListImages",
-          "iam:ChangePassword",
-          "iam:GetAccountPasswordPolicy",
-          "iam:GetRole",
-          "iam:GetLoginProfile",
-          "iam:GetPolicy",
-          "iam:GetUser",
-          "iam:ListAccessKeys",
-          "iam:ListAttachedRolePolicies",
-          "iam:ListGroups",
-          "iam:ListGroupsForUser",
-          "iam:ListMFADevices",
-          "iam:ListPolicies",
-          "iam:ListRolePolicies",
-          "iam:ListRoles",
-          "iam:ListSigningCertificates",
-          "iam:ListUsers",
-          "lambda:GetAccountSettings",
-          "lambda:GetFunction",
-          "lambda:GetFunctionEventInvokeConfig",
-          "lambda:GetPolicy",
-          "lambda:ListAliases",
-          "lambda:ListEventSourceMappings",
-          "lambda:ListFunctions",
-          "lambda:ListFunctionUrlConfigs",
-          "lambda:ListProvisionedConcurrencyConfigs",
-          "lambda:ListTags",
-          "lambda:ListVersionsByFunction",
-          "s3:ListAllMyBuckets",
-          "s3:ListBucket",
-        ]
-        Effect   = "Allow"
-        Resource = "*"
-      }
-    ]
-  })
+  key  = "pgp-b64.key"
 }
 
 resource "aws_iam_user" "github_actions" {
@@ -171,11 +94,6 @@ resource "aws_iam_user_policy" "github_actions" {
       }
     ]
   })
-}
-
-resource "aws_iam_user_login_profile" "personal" {
-  user    = aws_iam_user.personal.name
-  pgp_key = file("keys/pgp-b64.key")
 }
 
 resource "aws_iam_user" "postgres_backups" {
