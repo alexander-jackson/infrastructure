@@ -143,11 +143,6 @@ resource "aws_iam_user_policy" "personal" {
         ]
         Effect   = "Allow"
         Resource = "*"
-      },
-      {
-        Action   = "sts:AssumeRole",
-        Effect   = "Allow",
-        Resource = aws_iam_role.iac_deployer.arn
       }
     ]
   })
