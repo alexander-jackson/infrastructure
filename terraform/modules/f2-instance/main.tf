@@ -172,6 +172,7 @@ resource "aws_instance" "this" {
 
   vpc_security_group_ids = [aws_security_group.this.id]
   iam_instance_profile   = aws_iam_instance_profile.this.name
+  ipv6_address_count     = var.instance.ipv6_address_count
 
   metadata_options {
     # Since we'll be running containers, we need an extra hop

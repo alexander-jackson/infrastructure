@@ -166,7 +166,10 @@ resource "aws_vpc" "main" {
 resource "aws_subnet" "main" {
   vpc_id            = aws_vpc.main.id
   cidr_block        = "10.0.0.0/24"
+  ipv6_cidr_block   = cidrsubnet(aws_vpc.main.ipv6_cidr_block, 8, 0)
   availability_zone = "eu-west-1a"
+
+  assign_ipv6_address_on_creation = false
 }
 
 # Internet Gateway definition
@@ -180,27 +183,6 @@ resource "aws_key_pair" "main" {
   public_key = file("./keys/id_rsa.pub")
 }
 
-module "primary" {
-  source = "./modules/f2-instance"
-  name   = "primary"
-
-  instance = {
-    type      = "t2.nano"
-    ami       = "ami-0ab14756db2442499"
-    vpc_id    = aws_vpc.main.id
-    subnet_id = aws_subnet.main.id
-  }
-
-  configuration = {
-    bucket    = module.config_bucket.name
-    key       = "f2/config.yaml"
-    image_tag = "20240406-1025"
-  }
-
-  key_name       = aws_key_pair.main.key_name
-  hosted_zone_id = aws_route53_zone.opentracker.id
-}
-
 module "secondary" {
   source = "./modules/f2-instance"
   name   = "secondary"
@@ -210,6 +192,8 @@ module "secondary" {
     ami       = "ami-0ab14756db2442499"
     vpc_id    = aws_vpc.main.id
     subnet_id = aws_subnet.main.id
+
+    ipv6_address_count = 0
   }
 
   configuration = {
