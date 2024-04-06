@@ -199,27 +199,6 @@ module "primary" {
   hosted_zone_id = aws_route53_zone.opentracker.id
 }
 
-module "secondary" {
-  source = "./modules/f2-instance"
-  name   = "secondary"
-
-  instance = {
-    type      = "t2.nano"
-    ami       = "ami-0ab14756db2442499"
-    vpc_id    = aws_vpc.main.id
-    subnet_id = aws_subnet.main.id
-  }
-
-  configuration = {
-    bucket    = module.config_bucket.name
-    key       = "f2/config.yaml"
-    image_tag = "20231102-2034"
-  }
-
-  key_name       = aws_key_pair.main.key_name
-  hosted_zone_id = aws_route53_zone.opentracker.id
-}
-
 module "database" {
   source = "./modules/postgres"
   name   = "database"
@@ -240,7 +219,7 @@ module "database" {
   }
 
   key_name         = aws_key_pair.main.key_name
-  permitted_access = [module.secondary.security_group_id]
+  permitted_access = []
 }
 
 resource "aws_security_group_rule" "allow_inbound_connections_from_primary" {
