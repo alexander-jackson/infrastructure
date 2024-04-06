@@ -159,17 +159,12 @@ resource "aws_iam_user_policy" "configuration_deployer" {
 # Virtual Private Cloud definition
 resource "aws_vpc" "main" {
   cidr_block = "10.0.0.0/16"
-
-  assign_generated_ipv6_cidr_block = true
 }
 
 resource "aws_subnet" "main" {
   vpc_id            = aws_vpc.main.id
   cidr_block        = "10.0.0.0/24"
-  ipv6_cidr_block   = cidrsubnet(aws_vpc.main.ipv6_cidr_block, 8, 0)
   availability_zone = "eu-west-1a"
-
-  assign_ipv6_address_on_creation = true
 }
 
 # Internet Gateway definition
@@ -192,8 +187,6 @@ module "primary" {
     ami       = "ami-0ab14756db2442499"
     vpc_id    = aws_vpc.main.id
     subnet_id = aws_subnet.main.id
-
-    ipv6_address_count = 0
   }
 
   configuration = {
@@ -215,8 +208,6 @@ module "secondary" {
     ami       = "ami-0ab14756db2442499"
     vpc_id    = aws_vpc.main.id
     subnet_id = aws_subnet.main.id
-
-    ipv6_address_count = 0
   }
 
   configuration = {
