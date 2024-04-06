@@ -159,8 +159,6 @@ resource "aws_iam_user_policy" "configuration_deployer" {
 # Virtual Private Cloud definition
 resource "aws_vpc" "main" {
   cidr_block = "10.0.0.0/16"
-
-  assign_generated_ipv6_cidr_block = true
 }
 
 resource "aws_subnet" "main" {
