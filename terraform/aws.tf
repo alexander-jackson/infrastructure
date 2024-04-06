@@ -183,6 +183,29 @@ resource "aws_key_pair" "main" {
   public_key = file("./keys/id_rsa.pub")
 }
 
+module "primary" {
+  source = "./modules/f2-instance"
+  name   = "primary"
+
+  instance = {
+    type      = "t2.nano"
+    ami       = "ami-0ab14756db2442499"
+    vpc_id    = aws_vpc.main.id
+    subnet_id = aws_subnet.main.id
+
+    ipv6_address_count = 0
+  }
+
+  configuration = {
+    bucket    = module.config_bucket.name
+    key       = "f2/config.yaml"
+    image_tag = "20240406-1025"
+  }
+
+  key_name       = aws_key_pair.main.key_name
+  hosted_zone_id = aws_route53_zone.opentracker.id
+}
+
 module "secondary" {
   source = "./modules/f2-instance"
   name   = "secondary"
