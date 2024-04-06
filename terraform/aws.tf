@@ -240,7 +240,7 @@ module "database" {
   }
 
   key_name         = aws_key_pair.main.key_name
-  permitted_access = [module.secondary.security_group_id]
+  permitted_access = [module.primary.security_group_id, module.secondary.security_group_id]
 }
 
 # Route table definitions
