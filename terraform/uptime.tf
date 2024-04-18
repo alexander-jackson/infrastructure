@@ -1,3 +1,8 @@
+module "bucket" {
+  source      = "./modules/s3-bucket"
+  bucket_name = "uptime"
+}
+
 resource "aws_sns_topic" "outages" {
   name = "outages"
 }
@@ -65,6 +70,32 @@ data "aws_iam_policy_document" "assume_role" {
 resource "aws_iam_role" "uptime" {
   name               = "uptime"
   assume_role_policy = data.aws_iam_policy_document.assume_role.json
+}
+
+resource "aws_iam_policy" "uptime" {
+  name        = format("uptime-policy")
+  description = format("Policy for uptime")
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action   = ["s3:ListBucket"]
+        Effect   = "Allow"
+        Resource = module.bucket.arn
+      },
+      {
+        Action   = ["s3:GetObject", "s3:PutObject"]
+        Effect   = "Allow"
+        Resource = format("%s/*", module.bucket.arn)
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "uptime" {
+  role       = aws_iam_role.uptime.name
+  policy_arn = aws_iam_policy.uptime.arn
 }
 
 locals {
