@@ -99,7 +99,7 @@ resource "aws_iam_role_policy_attachment" "uptime" {
 }
 
 locals {
-  uptime_tag = "20240401-1455"
+  uptime_tag = "20240418-1934"
 }
 
 resource "aws_lambda_function" "uptime" {
@@ -113,7 +113,9 @@ resource "aws_lambda_function" "uptime" {
 
   environment {
     variables = {
-      TARGET_URI = "https://opentracker.app"
+      TARGET_URI   = "https://opentracker.app"
+      STATE_BUCKET = module.bucket.name
+      STATE_KEY    = "state.json"
     }
   }
 }
