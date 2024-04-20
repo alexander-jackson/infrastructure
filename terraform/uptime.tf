@@ -99,7 +99,7 @@ resource "aws_iam_role_policy_attachment" "uptime" {
 }
 
 locals {
-  uptime_tag = "20240418-1934"
+  uptime_tag = "20240420-1231"
 }
 
 resource "aws_lambda_function" "uptime" {
