@@ -155,3 +155,10 @@ resource "aws_volume_attachment" "this" {
   volume_id   = aws_ebs_volume.this.id
   instance_id = aws_instance.this.id
 }
+
+resource "aws_eip" "this" {
+  count = var.elastic_ip ? 1 : 0
+
+  instance = aws_instance.this.id
+  domain   = "vpc"
+}

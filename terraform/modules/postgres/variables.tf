@@ -34,3 +34,8 @@ variable "permitted_access" {
   description = "The security group identifiers that are allowed to access the instance"
   default     = []
 }
+
+variable "elastic_ip" {
+  type        = bool
+  description = "Whether the instance should have an elastic IP associated with it"
+}
