@@ -220,6 +220,7 @@ module "database" {
 
   key_name         = aws_key_pair.main.key_name
   permitted_access = []
+  elastic_ip       = false
 }
 
 resource "aws_security_group_rule" "allow_inbound_connections_from_primary" {
