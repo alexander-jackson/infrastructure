@@ -71,6 +71,13 @@ module "personal" {
   key  = "pgp-b64.key"
 }
 
+module "repositories" {
+  source   = "./modules/repository"
+  for_each = toset(["ticket-tracker"])
+
+  name = each.key
+}
+
 resource "aws_iam_user" "github_actions" {
   name = "github.actions"
 }
