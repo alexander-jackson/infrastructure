@@ -5,10 +5,10 @@ variable "name" {
 
 variable "instance" {
   type = object({
-    ami                = string
-    vpc_id             = string
-    subnet_id          = string
-    type               = string
+    ami       = string
+    vpc_id    = string
+    subnet_id = string
+    type      = string
   })
   description = "Parameters for the underlying EC2 instance"
 }
@@ -20,6 +20,15 @@ variable "configuration" {
     image_tag = string
   })
   description = "Parameters for the underlying `f2` instance to use"
+}
+
+variable "ecr" {
+  type = object({
+    account_id = string
+    region     = string
+    repository = string
+  })
+  description = "Configuration for pulling images from ECR"
 }
 
 variable "key_name" {
