@@ -46,9 +46,9 @@ resource "aws_iam_policy" "this" {
         ]
         Effect = "Allow"
         Resource = [format(
-          "%s.dkr.ecr.%s.amazonaws.com/%s",
-          var.ecr.account_id,
+          "arn:aws:ecr:%s:%s:repository/%s",
           var.ecr.region,
+          var.ecr.account_id,
           var.ecr.repository
         )]
       },
