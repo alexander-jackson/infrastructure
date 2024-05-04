@@ -273,6 +273,16 @@ resource "aws_security_group_rule" "allow_inbound_connections_from_primary" {
   security_group_id        = module.database.security_group_id
 }
 
+resource "aws_security_group_rule" "allow_inbound_connections_from_secondary" {
+  description              = format("Allow inbound connections from %s", module.secondary.security_group_id)
+  type                     = "ingress"
+  from_port                = 5432
+  to_port                  = 5432
+  protocol                 = "tcp"
+  source_security_group_id = module.secondary.security_group_id
+  security_group_id        = module.database.security_group_id
+}
+
 # Route table definitions
 resource "aws_route_table" "gateway" {
   vpc_id = aws_vpc.main.id
