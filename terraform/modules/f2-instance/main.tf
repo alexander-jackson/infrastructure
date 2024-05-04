@@ -34,6 +34,25 @@ resource "aws_iam_policy" "this" {
         Resource = format("arn:aws:s3:::%s/*", var.configuration.bucket)
       },
       {
+        Action   = ["ecr:GetAuthorizationToken"]
+        Effect   = "Allow"
+        Resource = "*"
+      },
+      {
+        Action = [
+          "ecr:BatchGetImage",
+          "ecr:BatchCheckLayerAvailability",
+          "ecr:GetDownloadUrlForLayer"
+        ]
+        Effect = "Allow"
+        Resource = [format(
+          "%s.dkr.ecr.%s.amazonaws.com/%s",
+          var.ecr.account_id,
+          var.ecr.region,
+          var.ecr.repository
+        )]
+      },
+      {
         Action   = ["route53:ListHostedZones", "route53:GetChange"]
         Effect   = "Allow"
         Resource = "*"
@@ -148,6 +167,8 @@ resource "aws_instance" "this" {
     tag           = var.configuration.image_tag
     config_bucket = var.configuration.bucket
     config_key    = var.configuration.key
+    account_id    = var.ecr.account_id
+    region        = var.ecr.region
   })
 
   vpc_security_group_ids = [aws_security_group.this.id]
@@ -159,7 +180,7 @@ resource "aws_instance" "this" {
     http_put_response_hop_limit = 2
   }
 
-  user_data_replace_on_change = true
+  user_data_replace_on_change = false
 }
 
 resource "aws_eip" "this" {
