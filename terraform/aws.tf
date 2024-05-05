@@ -68,7 +68,7 @@ module "personal" {
   source = "./modules/user"
 
   name = "alex.jackson"
-  key  = "pgp-b64.key"
+  key  = "master.key"
 }
 
 module "repositories" {
@@ -84,7 +84,7 @@ resource "aws_iam_user" "github_actions" {
 
 resource "aws_iam_access_key" "github_actions" {
   user    = aws_iam_user.github_actions.name
-  pgp_key = file("keys/pgp-b64.key")
+  pgp_key = file("keys/master.key")
 }
 
 resource "aws_iam_user_policy" "github_actions" {
@@ -109,7 +109,7 @@ resource "aws_iam_user" "postgres_backups" {
 
 resource "aws_iam_access_key" "postgres_backups" {
   user    = aws_iam_user.postgres_backups.name
-  pgp_key = file("keys/pgp-b64.key")
+  pgp_key = file("keys/master.key")
 }
 
 resource "aws_iam_user_policy" "postgres_backups" {
@@ -139,7 +139,7 @@ resource "aws_iam_user" "configuration_deployer" {
 
 resource "aws_iam_access_key" "configuration_deployer" {
   user    = aws_iam_user.configuration_deployer.name
-  pgp_key = file("keys/pgp-b64.key")
+  pgp_key = file("keys/master.key")
 }
 
 resource "aws_iam_user_policy" "configuration_deployer" {
