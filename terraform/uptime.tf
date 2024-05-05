@@ -24,7 +24,7 @@ resource "aws_iam_user" "image_builder" {
 
 resource "aws_iam_access_key" "image_builder" {
   user    = aws_iam_user.image_builder.name
-  pgp_key = file("keys/pgp-b64.key")
+  pgp_key = file("keys/master.key")
 }
 
 resource "aws_iam_user_policy" "image_builder" {
