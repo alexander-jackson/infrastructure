@@ -63,7 +63,7 @@ services:
 
   ticket-tracker:
     image: 558855412466.dkr.ecr.eu-west-1.amazonaws.com/ticket-tracker
-    tag: 20240505-1446
+    tag: 20240518-1637
     port: 8080
     replicas: 1
     host: tickets.opentracker.app
