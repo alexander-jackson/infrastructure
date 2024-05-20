@@ -63,7 +63,7 @@ services:
 
   ticket-tracker:
     image: 558855412466.dkr.ecr.eu-west-1.amazonaws.com/ticket-tracker
-    tag: 20240518-1637
+    tag: 20240520-1552
     port: 8080
     replicas: 1
     host: tickets.opentracker.app
@@ -72,3 +72,4 @@ services:
       ROOT_USERNAME: postgres
       ROOT_PASSWORD: secret:j9VBUWVGrsNDDGBUAwdSIdnxviUrHjBowc3ze+whOrg9nLY6a/GjVYTnWW8QYeIdGsP9X2o4Ns12+THcpZserHqvLkaBEZUFy83x238WfV7NKhMAMQonD9N/VIZX9r5ukBFK6g37dnu1UJK9ttf3MGHkZ7s36sogR9Q50J9OX5NjVKIlV4EZh5/KSTHxJLFWCk7Fuu0Bxqer7PL4s8ZGKjTFVYNMZDxhc4D7qNf3JnQHejyHc8RjJ2A/ggsMknbVUHruGejsF45aLmvhjJvpVs2XlFmeQ92e9cjY/11ORGN+L7IMoM8RH5txuJF1gp49ExPVAhidt0dX6BGnndt3Uw==
       APP_PASSWORD: secret:gqHKsUBsMw3WBiQVmdTsm6OGLijEfm9Nx3wiMy/RsMLwLNyyanTLsj5TOa8/yGyDBIAaoogQqW9CheuR0sOAHx4E+HLiCEytmhBpWTtOMpNVFHE+j4+3rBqQH2XMrpjAudu/S5TXjb03tCIig3r5BvWJoX7iWb8KgEsFlOmVYD5fpaMBXbYnyV4x3erS5928H+/cP8GNIOK0DsPLMENKv9w273b1bpiyHHy7blUaY5JrGdaPoXymwoCBVzqkdJ76cb2hVfW42UQi0YOiXQ35YpiXrVzUHJ+NNAumpaeufOUaJNUJEyCY/h/ywxgY7KCM+eRvxGDf0zknVjGh120c+g==
+      INTERVAL_DURATION_SECS: 60
