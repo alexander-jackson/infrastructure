@@ -29,12 +29,6 @@ variable "key_name" {
   description = "The name of the `aws_key_pair` to use for the instance access"
 }
 
-variable "permitted_access" {
-  type        = list(string)
-  description = "The security group identifiers that are allowed to access the instance"
-  default     = []
-}
-
 variable "elastic_ip" {
   type        = bool
   description = "Whether the instance should have an elastic IP associated with it"

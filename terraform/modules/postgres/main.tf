@@ -99,18 +99,6 @@ resource "aws_security_group_rule" "allow_outbound_https" {
   cidr_blocks       = ["0.0.0.0/0"]
 }
 
-resource "aws_security_group_rule" "allow_inbound_connections_from_instances" {
-  for_each = toset(var.permitted_access)
-
-  description              = format("Allow inbound connections from %s", each.value)
-  type                     = "ingress"
-  from_port                = 5432
-  to_port                  = 5432
-  protocol                 = "tcp"
-  source_security_group_id = each.value
-  security_group_id        = aws_security_group.this.id
-}
-
 data "aws_subnet" "self" {
   id = var.instance.subnet_id
 }
