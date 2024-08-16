@@ -15,7 +15,4 @@ sudo apt install -y docker-ce
 # Allow the `ubuntu` user to run `docker` commands (for SSH access)
 sudo usermod -aG docker ubuntu
 
-# Authenticate with ECR for pulling images
-aws ecr get-login-password --region ${region} | docker login --username AWS --password-stdin ${account_id}.dkr.ecr.${region}.amazonaws.com
-
 sudo docker run -d -v /var/run/docker.sock:/var/run/docker.sock -p 443:443 alexanderjackson/f2:${tag} -- --config s3://${config_bucket}/${config_key}

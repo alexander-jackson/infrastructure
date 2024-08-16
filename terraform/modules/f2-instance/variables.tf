@@ -22,15 +22,6 @@ variable "configuration" {
   description = "Parameters for the underlying `f2` instance to use"
 }
 
-variable "ecr" {
-  type = object({
-    account_id = string
-    region     = string
-    repository = string
-  })
-  description = "Configuration for pulling images from ECR"
-}
-
 variable "key_name" {
   type        = string
   description = "The name of the `aws_key_pair` to use for the instance access"
