@@ -69,21 +69,3 @@ services:
     environment:
       PASSPHRASE: secret:mgVl9nw3UsAI7Kw5U7g0iAmba9YeW3Ly9i+FvJpR9EFbnfzo1EOXGBqPBVo8qhPtHjb6iW1zOqOba4y+cFj7luoRy7JQZHAu8OeJEJyRadJJQgZH3TKJtLWjM5YOtwTOmPhv9NF3FAnAqaSAelsBAu4HLVg7iR9CavLfcGUcu4t9eQtmVcaQC1jgJpJP6luy3z0NOkkoG+SCzGBIwYQGqAsGvhYqi9A49GgErUdzZjaAIb8VK8hQMOPXxQ2k7pPfe/VipkTmd2vGkdVhrU6PGBkYIwxBh6IbxajRgyau7hi7vekau/xE30VoklP/t9GpmMBJSOA6mKgFly/G8vxw7g==
       GIT_CLONE_PRIVATE_KEY: s3://configuration-68f6c7/tag-updater/id_rsa
-
-  today:
-    image: alexanderjackson/today
-    tag: 20240819-1912
-    port: 8000
-    replicas: 1
-    host: today.opentracker.app
-    environment:
-      ROOT_USERNAME: postgres
-      ROOT_PASSWORD: secret:K/s/IHYJ+QN+2K+9zKK16QXIAK4lbW0KAq0KQrfgwrX6Dy3iomFAKZUskwPiGZDrix179e5mvHqcOX9c8At+eU18+AJe327AiW1q0eh/sojY9jb22shP7guzexAoWoqnCoq9IWG0k7i02NyJn8JEGK4rhRoG9UxpBrtw8hVn5QDFV1IzAUGCHRQ/km4301MC+7hZ1o+b6NlA+9amCMOdS//ad817VHsWeqmNLS/jiVUIH0zfOBjQ1oQIwjDBoKlFlxYrNFUm/grc9qXXOM5xTTcNmBRttE744IDtJaw/eQUWkprxVWegaOwPLgCjeJVOYCuWn86lZPgQTFsDq+z1ww==
-      ROOT_DATABASE: postgres
-
-      APP_USERNAME: todayblue
-      APP_PASSWORD: secret:JwqNbNrotLSY+QgKxs0ofTBIj9aXIzD8tHHIV5yIkaPurRxBnA4H8WBWC+tkDZNIxX0yF771I8qW1kOS29p7Lj8wnUpAGAcXsPozIrSEg5j5lrWBslj/EPNOVjfcb+roeMOnMl8nIsYj1w93lZ11QaCRQEYaF0IjTO9jMUn5Z3q+9GITiNDI7G9TsDG3yF9+w90fg/VhlL8IPzsMlzIEl3IAcFt+Vy7mq9IYMf1hwS8RLAURngQlILZ6mnaSvUpnSuyR18F/tXP5pHRgWslN+Lbl7CfAU+feRPt2DfpFRV7HPdCuPQbXe3RkBM3WMZHFE7Ph0a+tUyvvA3N6NxfaTA==
-      APP_DATABASE: today
-
-      DATABASE_HOST: 10.0.0.238
-      DATABASE_PORT: 5432
