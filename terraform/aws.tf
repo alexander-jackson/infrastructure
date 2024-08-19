@@ -279,3 +279,11 @@ resource "aws_route53_record" "opentracker_tags" {
   ttl     = 300
   records = [module.primary.public_ip]
 }
+
+resource "aws_route53_record" "opentracker_today" {
+  zone_id = aws_route53_zone.opentracker.id
+  name    = "today"
+  type    = "A"
+  ttl     = 300
+  records = [module.primary.public_ip]
+}
