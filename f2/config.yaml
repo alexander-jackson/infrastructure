@@ -87,3 +87,5 @@ services:
 
       DATABASE_HOST: 10.0.0.238
       DATABASE_PORT: 5432
+
+      RUST_LOG: trace
