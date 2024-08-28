@@ -13,6 +13,11 @@ module "config_bucket" {
   bucket_name = "configuration"
 }
 
+module "logging_bucket" {
+  source      = "./modules/s3-bucket"
+  bucket_name = "logging"
+}
+
 resource "aws_iam_role" "iac_deployer" {
   name = "iac-deployer"
 
@@ -200,6 +205,10 @@ module "primary" {
     bucket    = module.config_bucket.name
     key       = "f2/config.yaml"
     image_tag = "20240406-1025"
+  }
+
+  logging = {
+    bucket = module.logging_bucket.name
   }
 
   key_name       = aws_key_pair.main.key_name
