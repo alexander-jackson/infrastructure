@@ -43,6 +43,16 @@ resource "aws_iam_policy" "this" {
         Effect   = "Allow"
         Resource = format("arn:aws:route53:::hostedzone/%s", var.hosted_zone_id)
       },
+      {
+        Action   = ["s3:ListBucket"]
+        Effect   = "Allow"
+        Resource = format("arn:aws:s3:::%s", var.logging.bucket)
+      },
+      {
+        Action   = ["s3:PutObject"]
+        Effect   = "Allow"
+        Resource = format("arn:aws:s3:::%s/*", var.logging.bucket)
+      },
     ]
   })
 }
