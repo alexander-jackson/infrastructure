@@ -169,7 +169,9 @@ resource "aws_instance" "this" {
     http_put_response_hop_limit = 2
   }
 
-  user_data_replace_on_change = false
+  lifecycle {
+    ignore_changes = [user_data]
+  }
 }
 
 resource "aws_eip" "this" {
