@@ -313,7 +313,7 @@ resource "aws_route53_record" "opentracker" {
   name    = ""
   type    = "A"
   ttl     = 300
-  records = [module.primary.public_ip]
+  records = [module.secondary.public_ip]
 }
 
 resource "aws_route53_record" "opentracker_tags" {
@@ -321,7 +321,7 @@ resource "aws_route53_record" "opentracker_tags" {
   name    = "tags"
   type    = "A"
   ttl     = 300
-  records = [module.primary.public_ip]
+  records = [module.secondary.public_ip]
 }
 
 resource "aws_route53_record" "opentracker_today" {
@@ -329,5 +329,5 @@ resource "aws_route53_record" "opentracker_today" {
   name    = "today"
   type    = "A"
   ttl     = 300
-  records = [module.primary.public_ip]
+  records = [module.secondary.public_ip]
 }
