@@ -23,6 +23,7 @@ resource "aws_iam_user_policy" "this" {
           "autoscaling:DescribeAutoScalingGroups",
           "ce:GetCostAndUsage",
           "ce:GetCostForecast",
+          "cloudtrail:DescribeTrails",
           "cloudwatch:DescribeAlarms",
           "cloudwatch:GetMetricData",
           "cloudwatch:GetMetricStatistics",
@@ -69,11 +70,28 @@ resource "aws_iam_user_policy" "this" {
           "lambda:ListProvisionedConcurrencyConfigs",
           "lambda:ListTags",
           "lambda:ListVersionsByFunction",
+          "s3:GetAccelerateConfiguration",
+          "s3:GetBucketNotification",
+          "s3:GetBucketObjectLockConfiguration",
+          "s3:GetBucketLogging",
+          "s3:GetBucketRequestPayment",
+          "s3:GetBucketTagging",
+          "s3:GetBucketVersioning",
+          "s3:GetBucketWebsite",
+          "s3:GetEncryptionConfiguration",
+          "s3:GetIntelligentTieringConfiguration",
           "s3:ListAllMyBuckets",
           "s3:ListBucket",
         ]
         Effect   = "Allow"
         Resource = "*"
+      },
+      {
+        Action = [
+          "s3:GetObject"
+        ]
+        Effect   = "Allow"
+        Resource = "arn:aws:s3:::logging-4acb18/*"
       }
     ]
   })
