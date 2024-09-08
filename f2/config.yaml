@@ -100,6 +100,7 @@ services:
     host: unapplicable
     environment:
       S3_BUCKET: postgres-backups-65ef5c
+      BACKUP_TIME: "22:30"
       USERNAME: postgres
       PASSWORD: secret:Byct+Bq3nUl3GNZktRRi0tdIT5xCQKpqzQhTQ7aTOIT0uuT6sp6ED2PveWP80qDLOSOnBBbsogaKPTAADGc04/K9q/KItG6M07t7oKBF2CmsYXgM4pP0u1wV/rUf0FSTJmzgNM3z3jXQRbfKdVl+pSHipFYFFUPcukMhXv+5mx7tjGWccYukUqLe4lCA28rifsXdiGgJXEOrPVMIm+WOLauLuS2ANIuM3cN+tgLR5lLRHDQc4zR8fIGMXU59yEM2izJZTuUpz6/EvqbSVh//6G+Pt6gH5eBQ3KfEzSB19I0ZdWIFVwhj2TC9kF7cbDYmI9PwSywC1Egz3UuAKArwew==
       ROOT_DATABASE: postgres
