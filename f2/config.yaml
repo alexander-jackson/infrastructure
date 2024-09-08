@@ -91,3 +91,17 @@ services:
       RUST_LOG: trace
       COOKIE_KEY: secret:q9AGDzX5Iv4PvJTBJy1UJQUpLgdF6WU19tYyfFPYwuJ7078zz2e/0Ozz1QE7UHRQv0pOeoZItewnMl13HWQ8dWAfZEHrRztup19N7g2fO3MuIZrznmkrWtlroHai6865G3N/yCI+HS32PGhE+zLdxfG/6saQJG4cR2943e7BI/von0e+sgJ1QejZ8eIXbXOH3i0fUi/kg5GvDJCbqQnoLEd+XIAdWdMQNNp8VR65OxfiFlH3Z+fFmHNiNDys2tGG1nYCnEtXCdVLCCy4lO/iDNzlJxfVG2cAe0vA0xtm3JcfewAR/n40BranWnI7TKQ/u7URihxnNA4/7Hzbq331FQ==
       JWT_KEY: secret:wdUPdCShQFSAkQMNDFbpc0NVhE3oA3F0iosCStvIHJth1MVjUTFGFdauMUHLBQS9vnbkvLBaQZ7ygERs2if5Sbjtsj7cq+Qyvsx6c1OONIIC34tt8gRU14dcAQuCnSAQnpH0b9uyyemBq0iFaY7Z8c4+xkPvVkzqy1ubPCSDljWDMCm2xJ9E5ZOBH+boqtXJV28hURv9I/eNvAibnG94mC8TqcGxSjDt5IruXBFVS+HhbjWS50zVT+UjdX7xnnyt4TNVcongrWG3Lm0mZa2nHZSgKLLUIWCe3rD+WJkmu6/GTzXYZ7CO9gT0zrXTfIr5vBIPiAqfJf0TQwCuLTcj1g==
+
+  pgbackup:
+    image: alexanderjackson/pgbackup
+    tag: 20240908-0628
+    port: 80
+    replicas: 1
+    host: unapplicable
+    environment:
+      S3_BUCKET: postgres-backups-65ef5c
+      USERNAME: postgres
+      PASSWORD: secret:Byct+Bq3nUl3GNZktRRi0tdIT5xCQKpqzQhTQ7aTOIT0uuT6sp6ED2PveWP80qDLOSOnBBbsogaKPTAADGc04/K9q/KItG6M07t7oKBF2CmsYXgM4pP0u1wV/rUf0FSTJmzgNM3z3jXQRbfKdVl+pSHipFYFFUPcukMhXv+5mx7tjGWccYukUqLe4lCA28rifsXdiGgJXEOrPVMIm+WOLauLuS2ANIuM3cN+tgLR5lLRHDQc4zR8fIGMXU59yEM2izJZTuUpz6/EvqbSVh//6G+Pt6gH5eBQ3KfEzSB19I0ZdWIFVwhj2TC9kF7cbDYmI9PwSywC1Egz3UuAKArwew==
+      ROOT_DATABASE: postgres
+      DATABASE_HOST: 10.0.0.238
+      DATABASE_PORT: 5432
