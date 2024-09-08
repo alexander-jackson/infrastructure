@@ -53,6 +53,11 @@ resource "aws_iam_policy" "this" {
         Effect   = "Allow"
         Resource = format("arn:aws:s3:::%s/*", var.logging.bucket)
       },
+      {
+        Action   = ["s3:PutObject"]
+        Effect   = "Allow"
+        Resource = format("arn:aws:s3:::%s/*", var.backups.bucket)
+      },
     ]
   })
 }
