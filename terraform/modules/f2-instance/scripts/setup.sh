@@ -14,7 +14,7 @@ sudo apt install -y docker-ce
 
 # Download the `vector` configuration and get it running
 aws s3 cp s3://configuration-68f6c7/vector/vector.yaml /home/ubuntu/vector.yaml
-sudo docker run -d -v /var/run/docker.sock:/var/run/docker.sock -v /home/ubuntu/vector.yaml:/etc/vector/vector.yaml timberio/vector:0.40.1-alpine
+sudo docker run -d -v /var/run/docker.sock:/var/run/docker.sock -v /home/ubuntu/vector.yaml:/etc/vector/vector.yaml timberio/vector:${vector_tag}
 
 # Allow the `ubuntu` user to run `docker` commands (for SSH access)
 sudo usermod -aG docker ubuntu
