@@ -24,7 +24,8 @@ variable "configuration" {
 
 variable "logging" {
   type = object({
-    bucket = string
+    bucket     = string
+    vector_tag = string
   })
   description = "Parameters for use in logging output"
 }

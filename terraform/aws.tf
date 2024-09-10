@@ -208,7 +208,8 @@ module "secondary" {
   }
 
   logging = {
-    bucket = module.logging_bucket.name
+    bucket     = module.logging_bucket.name
+    vector_tag = "0.40.1-alpine"
   }
 
   backups = {

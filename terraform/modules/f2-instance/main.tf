@@ -163,6 +163,7 @@ resource "aws_instance" "this" {
     tag           = var.configuration.image_tag
     config_bucket = var.configuration.bucket
     config_key    = var.configuration.key
+    vector_tag    = var.logging.vector_tag
   })
 
   vpc_security_group_ids = [aws_security_group.this.id]
