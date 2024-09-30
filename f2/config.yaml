@@ -72,7 +72,7 @@ services:
 
   today:
     image: alexanderjackson/today
-    tag: 20240926-1936
+    tag: 20240930-0913
     port: 8000
     replicas: 1
     host: today.opentracker.app
