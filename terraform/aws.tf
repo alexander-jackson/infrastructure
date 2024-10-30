@@ -204,7 +204,7 @@ module "primary" {
   configuration = {
     bucket    = module.config_bucket.name
     key       = "f2/config.yaml"
-    image_tag = "20241028-1921"
+    image_tag = "20241029-1119"
   }
 
   logging = {
@@ -323,7 +323,7 @@ resource "aws_route53_record" "opentracker" {
   name    = ""
   type    = "A"
   ttl     = 300
-  records = [module.secondary.public_ip]
+  records = [module.primary.public_ip]
 }
 
 resource "aws_route53_record" "opentracker_tags" {
@@ -331,7 +331,7 @@ resource "aws_route53_record" "opentracker_tags" {
   name    = "tags"
   type    = "A"
   ttl     = 300
-  records = [module.secondary.public_ip]
+  records = [module.primary.public_ip]
 }
 
 resource "aws_route53_record" "opentracker_today" {
@@ -339,5 +339,5 @@ resource "aws_route53_record" "opentracker_today" {
   name    = "today"
   type    = "A"
   ttl     = 300
-  records = [module.secondary.public_ip]
+  records = [module.primary.public_ip]
 }
