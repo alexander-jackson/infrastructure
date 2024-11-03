@@ -31,6 +31,13 @@ alb:
           location: s3
           bucket: configuration-68f6c7
           key: f2/certificates/today.opentracker.app/privkey.pem
+  mtls:
+    anchor:
+      location: s3
+      bucket: configuration-68f6c7
+      key: f2/anchor.pem
+    domains:
+      - today.opentracker.app
 
 secrets:
   private_key:
