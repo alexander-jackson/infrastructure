@@ -23,7 +23,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.CONFIG_DEPLOYER_AWS_SECRET_ACCESS_KEY }}
 
       - name: Deploy configuration
-        run: aws s3 sync --delete false ./configuration s3://configuration-68f6c7
+        run: aws s3 sync ./configuration s3://configuration-68f6c7 --delete false
 
       - name: Force reconciliation
         run: curl https://opentracker.app/reconcile
