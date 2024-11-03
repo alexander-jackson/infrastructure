@@ -163,7 +163,7 @@ resource "aws_iam_user_policy" "configuration_deployer" {
         Action = ["s3:PutObject"]
         Effect = "Allow"
         Resource = [
-          format("%s/f2/config.yaml", module.config_bucket.arn),
+          format("%s/f2/*.yaml", module.config_bucket.arn),
           format("%s/vector/vector.yaml", module.config_bucket.arn),
         ]
       },
