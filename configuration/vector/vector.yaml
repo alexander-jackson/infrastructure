@@ -1,0 +1,25 @@
+data_dir: "/var/lib/vector"
+
+sources:
+  docker:
+    type: docker_logs
+    docker_host: /var/run/docker.sock
+
+transforms:
+  ansi_stripper:
+    type: remap
+    inputs:
+      - docker
+    drop_on_error: false
+    source: .message = strip_ansi_escape_codes(string!(.message))
+
+sinks:
+  s3:
+    type: aws_s3
+    batch:
+      timeout_secs: 3600
+    bucket: logging-4acb18
+    encoding:
+      codec: json
+    inputs:
+      - ansi_stripper

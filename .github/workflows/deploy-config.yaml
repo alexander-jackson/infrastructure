@@ -4,24 +4,25 @@ on:
   push:
     branches: ["master"]
     paths:
-    - "f2/**"
+    - "configuration/**"
 
 jobs:
   deploy-config:
     name: Deploy configuration to S3
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Deploy Configuration
-        uses: prewk/s3-cp-action@v2
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
         with:
-          aws_access_key_id: ${{ secrets.CONFIG_DEPLOYER_AWS_ACCESS_KEY_ID }}
-          aws_secret_access_key: ${{ secrets.CONFIG_DEPLOYER_AWS_SECRET_ACCESS_KEY }}
-          source: ./f2/config.yaml
-          dest: s3://configuration-68f6c7/f2/config.yaml
-          aws_region: eu-west-1
+          aws-region: eu-west-1
+          aws-access-key-id: ${{ secrets.CONFIG_DEPLOYER_AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.CONFIG_DEPLOYER_AWS_SECRET_ACCESS_KEY }}
 
-      - name: Force Reconciliation
+      - name: Deploy configuration
+        run: aws s3 sync --delete false configuration/ s3://configuration-68f6c7/
+
+      - name: Force reconciliation
         run: curl https://opentracker.app/reconcile
