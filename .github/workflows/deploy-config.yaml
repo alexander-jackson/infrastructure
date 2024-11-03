@@ -4,6 +4,7 @@ on:
   push:
     branches: ["master"]
     paths:
+    - ".github/workflows/deploy-config.yaml"
     - "configuration/**"
 
 jobs:
