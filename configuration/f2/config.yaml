@@ -69,7 +69,7 @@ services:
 
   tag-updater:
     image: alexanderjackson/tag-updater
-    tag: 20241103-2126
+    tag: 20241104-0650
     port: 4025
     replicas: 1
     host: tags.opentracker.app
