@@ -69,7 +69,7 @@ services:
 
   tag-updater:
     image: alexanderjackson/tag-updater
-    tag: 20231108-2014
+    tag: 20241103-2126
     port: 4025
     replicas: 1
     host: tags.opentracker.app
@@ -79,7 +79,7 @@ services:
 
   today:
     image: alexanderjackson/today
-    tag: 20241003-1328
+    tag: 20241103-2105
     port: 8000
     replicas: 1
     host: today.opentracker.app
