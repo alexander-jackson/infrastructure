@@ -304,3 +304,11 @@ resource "aws_route53_record" "opentracker_today" {
   ttl     = 300
   records = [module.secondary.public_ip]
 }
+
+resource "aws_route53_record" "opentracker_uptime" {
+  zone_id = aws_route53_zone.opentracker.id
+  name    = "uptime"
+  type    = "A"
+  ttl     = 300
+  records = [module.secondary.public_ip]
+}
