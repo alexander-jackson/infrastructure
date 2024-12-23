@@ -13,9 +13,3 @@ resource "aws_sns_topic_subscription" "outages" {
   protocol  = "email"
   endpoint  = "alexanderjackson@protonmail.com"
 }
-
-resource "aws_ecr_repository" "uptime" {
-  name                 = "uptime"
-  image_tag_mutability = "IMMUTABLE"
-  force_delete         = true
-}
