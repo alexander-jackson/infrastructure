@@ -37,6 +37,13 @@ variable "backups" {
   description = "Parameters for use in taking database backups"
 }
 
+variable "alerting" {
+  type = object({
+    topic_arn = string
+  })
+  description = "Parameters for use in alerting for outages"
+}
+
 variable "key_name" {
   type        = string
   description = "The name of the `aws_key_pair` to use for the instance access"
