@@ -219,6 +219,10 @@ module "secondary" {
     bucket = module.postgres_backups_bucket.name
   }
 
+  alerting = {
+    topic_arn = aws_sns_topic.outages.arn
+  }
+
   key_name       = aws_key_pair.main.key_name
   hosted_zone_id = aws_route53_zone.opentracker.id
 }

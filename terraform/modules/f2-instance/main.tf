@@ -58,6 +58,11 @@ resource "aws_iam_policy" "this" {
         Effect   = "Allow"
         Resource = format("arn:aws:s3:::%s/*", var.backups.bucket)
       },
+      {
+        Action   = ["sns:Publish"]
+        Effect   = "Allow"
+        Resource = var.alerting.topic_arn
+      },
     ]
   })
 }
