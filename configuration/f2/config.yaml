@@ -142,3 +142,4 @@ services:
       DATABASE_PORT: 5432
 
       SERVER_ADDR: "0.0.0.0:8000"
+      SNS_TOPIC: "arn:aws:sns:eu-west-1:558855412466:outages"
