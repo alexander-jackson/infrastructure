@@ -261,6 +261,40 @@ module "secondary" {
   hosted_zone_id = aws_route53_zone.opentracker.id
 }
 
+module "tertiary" {
+  source = "./modules/f2-instance"
+  name   = "tertiary"
+
+  instance = {
+    type      = "t2.nano"
+    ami       = "ami-0ab14756db2442499"
+    vpc_id    = aws_vpc.main.id
+    subnet_id = aws_subnet.main.id
+  }
+
+  configuration = {
+    bucket    = module.config_bucket.name
+    key       = "f2/config.yaml"
+    image_tag = "20241103-1822"
+  }
+
+  logging = {
+    bucket     = module.logging_bucket.name
+    vector_tag = "0.42.0-alpine"
+  }
+
+  backups = {
+    bucket = module.postgres_backups_bucket.name
+  }
+
+  alerting = {
+    topic_arn = aws_sns_topic.outages.arn
+  }
+
+  key_name       = aws_key_pair.main.key_name
+  hosted_zone_id = aws_route53_zone.opentracker.id
+}
+
 module "database" {
   source = "./modules/postgres"
   name   = "database"
@@ -304,6 +338,16 @@ resource "aws_security_group_rule" "allow_inbound_connections_from_secondary" {
   security_group_id        = module.database.security_group_id
 }
 
+resource "aws_security_group_rule" "allow_inbound_connections_from_tertiary" {
+  description              = format("Allow inbound connections from %s", module.tertiary.security_group_id)
+  type                     = "ingress"
+  from_port                = 5432
+  to_port                  = 5432
+  protocol                 = "tcp"
+  source_security_group_id = module.tertiary.security_group_id
+  security_group_id        = module.database.security_group_id
+}
+
 # Route table definitions
 resource "aws_route_table" "gateway" {
   vpc_id = aws_vpc.main.id
@@ -341,5 +385,5 @@ resource "aws_route53_record" "records" {
   name    = each.key
   type    = "A"
   ttl     = 300
-  records = [module.primary.public_ip]
+  records = [module.tertiary.public_ip]
 }
