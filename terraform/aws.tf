@@ -164,6 +164,7 @@ resource "aws_iam_user_policy" "configuration_deployer" {
         Effect = "Allow"
         Resource = [
           format("%s/f2/*.yaml", module.config_bucket.arn),
+          format("%s/f2/anchor.pem", module.config_bucket.arn),
           format("%s/vector/vector.yaml", module.config_bucket.arn),
         ]
       },
