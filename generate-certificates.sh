@@ -7,7 +7,7 @@ function generate_client_cert() {
 	# Generate a key, CSR and certificate for the client
 	openssl genrsa -out $client_name.key 2048
 	openssl req -new -key $client_name.key -subj "/C=GB/ST=England/L=London/O=client/CN=$common_name" -addext "subjectAltName = DNS:localhost" -out $client_name.csr
-	openssl x509 -req -in $client_name.csr -CA ca.crt -CAkey ca.key -CAcreateserial -extfile <(printf "subjectAltName=DNS:localhost") -out $client_name.crt
+	openssl x509 -req -in $client_name.csr -CA ca.crt -CAkey ca.key -CAcreateserial -extfile <(printf "subjectAltName=DNS:localhost") -days 365 -out $client_name.crt
 
 	# Generate a PEM file for `curl` and a `p12` for browser usage
 	cat $client_name.crt $client_name.key > $client_name.pem
