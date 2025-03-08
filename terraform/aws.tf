@@ -252,7 +252,7 @@ module "database" {
 }
 
 resource "aws_security_group_rule" "allow_inbound_connections_from_primary" {
-  description              = format("Allow inbound connections from %s", module.secondary.security_group_id)
+  description              = format("Allow inbound connections from %s", module.primary.security_group_id)
   type                     = "ingress"
   from_port                = 5432
   to_port                  = 5432
