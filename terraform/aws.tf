@@ -196,7 +196,7 @@ resource "aws_key_pair" "main" {
 
 module "primary" {
   source = "./modules/f2-instance"
-  name   = "secondary"
+  name   = "primary"
 
   instance = {
     type      = "t2.micro"
