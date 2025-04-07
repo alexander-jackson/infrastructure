@@ -1,9 +1,3 @@
-module "bucket" {
-  source           = "./modules/s3-bucket"
-  bucket_name      = "uptime"
-  pending_deletion = true
-}
-
 resource "aws_sns_topic" "outages" {
   name = "outages"
 }
