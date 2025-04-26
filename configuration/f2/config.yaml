@@ -88,14 +88,14 @@ services:
       JWT_KEY: secret:aj2H/HfbWsg9/8LZcmFIkMZEmDJqsBzS5Rz+t22dY4AnEKwm3hhBRwGrFtX6VBVmVHiuRKJgTrctEsF90eXc7keJ/ozfHqe5WReLmM/lRyr/YGnPZ4uy6g34o0EufP+w9hJSivtxNto/n14NkmLVj1GOkt9CdhxaJAXiHtzXnaDq0VUVP/Iv1c2R8i93vjHx3prYdoPRUuyIg5CvQJe715OqVvqFDzdFZXGkx+wV2pE4/voiDTcCRnzORWzQIe1zy3vntp+0ZKwbinDUCISaOqgxZo3KairWz/a9A5WZMYCnh5ltR0cj75FouvETEKpwt72KreJnuOdjBV/s9ZtFjw==
 
   forkup-frontend:
-    image: alexanderjackson/opentracker-frontend
+    image: alexanderjackson/forkup-frontend
     tag: 20250426-1741
     port: 80
     replicas: 1
     host: forkup.opentracker.app
 
   forkup-backend:
-    image: alexanderjackson/opentracker-backend
+    image: alexanderjackson/forkup-backend
     tag: 20250426-1804
     port: 8083
     replicas: 1
