@@ -40,6 +40,15 @@ alb:
           location: s3
           bucket: configuration-68f6c7
           key: f2/certificates/uptime.opentracker.app/privkey.pem
+      forkup.opentracker.app:
+        cert_file:
+          location: s3
+          bucket: configuration-68f6c7
+          key: f2/certificates/forkup.opentracker.app/fullchain.pem
+        key_file:
+          location: s3
+          bucket: configuration-68f6c7
+          key: f2/certificates/forkup.opentracker.app/privkey.pem
   mtls:
     anchor:
       location: s3
@@ -48,6 +57,7 @@ alb:
     domains:
       - today.opentracker.app
       - uptime.opentracker.app
+      - forkup.opentracker.app
 
 secrets:
   private_key:
@@ -76,6 +86,33 @@ services:
       DATABASE_USER: postgres
       DATABASE_PASSWORD: secret:j9VBUWVGrsNDDGBUAwdSIdnxviUrHjBowc3ze+whOrg9nLY6a/GjVYTnWW8QYeIdGsP9X2o4Ns12+THcpZserHqvLkaBEZUFy83x238WfV7NKhMAMQonD9N/VIZX9r5ukBFK6g37dnu1UJK9ttf3MGHkZ7s36sogR9Q50J9OX5NjVKIlV4EZh5/KSTHxJLFWCk7Fuu0Bxqer7PL4s8ZGKjTFVYNMZDxhc4D7qNf3JnQHejyHc8RjJ2A/ggsMknbVUHruGejsF45aLmvhjJvpVs2XlFmeQ92e9cjY/11ORGN+L7IMoM8RH5txuJF1gp49ExPVAhidt0dX6BGnndt3Uw==
       JWT_KEY: secret:aj2H/HfbWsg9/8LZcmFIkMZEmDJqsBzS5Rz+t22dY4AnEKwm3hhBRwGrFtX6VBVmVHiuRKJgTrctEsF90eXc7keJ/ozfHqe5WReLmM/lRyr/YGnPZ4uy6g34o0EufP+w9hJSivtxNto/n14NkmLVj1GOkt9CdhxaJAXiHtzXnaDq0VUVP/Iv1c2R8i93vjHx3prYdoPRUuyIg5CvQJe715OqVvqFDzdFZXGkx+wV2pE4/voiDTcCRnzORWzQIe1zy3vntp+0ZKwbinDUCISaOqgxZo3KairWz/a9A5WZMYCnh5ltR0cj75FouvETEKpwt72KreJnuOdjBV/s9ZtFjw==
+
+  forkup-frontend:
+    image: alexanderjackson/opentracker-frontend
+    tag: 20250426-1741
+    port: 80
+    replicas: 1
+    host: forkup.opentracker.app
+
+  forkup-backend:
+    image: alexanderjackson/opentracker-backend
+    tag: 20250426-1804
+    port: 8083
+    replicas: 1
+    host: forkup.opentracker.app
+    path_prefix: /api
+    environment:
+      ROOT_USERNAME: postgres
+      ROOT_PASSWORD: secret:fqVc33oytS3bXv3if9VnWEH1kkYmP042nCPnlS3ZbMiJ1DpY3wNQZ3VlarS3Sk+IJmGJOcZ47N62S0JgBZXjCvI586I/LyVFCHTjaeVIApczj/LtdFA5jbU73kYdWm15cEu73WWOnt4Y65/1h9YAP/pQDmhQxyDDBK9DNBHGJmh9tp1BX3AQ978kUKLdrodjxqZDLDVw6xzNhrrhmvJGypyTfKuqnTCB7JV7s9mgNeratZ+7Cb5wjaHFRkt8T/nsEq7vm14zgKPAQSH5ln2vc19Vmai+iYuEwdKDTbgIwPWP6ATP1QTS2t+Cd452vgGHVR3Kvd6geG/D1hWCw1tYtw==
+      ROOT_DATABASE: postgres
+
+      APP_USERNAME: forkupblue
+      APP_PASSWORD: secret:fFalHq733TmgACKeryFW2TzppYtn7H5FDquPx4Z7Dh76Mgq5Zz4DS+iOmSzWIhC4RDC8+U7b2NKUGnWzEAEM3ltF1v5I029Wlv6nOHo5pGHWEPseaPmvrk3mfupyK+FDsDnVyXJ35QNBvJEgEIJHAzNd79hGTcdHU5WlXsIrIP9FPH4dw72ATAkdaNP1zgKriUx5luYYONlM+H81zmWCt1XX9gRG3Y8eSMwAgIZQcfFvvGZ4+CNJJfQRrPMX1mQfGTjtSQ10p9YqdEuNrJvxxsoMXgrsxJRE5Qr8sc+QYBn1f5CKFXw23QoupBFUR6Dggoi+Z1xUoVOE2Ly8zI1kRQ==
+      APP_DATABASE: forkup
+
+      DATABASE_HOST: 10.0.0.238
+      DATABASE_PORT: 5432
+      ENVIRONMENT: production
 
   tag-updater:
     image: alexanderjackson/tag-updater
