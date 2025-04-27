@@ -89,7 +89,7 @@ services:
 
   forkup-frontend:
     image: alexanderjackson/forkup-frontend
-    tag: 20250427-0646
+    tag: 20250427-0655
     port: 80
     replicas: 1
     host: forkup.opentracker.app
