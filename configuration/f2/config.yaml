@@ -96,12 +96,14 @@ services:
 
   forkup-backend:
     image: alexanderjackson/forkup-backend
-    tag: 20250426-2137
+    tag: 20250427-0519
     port: 8083
     replicas: 1
     host: forkup.opentracker.app
     path_prefix: /api
     environment:
+      SERVER_ADDR: "0.0.0.0:8083"
+
       ROOT_USERNAME: postgres
       ROOT_PASSWORD: secret:fqVc33oytS3bXv3if9VnWEH1kkYmP042nCPnlS3ZbMiJ1DpY3wNQZ3VlarS3Sk+IJmGJOcZ47N62S0JgBZXjCvI586I/LyVFCHTjaeVIApczj/LtdFA5jbU73kYdWm15cEu73WWOnt4Y65/1h9YAP/pQDmhQxyDDBK9DNBHGJmh9tp1BX3AQ978kUKLdrodjxqZDLDVw6xzNhrrhmvJGypyTfKuqnTCB7JV7s9mgNeratZ+7Cb5wjaHFRkt8T/nsEq7vm14zgKPAQSH5ln2vc19Vmai+iYuEwdKDTbgIwPWP6ATP1QTS2t+Cd452vgGHVR3Kvd6geG/D1hWCw1tYtw==
       ROOT_DATABASE: postgres
