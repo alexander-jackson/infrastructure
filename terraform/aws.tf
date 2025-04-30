@@ -18,6 +18,11 @@ module "logging_bucket" {
   bucket_name = "logging"
 }
 
+module "hackathon_bucket" {
+  source      = "./modules/s3-bucket"
+  bucket_name = "hackathon"
+}
+
 resource "aws_iam_role" "iac_deployer" {
   name = "iac-deployer"
 
@@ -74,6 +79,8 @@ module "personal" {
 
   name = "alex.jackson"
   key  = "master.key"
+
+  hackathon_bucket_name = module.hackathon_bucket.name
 }
 
 module "repositories" {
@@ -220,6 +227,10 @@ module "secondary" {
     bucket = module.postgres_backups_bucket.name
   }
 
+  hackathon = {
+    bucket = module.hackathon_bucket.name
+  }
+
   alerting = {
     topic_arn = aws_sns_topic.outages.arn
   }
@@ -291,7 +302,8 @@ resource "aws_route53_record" "records" {
     "", // root record
     "tags",
     "today",
-    "uptime"
+    "uptime",
+    "forkup"
   ])
 
   zone_id = aws_route53_zone.opentracker.id
