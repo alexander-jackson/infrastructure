@@ -37,6 +37,13 @@ variable "backups" {
   description = "Parameters for use in taking database backups"
 }
 
+variable "hackathon" {
+  type = object({
+    bucket = string
+  })
+  description = "Parameters for use in the hackathon"
+}
+
 variable "alerting" {
   type = object({
     topic_arn = string

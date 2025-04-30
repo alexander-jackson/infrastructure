@@ -92,6 +92,24 @@ resource "aws_iam_user_policy" "this" {
         ]
         Effect   = "Allow"
         Resource = "arn:aws:s3:::logging-4acb18/*"
+      },
+      {
+        Action = ["s3:ListBucket"]
+        Effect   = "Allow"
+        Resource = format("arn:aws:s3:::%s", var.hackathon_bucket_name)
+      },
+      {
+        Action = [
+          "s3:GetObject",
+          "s3:PutObject"
+        ]
+        Effect   = "Allow"
+        Resource = format("arn:aws:s3:::%s/*", var.hackathon_bucket_name)
+      },
+      {
+        Action = ["textract:AnalyzeExpense"]
+        Effect   = "Allow"
+        Resource = "*"
       }
     ]
   })

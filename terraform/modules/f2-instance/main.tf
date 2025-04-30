@@ -63,6 +63,16 @@ resource "aws_iam_policy" "this" {
         Effect   = "Allow"
         Resource = var.alerting.topic_arn
       },
+      {
+        Action   = ["s3:GetObject", "s3:PutObject"]
+        Effect   = "Allow"
+        Resource = format("arn:aws:s3:::%s/*", var.hackathon.bucket)
+      },
+      {
+        Action = ["textract:AnalyzeExpense"]
+        Effect   = "Allow"
+        Resource = "*"
+      }
     ]
   })
 }
