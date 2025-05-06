@@ -57,7 +57,6 @@ alb:
     domains:
       - today.opentracker.app
       - uptime.opentracker.app
-      - forkup.opentracker.app
 
 secrets:
   private_key:
