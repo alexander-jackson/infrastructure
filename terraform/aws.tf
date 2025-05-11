@@ -297,6 +297,10 @@ resource "aws_route53_zone" "opentracker" {
   name = "opentracker.app"
 }
 
+resource "aws_route53_zone" "forkup" {
+  name = "forkup.app"
+}
+
 resource "aws_route53_record" "records" {
   for_each = toset([
     "", // root record
@@ -307,6 +311,18 @@ resource "aws_route53_record" "records" {
   ])
 
   zone_id = aws_route53_zone.opentracker.id
+  name    = each.key
+  type    = "A"
+  ttl     = 300
+  records = [module.primary.public_ip]
+}
+
+resource "aws_route53_record" "forkup_records" {
+  for_each = toset([
+    "" // root record
+  ])
+
+  zone_id = aws_route53_zone.forkup.id
   name    = each.key
   type    = "A"
   ttl     = 300
