@@ -41,7 +41,7 @@ resource "aws_iam_policy" "this" {
       {
         Action   = ["route53:ChangeResourceRecordSets"]
         Effect   = "Allow"
-        Resource = format("arn:aws:route53:::hostedzone/%s", var.hosted_zone_id)
+        Resource = formatlist("arn:aws:route53:::hostedzone/%s", var.hosted_zones)
       },
       {
         Action   = ["s3:ListBucket"]
