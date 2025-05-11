@@ -49,6 +49,15 @@ alb:
           location: s3
           bucket: configuration-68f6c7
           key: f2/certificates/forkup.opentracker.app/privkey.pem
+      forkup.app:
+        cert_file:
+          location: s3
+          bucket: configuration-68f6c7
+          key: f2/certificates/forkup.app/fullchain.pem
+        key_file:
+          location: s3
+          bucket: configuration-68f6c7
+          key: f2/certificates/forkup.app/privkey.pem
   mtls:
     anchor:
       location: s3
@@ -91,14 +100,14 @@ services:
     tag: 20250511-1708
     port: 80
     replicas: 1
-    host: forkup.opentracker.app
+    host: forkup.app
 
   forkup-backend:
     image: alexanderjackson/forkup-backend
     tag: 20250511-1708
     port: 8083
     replicas: 1
-    host: forkup.opentracker.app
+    host: forkup.app
     path_prefix: /api
     environment:
       SERVER_ADDR: "0.0.0.0:8083"
