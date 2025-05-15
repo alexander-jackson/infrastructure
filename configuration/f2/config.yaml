@@ -104,7 +104,7 @@ services:
 
   forkup-backend:
     image: alexanderjackson/forkup-backend
-    tag: 20250511-1708
+    tag: 20250515-1007
     port: 8083
     replicas: 1
     host: forkup.app
