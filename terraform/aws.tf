@@ -201,9 +201,9 @@ resource "aws_key_pair" "main" {
   public_key = file("./keys/id_rsa.pub")
 }
 
-module "primary" {
+module "secondary" {
   source = "./modules/f2-instance"
-  name   = "primary"
+  name   = "secondary"
 
   instance = {
     type      = "t3.nano"
@@ -215,7 +215,7 @@ module "primary" {
   configuration = {
     bucket    = module.config_bucket.name
     key       = "f2/config.yaml"
-    image_tag = "20250515-1004"
+    image_tag = "20250515-1105"
   }
 
   logging = {
@@ -265,13 +265,13 @@ module "database" {
   elastic_ip = false
 }
 
-resource "aws_security_group_rule" "allow_inbound_connections_from_primary" {
-  description              = format("Allow inbound connections from %s", module.primary.security_group_id)
+resource "aws_security_group_rule" "allow_inbound_connections_from_secondary" {
+  description              = format("Allow inbound connections from %s", module.secondary.security_group_id)
   type                     = "ingress"
   from_port                = 5432
   to_port                  = 5432
   protocol                 = "tcp"
-  source_security_group_id = module.primary.security_group_id
+  source_security_group_id = module.secondary.security_group_id
   security_group_id        = module.database.security_group_id
 }
 
@@ -317,7 +317,7 @@ resource "aws_route53_record" "records" {
   name    = each.key
   type    = "A"
   ttl     = 300
-  records = [module.primary.public_ip]
+  records = [module.secondary.public_ip]
 }
 
 resource "aws_route53_record" "forkup_records" {
@@ -329,5 +329,5 @@ resource "aws_route53_record" "forkup_records" {
   name    = each.key
   type    = "A"
   ttl     = 300
-  records = [module.primary.public_ip]
+  records = [module.secondary.public_ip]
 }
