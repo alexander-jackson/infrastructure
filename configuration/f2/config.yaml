@@ -101,6 +101,7 @@ services:
     port: 80
     replicas: 1
     host: forkup.app
+    shutdown_mode: graceful
 
   forkup-backend:
     image: alexanderjackson/forkup-backend
@@ -109,6 +110,7 @@ services:
     replicas: 1
     host: forkup.app
     path_prefix: /api
+    shutdown_mode: graceful
     environment:
       SERVER_ADDR: "0.0.0.0:8083"
 
