@@ -81,6 +81,7 @@ module "personal" {
   key  = "master.key"
 
   hackathon_bucket_name = module.hackathon_bucket.name
+  forkup_dev_role_arn   = aws_iam_role.forkup_dev.arn
 }
 
 module "repositories" {
@@ -175,6 +176,49 @@ resource "aws_iam_user_policy" "configuration_deployer" {
           format("%s/vector/vector.yaml", module.config_bucket.arn),
         ]
       },
+    ]
+  })
+}
+
+resource "aws_iam_role" "forkup_dev" {
+  name = "forkup-dev"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action   = ["s3:ListBucket"]
+        Effect   = "Allow"
+        Resource = format("arn:aws:s3:::%s", module.hackathon_bucket.name)
+      },
+      {
+        Action = [
+          "s3:GetObject",
+          "s3:PutObject"
+        ]
+        Effect   = "Allow"
+        Resource = format("arn:aws:s3:::%s/*", module.hackathon_bucket.name)
+      },
+      {
+        Action   = ["textract:AnalyzeExpense", "textract:StartExpenseAnalysis"]
+        Effect   = "Allow"
+        Resource = "*"
+      },
+      {
+        Action   = "sns:Publish"
+        Effect   = "Allow"
+        Resource = aws_sns_topic.expense_analysis_completions.arn
+      },
+      {
+        Action   = "iam:PassRole"
+        Effect   = "Allow"
+        Resource = "*"
+        Condition = {
+          StringEquals = {
+            "iam:PassedToService" = "textract.amazonaws.com"
+          }
+        }
+      }
     ]
   })
 }
