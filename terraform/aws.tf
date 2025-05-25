@@ -197,7 +197,8 @@ resource "aws_iam_role" "forkup_dev" {
         Action = "sts:AssumeRole"
         Effect = "Allow"
         Principal = {
-          AWS = module.personal.user_arn
+          AWS     = module.personal.user_arn
+          Service = "textract.amazonaws.com"
         }
       }
     ]

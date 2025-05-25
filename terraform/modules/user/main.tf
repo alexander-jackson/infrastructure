@@ -79,7 +79,7 @@ resource "aws_iam_user_policy" "this" {
         Resource = "arn:aws:s3:::logging-4acb18/*"
       },
       {
-        Action = ["s3:ListBucket"]
+        Action   = ["s3:ListBucket"]
         Effect   = "Allow"
         Resource = format("arn:aws:s3:::%s", var.hackathon_bucket_name)
       },
@@ -92,15 +92,20 @@ resource "aws_iam_user_policy" "this" {
         Resource = format("arn:aws:s3:::%s/*", var.hackathon_bucket_name)
       },
       {
-        Action = ["textract:AnalyzeExpense"]
+        Action   = ["textract:AnalyzeExpense"]
         Effect   = "Allow"
         Resource = "*"
       },
       {
-        Action = ["sts:AssumeRole"]
+        Action   = ["sts:AssumeRole"]
         Effect   = "Allow"
         Resource = var.forkup_dev_role_arn
       },
+      {
+        Action   = ["iam:PassRole"]
+        Effect   = "Allow"
+        Resource = var.forkup_dev_role_arn
+      }
     ]
   })
 }
