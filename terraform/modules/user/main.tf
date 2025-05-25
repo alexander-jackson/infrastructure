@@ -95,7 +95,12 @@ resource "aws_iam_user_policy" "this" {
         Action = ["textract:AnalyzeExpense"]
         Effect   = "Allow"
         Resource = "*"
-      }
+      },
+      {
+        Action = ["sts:AssumeRole"]
+        Effect   = "Allow"
+        Resource = var.forkup_dev_role_arn
+      },
     ]
   })
 }
