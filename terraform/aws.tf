@@ -74,6 +74,13 @@ resource "aws_iam_role_policy_attachment" "iac_deployer" {
   policy_arn = aws_iam_policy.iac_deployer.arn
 }
 
+locals {
+  forkup_dev_role_arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/forkup-dev"
+}
+
+# Add this at the top of your file
+data "aws_caller_identity" "current" {}
+
 module "personal" {
   source = "./modules/user"
 
@@ -81,7 +88,7 @@ module "personal" {
   key  = "master.key"
 
   hackathon_bucket_name = module.hackathon_bucket.name
-  forkup_dev_role_arn   = aws_iam_role.forkup_dev.arn
+  forkup_dev_role_arn   = local.forkup_dev_role_arn
 }
 
 module "repositories" {
@@ -187,6 +194,24 @@ resource "aws_iam_role" "forkup_dev" {
     Version = "2012-10-17"
     Statement = [
       {
+        Action = "sts:AssumeRole"
+        Effect = "Allow"
+        Principal = {
+          AWS = module.personal.user_arn
+        }
+      }
+    ]
+  })
+}
+
+resource "aws_iam_policy" "forkup_dev_policy" {
+  name        = "forkup-dev-policy"
+  description = "Permissions for the forkup-dev role"
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
         Action   = ["s3:ListBucket"]
         Effect   = "Allow"
         Resource = format("arn:aws:s3:::%s", module.hackathon_bucket.name)
@@ -221,6 +246,11 @@ resource "aws_iam_role" "forkup_dev" {
       }
     ]
   })
+}
+
+resource "aws_iam_role_policy_attachment" "forkup_dev" {
+  role       = aws_iam_role.forkup_dev.name
+  policy_arn = aws_iam_policy.forkup_dev_policy.arn
 }
 
 # Virtual Private Cloud definition
