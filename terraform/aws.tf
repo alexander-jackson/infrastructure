@@ -235,6 +235,11 @@ resource "aws_iam_policy" "forkup_dev_policy" {
         Resource = aws_sns_topic.expense_analysis_completions.arn
       },
       {
+        Action   = "sqs:ReceiveMessage"
+        Effect   = "Allow"
+        Resource = aws_sqs_queue.expense_analysis_completions.arn
+      },
+      {
         Action   = "iam:PassRole"
         Effect   = "Allow"
         Resource = "*"
