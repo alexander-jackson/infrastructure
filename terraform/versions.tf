@@ -6,11 +6,10 @@ terraform {
     }
   }
 
-  cloud {
-    organization = "blackboards"
-
-    workspaces {
-      name = "infrastructure"
-    }
+  backend "s3" {
+    bucket       = "terraform-remote-state-5af08d"
+    key          = "state.json"
+    region       = "eu-west-1"
+    use_lockfile = true
   }
 }
