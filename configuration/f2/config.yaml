@@ -124,8 +124,10 @@ services:
 
       DATABASE_HOST: 10.0.0.238
       DATABASE_PORT: 5432
-      ENVIRONMENT: production
-      RUST_LOG: trace
+
+      CORS_ORIGIN: https://forkup.app
+      CORS_METHODS: "GET,PUT,OPTIONS"
+      CORS_HEADERS: Content-Type
 
   tag-updater:
     image: alexanderjackson/tag-updater
