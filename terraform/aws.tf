@@ -180,6 +180,7 @@ resource "aws_iam_user_policy" "configuration_deployer" {
         Resource = [
           format("%s/f2/config.yaml", module.config_bucket.arn),
           format("%s/f2/anchor.pem", module.config_bucket.arn),
+          format("%s/forkup/config.yaml", module.config_bucket.arn),
           format("%s/vector/vector.yaml", module.config_bucket.arn),
         ]
       },
