@@ -111,6 +111,13 @@ services:
     host: forkup.app
     path_prefix: /api
     shutdown_mode: graceful
+    volumes:
+      config:
+        source:
+          location: s3
+          bucket: configuration-68f6c7
+          key: forkup/config.yaml
+        target: /app/config/forkup.yaml
     environment:
       SERVER_ADDR: "0.0.0.0:8083"
 
