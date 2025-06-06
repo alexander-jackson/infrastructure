@@ -2,6 +2,8 @@
 
 # Usage: env AWS_ACCESS_KEY_ID=your_access_key_id AWS_SECRET_ACCESS_KEY=your_secret_access_key ./renew-certificates.sh <server_name> <domain1> <domain2> ...
 
+set -euo pipefail
+
 # Get the server name as the first argument
 SERVER_NAME="$1"
 
@@ -30,8 +32,8 @@ if [ ${#DOMAINS[@]} -eq 0 ]; then
   exit 1
 fi
 
-# Create a directory to store the certificates if it doesn't exist
-mkdir -p ./certs
+# Create a directory to store the certificates
+mkdir ./certs
 
 # SSH into the server and make sure Certbot is installed
 ssh "$SSH_TARGET" << 'EOF'
