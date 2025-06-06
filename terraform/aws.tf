@@ -395,8 +395,7 @@ resource "aws_route53_record" "records" {
     "", // root record
     "tags",
     "today",
-    "uptime",
-    "forkup"
+    "uptime"
   ])
 
   zone_id = aws_route53_zone.opentracker.id
