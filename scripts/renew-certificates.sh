@@ -60,6 +60,9 @@ for DOMAIN in "${DOMAINS[@]}"; do
   scp "$SSH_TARGET:/home/$USERNAME/$DOMAIN-fullchain.pem" "./certs/$DOMAIN-fullchain.pem"
   scp "$SSH_TARGET:/home/$USERNAME/$DOMAIN-privkey.pem" "./certs/$DOMAIN-privkey.pem"
 
+  # Remove the copied files from the server
+  ssh "$SSH_TARGET" "rm /home/$USERNAME/$DOMAIN-fullchain.pem /home/$USERNAME/$DOMAIN-privkey.pem"
+
   # Copy the renewed certificates to S3
   aws s3 cp "./certs/$DOMAIN-fullchain.pem" "s3://configuration-68f6c7/f2/certificates/$DOMAIN/fullchain.pem"
   aws s3 cp "./certs/$DOMAIN-privkey.pem" "s3://configuration-68f6c7/f2/certificates/$DOMAIN/privkey.pem"
