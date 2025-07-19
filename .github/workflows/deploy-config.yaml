@@ -26,4 +26,4 @@ jobs:
         run: aws s3 sync ./configuration s3://configuration-68f6c7
 
       - name: Force reconciliation
-        run: curl -X PUT https://opentracker.app/reconcile
+        run: curl https://opentracker.app/reconcile
