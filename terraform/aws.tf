@@ -416,3 +416,20 @@ resource "aws_route53_record" "forkup_records" {
   ttl     = 300
   records = [module.secondary.public_ip]
 }
+
+# Internal Route 53 definitions
+resource "aws_route53_zone" "internal" {
+  name = "mesh.internal"
+
+  vpc {
+    vpc_id = aws_vpc.main.id
+  }
+}
+
+resource "aws_route53_record" "database" {
+  zone_id = aws_route53_zone.internal.id
+  name    = "postgres"
+  type    = "A"
+  ttl     = 300
+  records = [module.database.private_ip]
+}
