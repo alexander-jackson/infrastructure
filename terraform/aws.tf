@@ -420,6 +420,10 @@ resource "aws_route53_record" "forkup_records" {
 # Internal Route 53 definitions
 resource "aws_route53_zone" "internal" {
   name = "mesh.internal"
+
+  vpc {
+    vpc_id = aws_vpc.main.id
+  }
 }
 
 resource "aws_route53_record" "database" {
