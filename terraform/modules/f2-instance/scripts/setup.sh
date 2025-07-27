@@ -19,4 +19,5 @@ sudo docker run -d -v /var/run/docker.sock:/var/run/docker.sock -v /home/ubuntu/
 # Allow the `ubuntu` user to run `docker` commands (for SSH access)
 sudo usermod -aG docker ubuntu
 
-sudo docker run -d -v /var/run/docker.sock:/var/run/docker.sock -p 443:443 alexanderjackson/f2:${tag} -- --config s3://${config_bucket}/${config_key}
+sudo docker network create --driver bridge internal
+sudo docker run -d -v /var/run/docker.sock:/var/run/docker.sock -v /tmp:/tmp --network internal -p 443:443 alexanderjackson/f2:${tag} -- --config s3://${config_bucket}/${config_key}
