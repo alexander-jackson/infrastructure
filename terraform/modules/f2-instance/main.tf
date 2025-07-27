@@ -193,6 +193,8 @@ resource "aws_instance" "this" {
   lifecycle {
     ignore_changes = [user_data]
   }
+
+  user_data_replace_on_change = false
 }
 
 resource "aws_eip" "this" {
