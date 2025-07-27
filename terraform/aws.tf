@@ -330,7 +330,7 @@ module "primary" {
 
 module "secondary" {
   source = "./modules/f2-instance"
-  name   = "primary"
+  name   = "secondary"
 
   instance = {
     type      = "t2.micro"
