@@ -119,22 +119,7 @@ services:
           key: forkup/config.yaml
         target: /app/config/forkup.yaml
     environment:
-      SERVER_ADDR: "0.0.0.0:8083"
-
-      ROOT_USERNAME: postgres
-      ROOT_PASSWORD: secret:fqVc33oytS3bXv3if9VnWEH1kkYmP042nCPnlS3ZbMiJ1DpY3wNQZ3VlarS3Sk+IJmGJOcZ47N62S0JgBZXjCvI586I/LyVFCHTjaeVIApczj/LtdFA5jbU73kYdWm15cEu73WWOnt4Y65/1h9YAP/pQDmhQxyDDBK9DNBHGJmh9tp1BX3AQ978kUKLdrodjxqZDLDVw6xzNhrrhmvJGypyTfKuqnTCB7JV7s9mgNeratZ+7Cb5wjaHFRkt8T/nsEq7vm14zgKPAQSH5ln2vc19Vmai+iYuEwdKDTbgIwPWP6ATP1QTS2t+Cd452vgGHVR3Kvd6geG/D1hWCw1tYtw==
-      ROOT_DATABASE: postgres
-
-      APP_USERNAME: forkupblue
-      APP_PASSWORD: secret:fFalHq733TmgACKeryFW2TzppYtn7H5FDquPx4Z7Dh76Mgq5Zz4DS+iOmSzWIhC4RDC8+U7b2NKUGnWzEAEM3ltF1v5I029Wlv6nOHo5pGHWEPseaPmvrk3mfupyK+FDsDnVyXJ35QNBvJEgEIJHAzNd79hGTcdHU5WlXsIrIP9FPH4dw72ATAkdaNP1zgKriUx5luYYONlM+H81zmWCt1XX9gRG3Y8eSMwAgIZQcfFvvGZ4+CNJJfQRrPMX1mQfGTjtSQ10p9YqdEuNrJvxxsoMXgrsxJRE5Qr8sc+QYBn1f5CKFXw23QoupBFUR6Dggoi+Z1xUoVOE2Ly8zI1kRQ==
-      APP_DATABASE: forkup
-
-      DATABASE_HOST: postgres.mesh.internal
-      DATABASE_PORT: 5432
-
-      CORS_ORIGIN: https://forkup.app
-      CORS_METHODS: "GET,PUT,OPTIONS"
-      CORS_HEADERS: Content-Type
+      RUST_LOG: debug
 
   tag-updater:
     image: alexanderjackson/tag-updater
