@@ -15,6 +15,10 @@ server:
     body_size: "10 MB"
     timeout: "30 seconds"
 
+  telemetry:
+    enabled: false
+    endpoint: localhost:4317
+
 database:
   host: "10.0.0.238"
   port: 5432
