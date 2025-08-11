@@ -97,7 +97,7 @@ services:
 
   forkup-frontend:
     image: alexanderjackson/forkup-frontend
-    tag: 20250529-1914
+    tag: 20250811-1449
     port: 80
     replicas: 1
     host: forkup.app
