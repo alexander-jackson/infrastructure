@@ -40,15 +40,6 @@ alb:
           location: s3
           bucket: configuration-68f6c7
           key: f2/certificates/uptime.opentracker.app/privkey.pem
-      forkup.opentracker.app:
-        cert_file:
-          location: s3
-          bucket: configuration-68f6c7
-          key: f2/certificates/forkup.opentracker.app/fullchain.pem
-        key_file:
-          location: s3
-          bucket: configuration-68f6c7
-          key: f2/certificates/forkup.opentracker.app/privkey.pem
       forkup.app:
         cert_file:
           location: s3
