@@ -69,17 +69,19 @@ services:
   frontend:
     image: alexanderjackson/opentracker-frontend
     tag: 20240810-2043
-    port: 80
+    routes:
+      - host: opentracker.app
+        port: 80
     replicas: 1
-    host: opentracker.app
 
   backend:
     image: alexanderjackson/opentracker-backend
     tag: 20240811-0551
-    port: 3025
+    routes:
+      - host: opentracker.app
+        prefix: /api
+        port: 3025
     replicas: 1
-    host: opentracker.app
-    path_prefix: /api
     environment:
       DATABASE_HOST: postgres.mesh.internal
       DATABASE_NAME: opentracker
@@ -90,18 +92,20 @@ services:
   forkup-frontend:
     image: alexanderjackson/forkup-frontend
     tag: 20250811-1449
-    port: 80
+    routes:
+      - host: forkup.app
+        port: 80
     replicas: 1
-    host: forkup.app
     shutdown_mode: graceful
 
   forkup-backend:
     image: alexanderjackson/forkup-backend
     tag: 20250817-0742
-    port: 8083
+    routes:
+      - host: forkup.app
+        prefix: /api
+        port: 80
     replicas: 1
-    host: forkup.app
-    path_prefix: /api
     shutdown_mode: graceful
     volumes:
       config:
@@ -116,9 +120,10 @@ services:
   tag-updater:
     image: alexanderjackson/tag-updater
     tag: 20241104-0650
-    port: 4025
+    routes:
+      - host: tags.opentracker.app
+        port: 4025
     replicas: 1
-    host: tags.opentracker.app
     environment:
       PASSPHRASE: secret:mgVl9nw3UsAI7Kw5U7g0iAmba9YeW3Ly9i+FvJpR9EFbnfzo1EOXGBqPBVo8qhPtHjb6iW1zOqOba4y+cFj7luoRy7JQZHAu8OeJEJyRadJJQgZH3TKJtLWjM5YOtwTOmPhv9NF3FAnAqaSAelsBAu4HLVg7iR9CavLfcGUcu4t9eQtmVcaQC1jgJpJP6luy3z0NOkkoG+SCzGBIwYQGqAsGvhYqi9A49GgErUdzZjaAIb8VK8hQMOPXxQ2k7pPfe/VipkTmd2vGkdVhrU6PGBkYIwxBh6IbxajRgyau7hi7vekau/xE30VoklP/t9GpmMBJSOA6mKgFly/G8vxw7g==
       GIT_CLONE_PRIVATE_KEY: s3://configuration-68f6c7/tag-updater/id_rsa
@@ -126,9 +131,10 @@ services:
   today:
     image: alexanderjackson/today
     tag: 20250222-2127
-    port: 8000
+    routes:
+      - host: today.opentracker.app
+        port: 8000
     replicas: 1
-    host: today.opentracker.app
     environment:
       ROOT_USERNAME: postgres
       ROOT_PASSWORD: secret:fqVc33oytS3bXv3if9VnWEH1kkYmP042nCPnlS3ZbMiJ1DpY3wNQZ3VlarS3Sk+IJmGJOcZ47N62S0JgBZXjCvI586I/LyVFCHTjaeVIApczj/LtdFA5jbU73kYdWm15cEu73WWOnt4Y65/1h9YAP/pQDmhQxyDDBK9DNBHGJmh9tp1BX3AQ978kUKLdrodjxqZDLDVw6xzNhrrhmvJGypyTfKuqnTCB7JV7s9mgNeratZ+7Cb5wjaHFRkt8T/nsEq7vm14zgKPAQSH5ln2vc19Vmai+iYuEwdKDTbgIwPWP6ATP1QTS2t+Cd452vgGHVR3Kvd6geG/D1hWCw1tYtw==
@@ -147,9 +153,7 @@ services:
   pgbackup:
     image: alexanderjackson/pgbackup
     tag: 20240908-1932
-    port: 80
     replicas: 1
-    host: unapplicable
     environment:
       S3_BUCKET: postgres-backups-65ef5c
       BACKUP_TIME: "22:30"
@@ -162,9 +166,10 @@ services:
   uptime:
     image: alexanderjackson/uptime
     tag: 20241228-1021
-    port: 8000
+    routes:
+      - host: uptime.opentracker.app
+        port: 8000
     replicas: 1
-    host: uptime.opentracker.app
     environment:
       ROOT_USERNAME: postgres
       ROOT_PASSWORD: secret:fqVc33oytS3bXv3if9VnWEH1kkYmP042nCPnlS3ZbMiJ1DpY3wNQZ3VlarS3Sk+IJmGJOcZ47N62S0JgBZXjCvI586I/LyVFCHTjaeVIApczj/LtdFA5jbU73kYdWm15cEu73WWOnt4Y65/1h9YAP/pQDmhQxyDDBK9DNBHGJmh9tp1BX3AQ978kUKLdrodjxqZDLDVw6xzNhrrhmvJGypyTfKuqnTCB7JV7s9mgNeratZ+7Cb5wjaHFRkt8T/nsEq7vm14zgKPAQSH5ln2vc19Vmai+iYuEwdKDTbgIwPWP6ATP1QTS2t+Cd452vgGHVR3Kvd6geG/D1hWCw1tYtw==
