@@ -178,6 +178,7 @@ resource "aws_iam_user_policy" "configuration_deployer" {
         Effect = "Allow"
         Resource = [
           format("%s/f2/config.yaml", module.config_bucket.arn),
+          format("%s/f2/telemetry.yaml", module.config_bucket.arn),
           format("%s/f2/anchor.pem", module.config_bucket.arn),
           format("%s/forkup/config.yaml", module.config_bucket.arn),
           format("%s/vector/vector.yaml", module.config_bucket.arn),
@@ -276,6 +277,12 @@ resource "aws_subnet" "main" {
   availability_zone = "eu-west-1a"
 }
 
+resource "aws_subnet" "telemetry" {
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = "10.0.64.0/24"
+  availability_zone = "eu-west-1a"
+}
+
 # Internet Gateway definition
 resource "aws_internet_gateway" "main" {
   vpc_id = aws_vpc.main.id
@@ -287,9 +294,9 @@ resource "aws_key_pair" "main" {
   public_key = file("./keys/id_rsa.pub")
 }
 
-module "secondary" {
+module "primary" {
   source = "./modules/f2-instance"
-  name   = "secondary"
+  name   = "primary"
 
   instance = {
     type      = "t2.micro"
@@ -301,7 +308,7 @@ module "secondary" {
   configuration = {
     bucket    = module.config_bucket.name
     key       = "f2/config.yaml"
-    image_tag = "20250722-1814"
+    image_tag = "20250819-1953"
   }
 
   logging = {
@@ -328,13 +335,7 @@ module "secondary" {
   ]
 }
 
-locals {
-  telemetry_enabled = false
-}
-
 module "telemetry" {
-  count = local.telemetry_enabled ? 1 : 0
-
   source = "./modules/f2-instance"
   name   = "telemetry"
 
@@ -342,13 +343,13 @@ module "telemetry" {
     type      = "t2.medium"
     ami       = "ami-0ab14756db2442499"
     vpc_id    = aws_vpc.main.id
-    subnet_id = aws_subnet.main.id
+    subnet_id = aws_subnet.telemetry.id
   }
 
   configuration = {
     bucket    = module.config_bucket.name
     key       = "f2/telemetry.yaml"
-    image_tag = "20250722-1814"
+    image_tag = "20250819-1953"
   }
 
   logging = {
@@ -373,6 +374,8 @@ module "telemetry" {
     aws_route53_zone.opentracker.id,
     aws_route53_zone.forkup.id
   ]
+
+  inbound_http_subnet_id = aws_subnet.main.id
 }
 
 module "database" {
@@ -398,13 +401,13 @@ module "database" {
   elastic_ip = false
 }
 
-resource "aws_security_group_rule" "allow_inbound_connections_from_secondary" {
-  description              = format("Allow inbound connections from %s", module.secondary.security_group_id)
+resource "aws_security_group_rule" "allow_inbound_connections_from_primary" {
+  description              = format("Allow inbound connections from %s", module.primary.security_group_id)
   type                     = "ingress"
   from_port                = 5432
   to_port                  = 5432
   protocol                 = "tcp"
-  source_security_group_id = module.secondary.security_group_id
+  source_security_group_id = module.primary.security_group_id
   security_group_id        = module.database.security_group_id
 }
 
@@ -425,6 +428,11 @@ resource "aws_route_table" "gateway" {
 
 resource "aws_route_table_association" "gateway" {
   subnet_id      = aws_subnet.main.id
+  route_table_id = aws_route_table.gateway.id
+}
+
+resource "aws_route_table_association" "telemetry_gateway" {
+  subnet_id      = aws_subnet.telemetry.id
   route_table_id = aws_route_table.gateway.id
 }
 
@@ -449,17 +457,17 @@ resource "aws_route53_record" "records" {
   name    = each.key
   type    = "A"
   ttl     = 300
-  records = [module.secondary.public_ip]
+  records = [module.primary.public_ip]
 }
 
 resource "aws_route53_record" "telemetry_records" {
-  for_each = local.telemetry_enabled ? toset(["telemetry"]) : toset([])
+  for_each = toset(["telemetry"])
 
   zone_id = aws_route53_zone.opentracker.id
   name    = each.key
   type    = "A"
   ttl     = 300
-  records = [module.telemetry[0].public_ip]
+  records = [module.telemetry.public_ip]
 }
 
 resource "aws_route53_record" "forkup_records" {
@@ -471,7 +479,7 @@ resource "aws_route53_record" "forkup_records" {
   name    = each.key
   type    = "A"
   ttl     = 300
-  records = [module.secondary.public_ip]
+  records = [module.primary.public_ip]
 }
 
 # Internal Route 53 definitions
@@ -489,4 +497,12 @@ resource "aws_route53_record" "database" {
   type    = "A"
   ttl     = 300
   records = [module.database.private_ip]
+}
+
+resource "aws_route53_record" "telemetry" {
+  zone_id = aws_route53_zone.internal.id
+  name    = "telemetry"
+  type    = "A"
+  ttl     = 300
+  records = [module.telemetry.private_ip]
 }

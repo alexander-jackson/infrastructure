@@ -104,6 +104,23 @@ resource "aws_security_group_rule" "allow_inbound_ssh" {
   cidr_blocks       = ["0.0.0.0/0"]
 }
 
+data "aws_subnet" "inbound_http" {
+  count = var.inbound_http_subnet_id != null ? 1 : 0
+  id    = var.inbound_http_subnet_id
+}
+
+resource "aws_security_group_rule" "allow_inbound_http" {
+  count = var.inbound_http_subnet_id != null ? 1 : 0
+
+  description       = "Allow inbound http from the specified subnet"
+  type              = "ingress"
+  from_port         = 80
+  to_port           = 80
+  protocol          = "tcp"
+  security_group_id = aws_security_group.this.id
+  cidr_blocks       = var.inbound_http_subnet_id != null ? [data.aws_subnet.inbound_http[0].cidr_block] : []
+}
+
 resource "aws_security_group_rule" "allow_inbound_https" {
   description       = "Allow inbound HTTPS from anywhere"
   type              = "ingress"
