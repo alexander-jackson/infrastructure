@@ -1,6 +1,7 @@
 alb:
   addr: 0.0.0.0
-  port: 443
+  ports:
+    https: 443
   reconciliation: /reconcile
   tls:
     domains:
