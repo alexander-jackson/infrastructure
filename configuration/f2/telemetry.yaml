@@ -1,0 +1,58 @@
+alb:
+  addr: 0.0.0.0
+  ports:
+    http: 80
+    https: 443
+  reconciliation: /reconcile
+  tls:
+    domains:
+      telemetry.opentracker.app:
+        cert_file:
+          location: s3
+          bucket: configuration-68f6c7
+          key: f2/certificates/telemetry.opentracker.app/fullchain.pem
+        key_file:
+          location: s3
+          bucket: configuration-68f6c7
+          key: f2/certificates/telemetry.opentracker.app/privkey.pem
+  mtls:
+    anchor:
+      location: s3
+      bucket: configuration-68f6c7
+      key: f2/anchor.pem
+    domains:
+      - telemetry.opentracker.app
+
+secrets:
+  private_key:
+    location: s3
+    bucket: configuration-68f6c7
+    key: f2/private.key
+
+services:
+  mongo:
+    image: mongo
+    tag: 5.0.14-focal
+    replicas: 1
+
+  clickhouse:
+    image: clickhouse/clickhouse-server
+    tag: 25.6-alpine
+    replicas: 1
+    environment:
+      CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT: 1
+
+  hyperdx:
+    image: hyperdx/hyperdx-local
+    tag: 2.0.6
+    routes:
+      - host: telemetry.opentracker.app
+        port: 8080
+      - host: telemetry.mesh.internal
+        port: 4318
+    replicas: 1
+    environment:
+      MONGO_URI: 'mongodb://mongo.opentracker.app:27017'
+      FRONTEND_URL: 'https://telemetry.opentracker.app:8080'
+      SERVER_URL: 'https://telemetry.opentracker.app:8080'
+      OTEL_EXPORTER_OTLP_ENDPOINT: 'http://hyperdx-otel-collector:4318'
