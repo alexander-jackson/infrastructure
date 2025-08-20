@@ -104,7 +104,7 @@ services:
     routes:
       - host: forkup.app
         prefix: /api
-        port: 80
+        port: 8083
     replicas: 1
     shutdown_mode: graceful
     volumes:
