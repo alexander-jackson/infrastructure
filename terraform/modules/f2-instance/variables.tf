@@ -60,3 +60,9 @@ variable "hosted_zones" {
   type        = list(string)
   description = "The hosted zone identifiers for Let's Encrypt renewals"
 }
+
+variable "inbound_http_subnet_id" {
+  type        = string
+  description = "The subnet ID to allow inbound HTTP traffic from"
+  default     = null
+}
