@@ -124,6 +124,13 @@ services:
       - host: tags.opentracker.app
         port: 4025
     replicas: 1
+    volumes:
+      config:
+        source:
+          location: s3
+          bucket: configuration-68f6c7
+          key: tag-updater/config.yaml
+        target: /app/config/tag-updater.yaml
     environment:
       PASSPHRASE: secret:mgVl9nw3UsAI7Kw5U7g0iAmba9YeW3Ly9i+FvJpR9EFbnfzo1EOXGBqPBVo8qhPtHjb6iW1zOqOba4y+cFj7luoRy7JQZHAu8OeJEJyRadJJQgZH3TKJtLWjM5YOtwTOmPhv9NF3FAnAqaSAelsBAu4HLVg7iR9CavLfcGUcu4t9eQtmVcaQC1jgJpJP6luy3z0NOkkoG+SCzGBIwYQGqAsGvhYqi9A49GgErUdzZjaAIb8VK8hQMOPXxQ2k7pPfe/VipkTmd2vGkdVhrU6PGBkYIwxBh6IbxajRgyau7hi7vekau/xE30VoklP/t9GpmMBJSOA6mKgFly/G8vxw7g==
       GIT_CLONE_PRIVATE_KEY: s3://configuration-68f6c7/tag-updater/id_rsa
