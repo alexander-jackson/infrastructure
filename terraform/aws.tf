@@ -340,7 +340,7 @@ module "telemetry" {
   name   = "telemetry"
 
   instance = {
-    type      = "t2.medium"
+    type      = "t3.medium"
     ami       = "ami-0ab14756db2442499"
     vpc_id    = aws_vpc.main.id
     subnet_id = aws_subnet.telemetry.id
