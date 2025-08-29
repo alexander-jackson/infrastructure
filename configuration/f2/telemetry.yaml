@@ -34,6 +34,12 @@ services:
     image: mongo
     tag: 5.0.14-focal
     replicas: 1
+    volumes:
+      data:
+        source:
+          location: filesystem
+          path: /mnt/data/mongo/data
+        target: /data/db
 
   clickhouse:
     image: clickhouse/clickhouse-server
@@ -41,6 +47,17 @@ services:
     replicas: 1
     environment:
       CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT: 1
+    volumes:
+      data:
+        source:
+          location: filesystem
+          path: /mnt/data/clickhouse/data
+        target: /var/lib/clickhouse
+      logs:
+        source:
+          location: filesystem
+          path: /mnt/data/clickhouse/logs
+        target: /var/log/clickhouse-server
 
   hyperdx:
     image: hyperdx/hyperdx-local
