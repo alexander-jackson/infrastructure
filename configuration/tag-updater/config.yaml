@@ -5,3 +5,6 @@ private_key:
   location: s3
   bucket: configuration-68f6c7
   key: tag-updater/id_rsa
+telemetry:
+  enabled: true
+  endpoint: http://telemetry.mesh.internal:80/v1/traces
