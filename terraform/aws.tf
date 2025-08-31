@@ -350,7 +350,7 @@ module "telemetry" {
   configuration = {
     bucket    = module.config_bucket.name
     key       = "f2/telemetry.yaml"
-    image_tag = "20250819-1953"
+    image_tag = "20250829-1918"
   }
 
   logging = {
@@ -368,6 +368,13 @@ module "telemetry" {
 
   alerting = {
     topic_arn = aws_sns_topic.outages.arn
+  }
+
+  extra_ebs_volume = {
+    size_gb     = 10
+    device_name = "/dev/sdf"
+    volume_type = "gp3"
+    encrypted   = true
   }
 
   key_name = aws_key_pair.main.key_name
