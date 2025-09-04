@@ -73,3 +73,14 @@ services:
       FRONTEND_URL: 'https://telemetry.opentracker.app:8080'
       SERVER_URL: 'https://telemetry.opentracker.app:8080'
       OTEL_EXPORTER_OTLP_ENDPOINT: 'http://hyperdx-otel-collector:4318'
+    volumes:
+      clickhouse_data:
+        source:
+          location: filesystem
+          path: /mnt/data/hyperdx/clickhouse
+        target: /var/lib/clickhouse
+      logs:
+        source:
+          location: filesystem
+          path: /mnt/data/hyperdx/logs
+        target: /var/log/hyperdx
