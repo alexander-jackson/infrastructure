@@ -69,7 +69,7 @@ resource "aws_iam_policy" "this" {
         Resource = format("arn:aws:s3:::%s/*", var.hackathon.bucket)
       },
       {
-        Action = ["textract:AnalyzeExpense"]
+        Action   = ["textract:AnalyzeExpense"]
         Effect   = "Allow"
         Resource = "*"
       }
@@ -192,10 +192,11 @@ resource "aws_instance" "this" {
   subnet_id     = var.instance.subnet_id
 
   user_data = templatefile("${path.module}/scripts/setup.sh", {
-    tag           = var.configuration.image_tag
-    config_bucket = var.configuration.bucket
-    config_key    = var.configuration.key
-    vector_tag    = var.logging.vector_tag
+    tag                 = var.configuration.image_tag
+    config_bucket       = var.configuration.bucket
+    config_key          = var.configuration.key
+    vector_tag          = var.logging.vector_tag
+    extra_volume_device = var.extra_ebs_volume != null ? var.extra_ebs_volume.device_name : ""
   })
 
   vpc_security_group_ids = [aws_security_group.this.id]
@@ -217,4 +218,26 @@ resource "aws_instance" "this" {
 resource "aws_eip" "this" {
   instance = aws_instance.this.id
   domain   = "vpc"
+}
+
+# Additional EBS volume (optional)
+resource "aws_ebs_volume" "extra" {
+  count = var.extra_ebs_volume != null ? 1 : 0
+
+  availability_zone = aws_instance.this.availability_zone
+  size              = var.extra_ebs_volume.size_gb
+  type              = var.extra_ebs_volume.volume_type
+  encrypted         = var.extra_ebs_volume.encrypted
+
+  tags = {
+    Name = format("%s-extra-volume", var.name)
+  }
+}
+
+resource "aws_volume_attachment" "extra" {
+  count = var.extra_ebs_volume != null ? 1 : 0
+
+  device_name = var.extra_ebs_volume.device_name
+  volume_id   = aws_ebs_volume.extra[0].id
+  instance_id = aws_instance.this.id
 }

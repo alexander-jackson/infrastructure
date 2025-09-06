@@ -66,3 +66,14 @@ variable "inbound_http_subnet_id" {
   description = "The subnet ID to allow inbound HTTP traffic from"
   default     = null
 }
+
+variable "extra_ebs_volume" {
+  type = object({
+    size_gb     = number
+    device_name = string
+    volume_type = optional(string, "gp3")
+    encrypted   = optional(bool, true)
+  })
+  description = "Configuration for an additional EBS volume"
+  default     = null
+}
