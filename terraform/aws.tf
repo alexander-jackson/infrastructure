@@ -182,6 +182,7 @@ resource "aws_iam_user_policy" "configuration_deployer" {
           format("%s/f2/anchor.pem", module.config_bucket.arn),
           format("%s/forkup/config.yaml", module.config_bucket.arn),
           format("%s/tag-updater/config.yaml", module.config_bucket.arn),
+          format("%s/today/config.yaml", module.config_bucket.arn),
           format("%s/vector/vector.yaml", module.config_bucket.arn),
         ]
       },
