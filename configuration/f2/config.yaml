@@ -131,9 +131,6 @@ services:
           bucket: configuration-68f6c7
           key: tag-updater/config.yaml
         target: /app/config/tag-updater.yaml
-    environment:
-      PASSPHRASE: secret:mgVl9nw3UsAI7Kw5U7g0iAmba9YeW3Ly9i+FvJpR9EFbnfzo1EOXGBqPBVo8qhPtHjb6iW1zOqOba4y+cFj7luoRy7JQZHAu8OeJEJyRadJJQgZH3TKJtLWjM5YOtwTOmPhv9NF3FAnAqaSAelsBAu4HLVg7iR9CavLfcGUcu4t9eQtmVcaQC1jgJpJP6luy3z0NOkkoG+SCzGBIwYQGqAsGvhYqi9A49GgErUdzZjaAIb8VK8hQMOPXxQ2k7pPfe/VipkTmd2vGkdVhrU6PGBkYIwxBh6IbxajRgyau7hi7vekau/xE30VoklP/t9GpmMBJSOA6mKgFly/G8vxw7g==
-      GIT_CLONE_PRIVATE_KEY: s3://configuration-68f6c7/tag-updater/id_rsa
 
   today:
     image: alexanderjackson/today
@@ -149,20 +146,6 @@ services:
           bucket: configuration-68f6c7
           key: today/config.yaml
         target: /app/config/today.yaml
-    environment:
-      ROOT_USERNAME: postgres
-      ROOT_PASSWORD: secret:fqVc33oytS3bXv3if9VnWEH1kkYmP042nCPnlS3ZbMiJ1DpY3wNQZ3VlarS3Sk+IJmGJOcZ47N62S0JgBZXjCvI586I/LyVFCHTjaeVIApczj/LtdFA5jbU73kYdWm15cEu73WWOnt4Y65/1h9YAP/pQDmhQxyDDBK9DNBHGJmh9tp1BX3AQ978kUKLdrodjxqZDLDVw6xzNhrrhmvJGypyTfKuqnTCB7JV7s9mgNeratZ+7Cb5wjaHFRkt8T/nsEq7vm14zgKPAQSH5ln2vc19Vmai+iYuEwdKDTbgIwPWP6ATP1QTS2t+Cd452vgGHVR3Kvd6geG/D1hWCw1tYtw==
-      ROOT_DATABASE: postgres
-
-      APP_USERNAME: todayblue
-      APP_PASSWORD: secret:fFalHq733TmgACKeryFW2TzppYtn7H5FDquPx4Z7Dh76Mgq5Zz4DS+iOmSzWIhC4RDC8+U7b2NKUGnWzEAEM3ltF1v5I029Wlv6nOHo5pGHWEPseaPmvrk3mfupyK+FDsDnVyXJ35QNBvJEgEIJHAzNd79hGTcdHU5WlXsIrIP9FPH4dw72ATAkdaNP1zgKriUx5luYYONlM+H81zmWCt1XX9gRG3Y8eSMwAgIZQcfFvvGZ4+CNJJfQRrPMX1mQfGTjtSQ10p9YqdEuNrJvxxsoMXgrsxJRE5Qr8sc+QYBn1f5CKFXw23QoupBFUR6Dggoi+Z1xUoVOE2Ly8zI1kRQ==
-      APP_DATABASE: today
-
-      DATABASE_HOST: postgres.mesh.internal
-      DATABASE_PORT: 5432
-
-      COOKIE_KEY: secret:q9AGDzX5Iv4PvJTBJy1UJQUpLgdF6WU19tYyfFPYwuJ7078zz2e/0Ozz1QE7UHRQv0pOeoZItewnMl13HWQ8dWAfZEHrRztup19N7g2fO3MuIZrznmkrWtlroHai6865G3N/yCI+HS32PGhE+zLdxfG/6saQJG4cR2943e7BI/von0e+sgJ1QejZ8eIXbXOH3i0fUi/kg5GvDJCbqQnoLEd+XIAdWdMQNNp8VR65OxfiFlH3Z+fFmHNiNDys2tGG1nYCnEtXCdVLCCy4lO/iDNzlJxfVG2cAe0vA0xtm3JcfewAR/n40BranWnI7TKQ/u7URihxnNA4/7Hzbq331FQ==
-      JWT_KEY: secret:wdUPdCShQFSAkQMNDFbpc0NVhE3oA3F0iosCStvIHJth1MVjUTFGFdauMUHLBQS9vnbkvLBaQZ7ygERs2if5Sbjtsj7cq+Qyvsx6c1OONIIC34tt8gRU14dcAQuCnSAQnpH0b9uyyemBq0iFaY7Z8c4+xkPvVkzqy1ubPCSDljWDMCm2xJ9E5ZOBH+boqtXJV28hURv9I/eNvAibnG94mC8TqcGxSjDt5IruXBFVS+HhbjWS50zVT+UjdX7xnnyt4TNVcongrWG3Lm0mZa2nHZSgKLLUIWCe3rD+WJkmu6/GTzXYZ7CO9gT0zrXTfIr5vBIPiAqfJf0TQwCuLTcj1g==
 
   pgbackup:
     image: alexanderjackson/pgbackup
