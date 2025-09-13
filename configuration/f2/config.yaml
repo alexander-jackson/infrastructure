@@ -119,7 +119,7 @@ services:
 
   tag-updater:
     image: alexanderjackson/tag-updater
-    tag: 20250906-1228
+    tag: 20250913-2028
     routes:
       - host: tags.opentracker.app
         port: 4025
