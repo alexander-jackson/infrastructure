@@ -337,9 +337,9 @@ module "primary" {
   ]
 }
 
-module "telemetry" {
+module "telemetry2" {
   source = "./modules/f2-instance"
-  name   = "telemetry"
+  name   = "telemetry2"
 
   instance = {
     type      = "t3.medium"
@@ -476,7 +476,7 @@ resource "aws_route53_record" "telemetry_records" {
   name    = each.key
   type    = "A"
   ttl     = 300
-  records = [module.telemetry.public_ip]
+  records = [module.telemetry2.public_ip]
 }
 
 resource "aws_route53_record" "forkup_records" {
@@ -513,5 +513,5 @@ resource "aws_route53_record" "telemetry" {
   name    = "telemetry"
   type    = "A"
   ttl     = 300
-  records = [module.telemetry.private_ip]
+  records = [module.telemetry2.private_ip]
 }
