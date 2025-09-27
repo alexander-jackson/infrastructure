@@ -20,7 +20,7 @@ server:
     endpoint: http://telemetry.mesh.internal:80/v1/traces
 
 database:
-  host: "10.0.0.238"
+  host: database.mesh.internal
   port: 5432
 
   root:
