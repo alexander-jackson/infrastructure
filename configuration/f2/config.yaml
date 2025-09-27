@@ -74,21 +74,6 @@ services:
         port: 80
     replicas: 1
 
-  backend:
-    image: alexanderjackson/opentracker-backend
-    tag: 20240811-0551
-    routes:
-      - host: opentracker.app
-        prefix: /api
-        port: 3025
-    replicas: 1
-    environment:
-      DATABASE_HOST: postgres.mesh.internal
-      DATABASE_NAME: opentracker
-      DATABASE_USER: postgres
-      DATABASE_PASSWORD: secret:j9VBUWVGrsNDDGBUAwdSIdnxviUrHjBowc3ze+whOrg9nLY6a/GjVYTnWW8QYeIdGsP9X2o4Ns12+THcpZserHqvLkaBEZUFy83x238WfV7NKhMAMQonD9N/VIZX9r5ukBFK6g37dnu1UJK9ttf3MGHkZ7s36sogR9Q50J9OX5NjVKIlV4EZh5/KSTHxJLFWCk7Fuu0Bxqer7PL4s8ZGKjTFVYNMZDxhc4D7qNf3JnQHejyHc8RjJ2A/ggsMknbVUHruGejsF45aLmvhjJvpVs2XlFmeQ92e9cjY/11ORGN+L7IMoM8RH5txuJF1gp49ExPVAhidt0dX6BGnndt3Uw==
-      JWT_KEY: secret:aj2H/HfbWsg9/8LZcmFIkMZEmDJqsBzS5Rz+t22dY4AnEKwm3hhBRwGrFtX6VBVmVHiuRKJgTrctEsF90eXc7keJ/ozfHqe5WReLmM/lRyr/YGnPZ4uy6g34o0EufP+w9hJSivtxNto/n14NkmLVj1GOkt9CdhxaJAXiHtzXnaDq0VUVP/Iv1c2R8i93vjHx3prYdoPRUuyIg5CvQJe715OqVvqFDzdFZXGkx+wV2pE4/voiDTcCRnzORWzQIe1zy3vntp+0ZKwbinDUCISaOqgxZo3KairWz/a9A5WZMYCnh5ltR0cj75FouvETEKpwt72KreJnuOdjBV/s9ZtFjw==
-
   forkup-frontend:
     image: alexanderjackson/forkup-frontend
     tag: 20250915-2018
@@ -97,25 +82,6 @@ services:
         port: 80
     replicas: 1
     shutdown_mode: graceful
-
-  forkup-backend:
-    image: alexanderjackson/forkup-backend
-    tag: 20250922-1035
-    routes:
-      - host: forkup.app
-        prefix: /api
-        port: 8083
-    replicas: 1
-    shutdown_mode: graceful
-    volumes:
-      config:
-        source:
-          location: s3
-          bucket: configuration-68f6c7
-          key: forkup/config.yaml
-        target: /app/config/forkup.yaml
-    environment:
-      RUST_LOG: debug
 
   tag-updater:
     image: alexanderjackson/tag-updater
@@ -148,38 +114,3 @@ services:
         target: /app/config/today.yaml
     environment:
       FOO: bar
-
-  pgbackup:
-    image: alexanderjackson/pgbackup
-    tag: 20240908-1932
-    replicas: 1
-    environment:
-      S3_BUCKET: postgres-backups-65ef5c
-      BACKUP_TIME: "22:30"
-      USERNAME: postgres
-      PASSWORD: secret:Byct+Bq3nUl3GNZktRRi0tdIT5xCQKpqzQhTQ7aTOIT0uuT6sp6ED2PveWP80qDLOSOnBBbsogaKPTAADGc04/K9q/KItG6M07t7oKBF2CmsYXgM4pP0u1wV/rUf0FSTJmzgNM3z3jXQRbfKdVl+pSHipFYFFUPcukMhXv+5mx7tjGWccYukUqLe4lCA28rifsXdiGgJXEOrPVMIm+WOLauLuS2ANIuM3cN+tgLR5lLRHDQc4zR8fIGMXU59yEM2izJZTuUpz6/EvqbSVh//6G+Pt6gH5eBQ3KfEzSB19I0ZdWIFVwhj2TC9kF7cbDYmI9PwSywC1Egz3UuAKArwew==
-      ROOT_DATABASE: postgres
-      DATABASE_HOST: postgres.mesh.internal
-      DATABASE_PORT: 5432
-
-  uptime:
-    image: alexanderjackson/uptime
-    tag: 20250821-1329
-    routes:
-      - host: uptime.opentracker.app
-        port: 8000
-    replicas: 1
-    environment:
-      ROOT_USERNAME: postgres
-      ROOT_PASSWORD: secret:fqVc33oytS3bXv3if9VnWEH1kkYmP042nCPnlS3ZbMiJ1DpY3wNQZ3VlarS3Sk+IJmGJOcZ47N62S0JgBZXjCvI586I/LyVFCHTjaeVIApczj/LtdFA5jbU73kYdWm15cEu73WWOnt4Y65/1h9YAP/pQDmhQxyDDBK9DNBHGJmh9tp1BX3AQ978kUKLdrodjxqZDLDVw6xzNhrrhmvJGypyTfKuqnTCB7JV7s9mgNeratZ+7Cb5wjaHFRkt8T/nsEq7vm14zgKPAQSH5ln2vc19Vmai+iYuEwdKDTbgIwPWP6ATP1QTS2t+Cd452vgGHVR3Kvd6geG/D1hWCw1tYtw==
-      ROOT_DATABASE: postgres
-
-      APP_USERNAME: uptimeblue
-      APP_PASSWORD: secret:fFalHq733TmgACKeryFW2TzppYtn7H5FDquPx4Z7Dh76Mgq5Zz4DS+iOmSzWIhC4RDC8+U7b2NKUGnWzEAEM3ltF1v5I029Wlv6nOHo5pGHWEPseaPmvrk3mfupyK+FDsDnVyXJ35QNBvJEgEIJHAzNd79hGTcdHU5WlXsIrIP9FPH4dw72ATAkdaNP1zgKriUx5luYYONlM+H81zmWCt1XX9gRG3Y8eSMwAgIZQcfFvvGZ4+CNJJfQRrPMX1mQfGTjtSQ10p9YqdEuNrJvxxsoMXgrsxJRE5Qr8sc+QYBn1f5CKFXw23QoupBFUR6Dggoi+Z1xUoVOE2Ly8zI1kRQ==
-      APP_DATABASE: uptime
-
-      DATABASE_HOST: postgres.mesh.internal
-      DATABASE_PORT: 5432
-
-      SERVER_ADDR: "0.0.0.0:8000"
-      SNS_TOPIC: "arn:aws:sns:eu-west-1:558855412466:outages"
