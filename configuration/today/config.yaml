@@ -3,7 +3,7 @@ server:
   port: 8000
 
 database:
-  host: "10.0.0.238"
+  host: database.mesh.internal
   port: 5432
 
   root:

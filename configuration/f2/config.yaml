@@ -146,6 +146,8 @@ services:
           bucket: configuration-68f6c7
           key: today/config.yaml
         target: /app/config/today.yaml
+    environment:
+      FOO: bar
 
   pgbackup:
     image: alexanderjackson/pgbackup
