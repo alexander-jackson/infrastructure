@@ -132,23 +132,6 @@ services:
           key: tag-updater/config.yaml
         target: /app/config/tag-updater.yaml
 
-  today:
-    image: alexanderjackson/today
-    tag: 20250925-1606
-    routes:
-      - host: today.opentracker.app
-        port: 8000
-    replicas: 1
-    volumes:
-      config:
-        source:
-          location: s3
-          bucket: configuration-68f6c7
-          key: today/config.yaml
-        target: /app/config/today.yaml
-    environment:
-      FOO: bar
-
   pgbackup:
     image: alexanderjackson/pgbackup
     tag: 20240908-1932
