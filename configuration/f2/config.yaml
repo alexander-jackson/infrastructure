@@ -100,7 +100,7 @@ services:
 
   forkup-backend:
     image: alexanderjackson/forkup-backend
-    tag: 20250922-1035
+    tag: 20251004-0619
     routes:
       - host: forkup.app
         prefix: /api
