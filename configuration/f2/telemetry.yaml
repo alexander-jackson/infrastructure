@@ -47,6 +47,9 @@ services:
     replicas: 1
     environment:
       CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT: 1
+      # Limit log file sizes and enable rotation
+      CLICKHOUSE_LOG_SIZE: "10M"
+      CLICKHOUSE_LOG_COUNT: "3"
     volumes:
       data:
         source:
