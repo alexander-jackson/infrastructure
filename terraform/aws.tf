@@ -337,9 +337,9 @@ module "primary" {
   ]
 }
 
-module "telemetry2" {
+module "telemetry" {
   source = "./modules/f2-instance"
-  name   = "telemetry2"
+  name   = "telemetry"
 
   instance = {
     type      = "t3.medium"
@@ -387,9 +387,9 @@ module "telemetry2" {
   inbound_http_subnet_id = aws_subnet.main.id
 }
 
-module "database" {
+module "postgres" {
   source = "./modules/postgres"
-  name   = "database"
+  name   = "postgres"
 
   instance = {
     type              = "t4g.nano"
@@ -410,14 +410,14 @@ module "database" {
   elastic_ip = false
 }
 
-resource "aws_security_group_rule" "allow_inbound_connections_from_primary" {
+resource "aws_security_group_rule" "allow_inbound_connections_to_postgres_from_primary" {
   description              = format("Allow inbound connections from %s", module.primary.security_group_id)
   type                     = "ingress"
   from_port                = 5432
   to_port                  = 5432
   protocol                 = "tcp"
   source_security_group_id = module.primary.security_group_id
-  security_group_id        = module.database.security_group_id
+  security_group_id        = module.postgres.security_group_id
 }
 
 # Route table definitions
@@ -476,7 +476,7 @@ resource "aws_route53_record" "telemetry_records" {
   name    = each.key
   type    = "A"
   ttl     = 300
-  records = [module.telemetry2.public_ip]
+  records = [module.telemetry.public_ip]
 }
 
 resource "aws_route53_record" "forkup_records" {
@@ -500,12 +500,12 @@ resource "aws_route53_zone" "internal" {
   }
 }
 
-resource "aws_route53_record" "database" {
+resource "aws_route53_record" "postgres" {
   zone_id = aws_route53_zone.internal.id
-  name    = "postgres"
+  name    = "database"
   type    = "A"
   ttl     = 300
-  records = [module.database.private_ip]
+  records = [module.postgres.private_ip]
 }
 
 resource "aws_route53_record" "telemetry" {
@@ -513,5 +513,5 @@ resource "aws_route53_record" "telemetry" {
   name    = "telemetry"
   type    = "A"
   ttl     = 300
-  records = [module.telemetry2.private_ip]
+  records = [module.telemetry.private_ip]
 }
