@@ -134,7 +134,7 @@ services:
 
   today:
     image: alexanderjackson/today
-    tag: 20251003-1811
+    tag: 20251005-0549
     routes:
       - host: today.opentracker.app
         port: 8000
