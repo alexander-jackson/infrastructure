@@ -146,8 +146,6 @@ services:
           bucket: configuration-68f6c7
           key: today/config.yaml
         target: /app/config/today.yaml
-    environment:
-      FOO: bar
 
   pgbackup:
     image: alexanderjackson/pgbackup
@@ -183,3 +181,10 @@ services:
 
       SERVER_ADDR: "0.0.0.0:8000"
       SNS_TOPIC: "arn:aws:sns:eu-west-1:558855412466:outages"
+    volumes:
+      config:
+        source:
+          location: s3
+          bucket: configuration-68f6c7
+          key: uptime/config.yaml
+        target: /app/config/uptime.yaml
