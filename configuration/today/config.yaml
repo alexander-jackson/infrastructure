@@ -17,5 +17,5 @@ database:
     database: "today"
 
 telemetry:
-  enabled: true
+  enabled: false
   endpoint: http://telemetry.mesh.internal:80/v1/traces

@@ -338,56 +338,6 @@ module "primary" {
   ]
 }
 
-module "telemetry" {
-  source = "./modules/f2-instance"
-  name   = "telemetry"
-
-  instance = {
-    type      = "t3.medium"
-    ami       = "ami-0ab14756db2442499"
-    vpc_id    = aws_vpc.main.id
-    subnet_id = aws_subnet.telemetry.id
-  }
-
-  configuration = {
-    bucket    = module.config_bucket.name
-    key       = "f2/telemetry.yaml"
-    image_tag = "20250829-1918"
-  }
-
-  logging = {
-    bucket     = module.logging_bucket.name
-    vector_tag = "0.48.0-alpine"
-  }
-
-  backups = {
-    bucket = module.postgres_backups_bucket.name
-  }
-
-  hackathon = {
-    bucket = module.hackathon_bucket.name
-  }
-
-  alerting = {
-    topic_arn = aws_sns_topic.outages.arn
-  }
-
-  extra_ebs_volume = {
-    size_gb     = 10
-    device_name = "/dev/sdf"
-    volume_type = "gp3"
-    encrypted   = true
-  }
-
-  key_name = aws_key_pair.main.key_name
-  hosted_zones = [
-    aws_route53_zone.opentracker.id,
-    aws_route53_zone.forkup.id
-  ]
-
-  inbound_http_subnet_id = aws_subnet.main.id
-}
-
 module "postgres" {
   source = "./modules/postgres"
   name   = "postgres"
@@ -470,16 +420,6 @@ resource "aws_route53_record" "records" {
   records = [module.primary.public_ip]
 }
 
-resource "aws_route53_record" "telemetry_records" {
-  for_each = toset(["telemetry"])
-
-  zone_id = aws_route53_zone.opentracker.id
-  name    = each.key
-  type    = "A"
-  ttl     = 300
-  records = [module.telemetry.public_ip]
-}
-
 resource "aws_route53_record" "forkup_records" {
   for_each = toset([
     "" // root record
@@ -507,12 +447,4 @@ resource "aws_route53_record" "postgres" {
   type    = "A"
   ttl     = 300
   records = [module.postgres.private_ip]
-}
-
-resource "aws_route53_record" "telemetry" {
-  zone_id = aws_route53_zone.internal.id
-  name    = "telemetry"
-  type    = "A"
-  ttl     = 300
-  records = [module.telemetry.private_ip]
 }
