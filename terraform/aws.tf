@@ -338,6 +338,31 @@ module "primary" {
   ]
 }
 
+module "dns" {
+  source = "./modules/dns-instance"
+  name   = "dns"
+
+  instance = {
+    type      = "t4g.nano"
+    ami       = "ami-0a1b36900d715a3ad"
+    vpc_id    = aws_vpc.main.id
+    subnet_id = aws_subnet.main.id
+  }
+
+  configuration = {
+    bucket    = module.config_bucket.name
+    key       = "dns-server/config.yaml"
+    image_tag = "latest"
+  }
+
+  logging = {
+    bucket     = module.logging_bucket.name
+    vector_tag = "0.51.1-alpine"
+  }
+
+  key_name = aws_key_pair.main.key_name
+}
+
 module "postgres" {
   source = "./modules/postgres"
   name   = "postgres"
@@ -418,6 +443,14 @@ resource "aws_route53_record" "records" {
   type    = "A"
   ttl     = 300
   records = [module.primary.public_ip]
+}
+
+resource "aws_route53_record" "dns_server_record" {
+  zone_id = aws_route53_zone.opentracker.id
+  name    = "dns"
+  type    = "A"
+  ttl     = 300
+  records = [module.dns.public_ip]
 }
 
 resource "aws_route53_record" "forkup_records" {

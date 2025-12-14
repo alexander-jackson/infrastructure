@@ -1,0 +1,28 @@
+server:
+  protocols:
+    tls:
+      host: 0.0.0.0
+      port: 853
+      cert:
+        location: s3
+        bucket: configuration-68f6c7
+        key: f2/certificates/dns.opentracker.app/fullchain.pem
+      key:
+        location: s3
+        bucket: configuration-68f6c7
+        key: f2/certificates/dns.opentracker.app/privkey.pem
+
+upstream:
+  resolver: all.dns.mullvad.net
+  port: 443
+  timeout_seconds: 5
+
+blocklist:
+  source:
+    location: filesystem
+    path: /etc/dns-server/blocklist.txt
+  refresh_interval_seconds: 3600
+
+cache:
+  max_entries: 10000
+  default_ttl_seconds: 300
