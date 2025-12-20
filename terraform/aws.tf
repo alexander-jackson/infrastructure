@@ -338,9 +338,9 @@ module "primary" {
   ]
 }
 
-module "dns" {
+module "dns2" {
   source = "./modules/dns-instance"
-  name   = "dns"
+  name   = "dns2"
 
   instance = {
     type      = "t4g.nano"
@@ -450,7 +450,7 @@ resource "aws_route53_record" "dns_server_record" {
   name    = "dns"
   type    = "A"
   ttl     = 300
-  records = [module.dns.public_ip]
+  records = [module.dns2.public_ip]
 }
 
 resource "aws_route53_record" "forkup_records" {

@@ -15,6 +15,7 @@ server:
 upstream:
   resolver: all.dns.mullvad.net
   port: 443
+  protocol: https
   timeout_seconds: 5
 
 blocklist:
