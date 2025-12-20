@@ -338,6 +338,14 @@ module "primary" {
   ]
 }
 
+resource "aws_eip" "dns_server" {
+  domain = "vpc"
+
+  tags = {
+    Name = "dns-server-static-ip"
+  }
+}
+
 module "dns2" {
   source = "./modules/dns-instance"
   name   = "dns2"
@@ -360,7 +368,8 @@ module "dns2" {
     vector_tag = "0.51.1-alpine"
   }
 
-  key_name = aws_key_pair.main.key_name
+  key_name                 = aws_key_pair.main.key_name
+  elastic_ip_allocation_id = aws_eip.dns_server.id
 }
 
 module "postgres" {
