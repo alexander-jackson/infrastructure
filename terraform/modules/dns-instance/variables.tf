@@ -34,3 +34,9 @@ variable "key_name" {
   type        = string
   description = "The name of the `aws_key_pair` to use for the instance access"
 }
+
+variable "elastic_ip_allocation_id" {
+  type        = string
+  default     = null
+  description = "Optional allocation ID of an existing Elastic IP to associate with the instance. If not provided, a new EIP will be created."
+}

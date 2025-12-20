@@ -1,4 +1,10 @@
 # IAM policies and roles
+data "aws_eip" "external" {
+  count = var.elastic_ip_allocation_id != null ? 1 : 0
+
+  id = var.elastic_ip_allocation_id
+}
+
 data "aws_iam_policy_document" "ec2_assume_role" {
   statement {
     actions = ["sts:AssumeRole"]
@@ -111,10 +117,10 @@ resource "aws_instance" "this" {
   subnet_id     = var.instance.subnet_id
 
   user_data = templatefile("${path.module}/scripts/setup.sh", {
-    tag                 = var.configuration.image_tag
-    config_bucket       = var.configuration.bucket
-    config_key          = var.configuration.key
-    vector_tag          = var.logging.vector_tag
+    tag           = var.configuration.image_tag
+    config_bucket = var.configuration.bucket
+    config_key    = var.configuration.key
+    vector_tag    = var.logging.vector_tag
   })
 
   vpc_security_group_ids = [aws_security_group.this.id]
@@ -134,6 +140,15 @@ resource "aws_instance" "this" {
 }
 
 resource "aws_eip" "this" {
+  count = var.elastic_ip_allocation_id == null ? 1 : 0
+
   instance = aws_instance.this.id
   domain   = "vpc"
+}
+
+resource "aws_eip_association" "external" {
+  count = var.elastic_ip_allocation_id != null ? 1 : 0
+
+  instance_id   = aws_instance.this.id
+  allocation_id = var.elastic_ip_allocation_id
 }
