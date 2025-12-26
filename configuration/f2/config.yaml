@@ -149,7 +149,7 @@ services:
 
   pgbackup:
     image: alexanderjackson/pgbackup
-    tag: 20240908-1932
+    tag: 20251226-0622
     replicas: 1
     environment:
       S3_BUCKET: postgres-backups-65ef5c
