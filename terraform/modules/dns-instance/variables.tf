@@ -40,3 +40,9 @@ variable "elastic_ip_allocation_id" {
   default     = null
   description = "Optional allocation ID of an existing Elastic IP to associate with the instance. If not provided, a new EIP will be created."
 }
+
+variable "ssh_enabled" {
+  type        = bool
+  default     = false
+  description = "Whether SSH ingress should be enabled on the instance security group"
+}

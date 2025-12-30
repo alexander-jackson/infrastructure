@@ -71,6 +71,8 @@ resource "aws_security_group" "this" {
 }
 
 resource "aws_security_group_rule" "allow_inbound_ssh" {
+  count = var.ssh_enabled ? 1 : 0
+
   description       = "Allow inbound SSH from anywhere"
   type              = "ingress"
   from_port         = 22
