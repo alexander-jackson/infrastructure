@@ -134,7 +134,7 @@ services:
 
   today:
     image: alexanderjackson/today
-    tag: 20251230-2127
+    tag: 20251231-0826
     routes:
       - host: today.opentracker.app
         port: 8000
@@ -161,7 +161,7 @@ services:
 
   uptime:
     image: alexanderjackson/uptime
-    tag: 20251230-2127
+    tag: 20251231-0826
     routes:
       - host: uptime.opentracker.app
         port: 8000
