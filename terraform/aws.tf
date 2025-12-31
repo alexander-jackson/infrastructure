@@ -373,8 +373,6 @@ module "dns2" {
 
   key_name                 = aws_key_pair.main.key_name
   elastic_ip_allocation_id = aws_eip.dns_server.id
-
-  ssh_enabled = false
 }
 
 module "postgres" {
