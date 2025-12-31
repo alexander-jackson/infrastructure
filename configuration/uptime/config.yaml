@@ -1,0 +1,19 @@
+server:
+  addr: 0.0.0.0:8000
+
+database:
+  host: database.mesh.internal
+  port: 5432
+  
+  root:
+    username: postgres
+    password: {{ fqVc33oytS3bXv3if9VnWEH1kkYmP042nCPnlS3ZbMiJ1DpY3wNQZ3VlarS3Sk+IJmGJOcZ47N62S0JgBZXjCvI586I/LyVFCHTjaeVIApczj/LtdFA5jbU73kYdWm15cEu73WWOnt4Y65/1h9YAP/pQDmhQxyDDBK9DNBHGJmh9tp1BX3AQ978kUKLdrodjxqZDLDVw6xzNhrrhmvJGypyTfKuqnTCB7JV7s9mgNeratZ+7Cb5wjaHFRkt8T/nsEq7vm14zgKPAQSH5ln2vc19Vmai+iYuEwdKDTbgIwPWP6ATP1QTS2t+Cd452vgGHVR3Kvd6geG/D1hWCw1tYtw== }}
+    database: postgres
+
+  application:
+    username: uptimeblue
+    password: {{ fFalHq733TmgACKeryFW2TzppYtn7H5FDquPx4Z7Dh76Mgq5Zz4DS+iOmSzWIhC4RDC8+U7b2NKUGnWzEAEM3ltF1v5I029Wlv6nOHo5pGHWEPseaPmvrk3mfupyK+FDsDnVyXJ35QNBvJEgEIJHAzNd79hGTcdHU5WlXsIrIP9FPH4dw72ATAkdaNP1zgKriUx5luYYONlM+H81zmWCt1XX9gRG3Y8eSMwAgIZQcfFvvGZ4+CNJJfQRrPMX1mQfGTjtSQ10p9YqdEuNrJvxxsoMXgrsxJRE5Qr8sc+QYBn1f5CKFXw23QoupBFUR6Dggoi+Z1xUoVOE2Ly8zI1kRQ== }}
+    database: uptime
+
+routing:
+  sns_topic: arn:aws:sns:eu-west-1:558855412466:outages
